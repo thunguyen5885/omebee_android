@@ -1,6 +1,6 @@
-package com.omebee.android.layer.ui.presenters.base;
+package com.omebee.android.layers.ui.presenters.base;
 
-import com.omebee.android.layer.ui.views.IProductsLauncherView;
+import com.omebee.android.layers.ui.views.IProductsLauncherView;
 
 /**
  * Created by phan on 8/6/2014.

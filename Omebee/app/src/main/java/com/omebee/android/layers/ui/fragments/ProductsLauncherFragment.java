@@ -1,4 +1,4 @@
-package com.omebee.android.layer.ui.fragments;
+package com.omebee.android.layers.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.omebee.android.R;
-import com.omebee.android.layer.ui.base.BaseFragment;
-import com.omebee.android.layer.ui.presenters.ProductsLauncherPresenterImpl;
-import com.omebee.android.layer.ui.presenters.base.IPresenter;
+import com.omebee.android.layers.ui.base.BaseFragment;
+import com.omebee.android.layers.ui.presenters.ProductsLauncherPresenterImpl;
+import com.omebee.android.layers.ui.presenters.base.IPresenter;
 
 /**
  * Created by phan on 8/6/2014.

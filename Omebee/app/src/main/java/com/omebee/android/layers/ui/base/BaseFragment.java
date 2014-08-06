@@ -1,8 +1,8 @@
-package com.omebee.android.layer.ui.base;
+package com.omebee.android.layers.ui.base;
 
 import android.app.Fragment;
 
-import com.omebee.android.layer.ui.presenters.base.IPresenter;
+import com.omebee.android.layers.ui.presenters.base.IPresenter;
 
 /**
  * Created by phan on 8/6/2014.

@@ -8,6 +8,6 @@
         android:layout_weight="1"
         android:layout_height="match_parent"
         android:layout_marginTop="?android:attr/actionBarSize"
-        class="com.omebee.android.layer.ui.fragments.ProductsLauncherFragment" >
+        class="com.omebee.android.layers.ui.fragments.ProductsLauncherFragment" >
     </fragment>
 </LinearLayout>

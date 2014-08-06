@@ -1,9 +1,9 @@
-package com.omebee.android.layer.ui.presenters;
+package com.omebee.android.layers.ui.presenters;
 
-import com.omebee.android.layer.ui.models.ProductsLauncherModel;
-import com.omebee.android.layer.ui.models.base.IProductsLauncherModel;
-import com.omebee.android.layer.ui.presenters.base.IProductsLauncherPresenter;
-import com.omebee.android.layer.ui.views.IProductsLauncherView;
+import com.omebee.android.layers.ui.models.ProductsLauncherModel;
+import com.omebee.android.layers.ui.models.base.IProductsLauncherModel;
+import com.omebee.android.layers.ui.presenters.base.IProductsLauncherPresenter;
+import com.omebee.android.layers.ui.views.IProductsLauncherView;
 
 /**
  * Created by phan on 8/6/2014.

@@ -1,4 +1,4 @@
-package com.omebee.android.layer.ui.views.base;
+package com.omebee.android.layers.ui.views.base;
 
 /**
  * Created by phan on 8/6/2014.

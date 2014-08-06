@@ -1,4 +1,4 @@
-package com.omebee.android.layer.ui;
+package com.omebee.android.layers.ui;
 
 import android.app.Activity;
 import android.os.Bundle;

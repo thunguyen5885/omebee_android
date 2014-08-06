@@ -1,6 +1,6 @@
-package com.omebee.android.layer.ui.models;
+package com.omebee.android.layers.ui.models;
 
-import com.omebee.android.layer.ui.models.base.IProductsLauncherModel;
+import com.omebee.android.layers.ui.models.base.IProductsLauncherModel;
 
 /**
  * Created by phan on 8/6/2014.

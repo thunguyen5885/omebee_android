@@ -1,4 +1,4 @@
-package com.omebee.android.layer.ui.presenters.base;
+package com.omebee.android.layers.ui.presenters.base;
 
 /**
  * Created by phan on 8/6/2014.

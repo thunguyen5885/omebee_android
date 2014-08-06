@@ -1,6 +1,6 @@
-package com.omebee.android.layer.ui.views;
+package com.omebee.android.layers.ui.views;
 
-import com.omebee.android.layer.ui.views.base.IBaseView;
+import com.omebee.android.layers.ui.views.base.IBaseView;
 
 /**
  * Created by phan on 8/6/2014.

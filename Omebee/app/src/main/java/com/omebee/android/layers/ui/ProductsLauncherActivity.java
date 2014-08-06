@@ -1,15 +1,15 @@
-package com.omebee.android.layer.ui;
+package com.omebee.android.layers.ui;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.omebee.android.R;
-import com.omebee.android.layer.ui.base.BaseActivity;
-import com.omebee.android.layer.ui.fragments.ProductsLauncherFragment;
-import com.omebee.android.layer.ui.presenters.ProductsLauncherPresenterImpl;
-import com.omebee.android.layer.ui.presenters.base.IProductsLauncherPresenter;
-import com.omebee.android.layer.ui.views.IProductsLauncherView;
+import com.omebee.android.layers.ui.base.BaseActivity;
+import com.omebee.android.layers.ui.fragments.ProductsLauncherFragment;
+import com.omebee.android.layers.ui.presenters.ProductsLauncherPresenterImpl;
+import com.omebee.android.layers.ui.presenters.base.IProductsLauncherPresenter;
+import com.omebee.android.layers.ui.views.IProductsLauncherView;
 
 /**
  * Created by phan on 8/6/2014.
