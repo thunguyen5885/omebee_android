@@ -1,9 +1,11 @@
-package com.omebee.android;
+package com.omebee.android.layer.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.omebee.android.R;
 
 
 public class MainActivity extends Activity {
