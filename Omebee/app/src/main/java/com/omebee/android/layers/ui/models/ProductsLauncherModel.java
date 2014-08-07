@@ -18,7 +18,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
     @Override
     public String getProductName() {
         try {
-            IWebServiceAccess WS = WSAccessFactory.getInstance().getWebServiceAccess(ProductWSAccess.class);
+            IWebServiceAccess<ProductWSModel> WS = WSAccessFactory.getInstance().getWebServiceAccess(ProductWSAccess.class);
             WSResult<ProductWSModel> res =  WS.executeRequest();
             return  res.getWsResultModel().getProductName();
         } catch (InstantiationException e) {

@@ -16,7 +16,7 @@ public class WSAccessFactory {
 		return instance;
 	}
 	
-	public <T extends IWebServiceAccess> T getWebServiceAccess(Class<T> clazz)
+	public <T extends IWebServiceAccess<IWebServiceModel>> T getWebServiceAccess(Class<T> clazz)
 			throws InstantiationException, IllegalAccessException {
 			
 		return clazz.newInstance();
