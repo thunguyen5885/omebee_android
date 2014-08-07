@@ -57,7 +57,7 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
 
 
     @Override
-    public void displayName(String name) {
-        mProductsLauncherFragment.displayName(name);
+    public void displayProductName(String name) {
+        mProductsLauncherFragment.displayProductName(name);
     }
 }

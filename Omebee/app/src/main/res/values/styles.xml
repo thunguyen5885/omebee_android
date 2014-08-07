@@ -1,6 +1,6 @@
 <resources>
 
-    <resources>
+
 
         <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
             <item name="android:actionBarStyle">@style/ActionBar</item>
@@ -37,7 +37,7 @@
             <item name="android:divider">@color/pressed</item>
             <item name="android:dividerHeight">1dp</item>
         </style>
-    </resources>
+
 
 
 </resources>

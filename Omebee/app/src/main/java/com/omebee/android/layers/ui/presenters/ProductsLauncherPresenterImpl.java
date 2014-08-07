@@ -32,6 +32,6 @@ public class ProductsLauncherPresenterImpl implements IProductsLauncherPresenter
 
     @Override
     public void showName() {
-        mView.displayName(mModel.getFullName());
+        mView.displayProductName(mModel.getProductName());
     }
 }

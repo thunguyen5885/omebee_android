@@ -42,7 +42,7 @@ public class ProductsLauncherFragment extends BaseFragment{
         mPresenter = (ProductsLauncherPresenterImpl) presenter;
     };
 
-    public void displayName(String name){
+    public void displayProductName(String name){
         txtName.setText(name);
     }
 }
