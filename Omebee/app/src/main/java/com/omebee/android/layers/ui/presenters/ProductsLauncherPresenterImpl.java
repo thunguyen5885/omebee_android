@@ -10,7 +10,7 @@ import com.omebee.android.layers.ui.views.IProductsLauncherView;
  */
 public class ProductsLauncherPresenterImpl implements IProductsLauncherPresenter {
    private IProductsLauncherView mView;
-    private IProductsLauncherModel mModel;
+   private IProductsLauncherModel mModel;
 
     public ProductsLauncherPresenterImpl(IProductsLauncherView mView) {
         this.mView = mView;
@@ -33,5 +33,10 @@ public class ProductsLauncherPresenterImpl implements IProductsLauncherPresenter
     @Override
     public void showName() {
         mView.displayProductName(mModel.getProductName());
+    }
+
+    @Override
+    public void onItemClicked(int position) {
+
     }
 }

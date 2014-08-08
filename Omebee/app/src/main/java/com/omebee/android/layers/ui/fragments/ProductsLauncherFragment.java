@@ -45,4 +45,8 @@ public class ProductsLauncherFragment extends BaseFragment{
     public void displayProductName(String name){
         txtName.setText(name);
     }
+
+    public void selectItem(int position){
+        mPresenter.onItemClicked(position);
+    }
 }
