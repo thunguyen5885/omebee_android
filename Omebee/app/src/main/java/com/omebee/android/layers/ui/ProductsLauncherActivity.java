@@ -15,6 +15,8 @@ import com.omebee.android.layers.ui.fragments.ProductsLauncherFragment;
 import com.omebee.android.layers.ui.presenters.ProductsLauncherPresenterImpl;
 import com.omebee.android.layers.ui.presenters.base.IProductsLauncherPresenter;
 import com.omebee.android.layers.ui.views.IProductsLauncherView;
+import com.omebee.android.unknown.ProductGridItemData;
+
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -25,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -44,7 +47,7 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_products_launcher);
         mProductsLauncherPresenter = new ProductsLauncherPresenterImpl(this);
         mProductsLauncherFragment = (ProductsLauncherFragment)getFragmentManager().findFragmentById(R.id.productsLauncherFragment);
         if(mProductsLauncherFragment != null) {
@@ -162,6 +165,11 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
     @Override
     public void displayProductName(String name) {
         mProductsLauncherFragment.displayProductName(name);
+    }
+
+    @Override
+    public void showProducts(List<ProductGridItemData> productList) {
+        mProductsLauncherFragment.setProductList(productList);
     }
 
     @Override

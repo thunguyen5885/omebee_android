@@ -4,25 +4,34 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseFragment;
 import com.omebee.android.layers.ui.presenters.ProductsLauncherPresenterImpl;
 import com.omebee.android.layers.ui.presenters.base.IPresenter;
+import com.omebee.android.unknown.ProductGridAdapter;
+import com.omebee.android.unknown.ProductGridItemData;
+
+import java.util.List;
 
 /**
  * Created by phan on 8/6/2014.
  */
 public class ProductsLauncherFragment extends BaseFragment{
-    ProductsLauncherPresenterImpl mPresenter;
-    TextView txtName;
+    private ProductsLauncherPresenterImpl mPresenter;
+    private GridView mProductsGrid;
+    private ProductGridAdapter mProductsGridAdapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_products_launcher,
                 container, false);
-        txtName = (TextView)view.findViewById(R.id.txtname);
+        mProductsGrid = (GridView)view.findViewById(R.id.productGrid);
+
         return view;
     }
 
@@ -30,8 +39,9 @@ public class ProductsLauncherFragment extends BaseFragment{
     public void onActivityCreated(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onActivityCreated(savedInstanceState);
-        //if(mPresenter!=null)
-           // presenter do something
+        if(mPresenter!=null){
+            mPresenter.showProductList();
+        }
     }
 
     public IPresenter getPresenter() {
@@ -43,10 +53,20 @@ public class ProductsLauncherFragment extends BaseFragment{
     };
 
     public void displayProductName(String name){
-        txtName.setText(name);
+
     }
 
     public void selectItem(int position){
         mPresenter.onItemClicked(position);
+    }
+    public void setProductList(List<ProductGridItemData> productList){
+        if(mProductsGridAdapter == null){
+            mProductsGridAdapter = new ProductGridAdapter(getActivity());
+            mProductsGridAdapter.setProductsList(productList);
+            mProductsGrid.setAdapter(mProductsGridAdapter);
+        }else{
+            mProductsGridAdapter.setProductsList(productList);
+            mProductsGridAdapter.notifyDataSetChanged();
+        }
     }
 }

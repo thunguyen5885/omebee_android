@@ -12,7 +12,7 @@ import org.json.JSONObject;
 public class ProductWSBuilder {
     String productName = "";
     String productDescription = "";
-
+    String productUrl = "";
     public ProductWSBuilder() {
     }
 
@@ -32,6 +32,6 @@ public class ProductWSBuilder {
 
 
     public ProductWSModel build(){
-        return new ProductWSModel(productName,productDescription);
+        return new ProductWSModel(productName, productDescription, productUrl);
     }
 }
