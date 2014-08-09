@@ -28,13 +28,13 @@
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-        <!--<fragment-->
-            <!--android:id="@+id/productsLauncherFragment"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_marginTop="?android:attr/actionBarSize"-->
-            <!--class="com.omebee.android.layers.ui.fragments.ProductsLauncherFragment" >-->
-        <!--</fragment>-->
+        <fragment
+            android:id="@+id/productsLauncherFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?android:attr/actionBarSize"
+            class="com.omebee.android.layers.ui.fragments.ProductsLauncherFragment" >
+        </fragment>
     </FrameLayout>
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat
