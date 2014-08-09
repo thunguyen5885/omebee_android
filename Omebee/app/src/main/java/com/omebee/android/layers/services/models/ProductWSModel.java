@@ -1,5 +1,6 @@
 package com.omebee.android.layers.services.models;
 
+import com.omebee.android.layers.services.AbstractWebServiceModel;
 import com.omebee.android.layers.services.IWebServiceModel;
 
 import org.json.JSONException;
@@ -8,7 +9,7 @@ import org.json.JSONObject;
 /**
  * Created by phan on 8/7/2014.
  */
-public class ProductWSModel implements IWebServiceModel {
+public class ProductWSModel extends AbstractWebServiceModel {
     private String productName;
     private String productDescription;
 
