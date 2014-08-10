@@ -1,7 +1,7 @@
 package com.omebee.android.layers.ui.views;
 
 import com.omebee.android.layers.ui.views.base.IBaseView;
-import com.omebee.android.unknown.ProductGridItemData;
+import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
 
 import java.util.List;
 
@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface IProductsLauncherView extends IBaseView {
     void displayProductName(String name);
-    void showProducts(List<ProductGridItemData> productList);
+    void showProducts(List<ProductsLauncherGridItemData> productList);
 }

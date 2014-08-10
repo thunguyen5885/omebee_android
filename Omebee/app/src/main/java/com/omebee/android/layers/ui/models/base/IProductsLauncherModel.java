@@ -1,6 +1,6 @@
 package com.omebee.android.layers.ui.models.base;
 
-import com.omebee.android.unknown.ProductGridItemData;
+import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
 
 import java.util.List;
 
@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface IProductsLauncherModel extends IBaseModel{
     String getProductName();
-    List<ProductGridItemData> loadProductList();
+    List<ProductsLauncherGridItemData> loadProductList();
 }

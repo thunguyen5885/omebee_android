@@ -2,14 +2,12 @@ package com.omebee.android.layers.ui.models;
 
 import com.omebee.android.layers.services.IWebServiceAccess;
 
-import com.omebee.android.layers.services.IWebServiceModel;
 import com.omebee.android.layers.services.WSAccessFactory;
 import com.omebee.android.layers.services.WSResult;
 import com.omebee.android.layers.services.concretes.ProductWSAccess;
 import com.omebee.android.layers.services.models.ProductWSModel;
-import com.omebee.android.layers.services.models.builders.ProductWSBuilder;
 import com.omebee.android.layers.ui.models.base.IProductsLauncherModel;
-import com.omebee.android.unknown.ProductGridItemData;
+import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +35,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
     }
 
     @Override
-    public List<ProductGridItemData> loadProductList() {
+    public List<ProductsLauncherGridItemData> loadProductList() {
         String LARGE_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/large/";
         String THUMB_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/";
         ProductWSModel[] ITEMS = new ProductWSModel[] {
@@ -50,9 +48,9 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
                 new ProductWSModel("Jelly Fish 2", "Romain Guy", "jelly_fish_2.jpg"),
                 new ProductWSModel("Lone Pine Sunset", "Romain Guy", "lone_pine_sunset.jpg")
         };
-        List<ProductGridItemData> productList = new ArrayList<ProductGridItemData>();
+        List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
         for(ProductWSModel productModelItem: ITEMS){
-            ProductGridItemData item = new ProductGridItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
+            ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
                     THUMB_BASE_URL + productModelItem.getProductUrl());
             productList.add(item);
         }

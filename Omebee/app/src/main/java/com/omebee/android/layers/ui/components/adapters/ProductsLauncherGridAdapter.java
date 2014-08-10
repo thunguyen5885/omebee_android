@@ -1,4 +1,4 @@
-package com.omebee.android.unknown;
+package com.omebee.android.layers.ui.components.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,7 +11,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 import com.omebee.android.R;
-import com.omebee.android.layers.services.models.ProductWSModel;
+import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
 import com.omebee.android.utils.ImageMemoryCache;
 
 import java.util.ArrayList;
@@ -20,12 +20,12 @@ import java.util.List;
 /**
  * Created by ThuNguyen on 8/9/2014.
  */
-public class ProductGridAdapter extends BaseAdapter{
+public class ProductsLauncherGridAdapter extends BaseAdapter{
     private Context mContext;
     private ImageLoader mImageLoader;
-    private List<ProductGridItemData> mProductsList = new ArrayList<ProductGridItemData>();
+    private List<ProductsLauncherGridItemData> mProductsList = new ArrayList<ProductsLauncherGridItemData>();
 
-    public ProductGridAdapter(Context context){
+    public ProductsLauncherGridAdapter(Context context){
         mContext = context;
         mImageLoader = new ImageLoader(Volley.newRequestQueue(context), ImageMemoryCache.INSTANCE);
     }
@@ -35,7 +35,7 @@ public class ProductGridAdapter extends BaseAdapter{
     }
 
     @Override
-    public ProductGridItemData getItem(int position) {
+    public ProductsLauncherGridItemData getItem(int position) {
         return mProductsList.get(position);
     }
 
@@ -47,25 +47,25 @@ public class ProductGridAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        view = ((Activity)mContext).getLayoutInflater().inflate(R.layout.product_grid_item, null);
+        view = ((Activity)mContext).getLayoutInflater().inflate(R.layout.grid_products_launcher_item, null);
 
-        ProductGridItemData productItemData = getItem(position);
+        ProductsLauncherGridItemData productItemData = getItem(position);
 
         // Load the thumbnail image
         NetworkImageView image = (NetworkImageView) view.findViewById(R.id.imageview_item);
-        image.setImageUrl(productItemData.getmProductUrl(), mImageLoader);
+        image.setImageUrl(productItemData.getProductUrl(), mImageLoader);
 
         // Set the TextView's contents
         TextView name = (TextView) view.findViewById(R.id.textview_name);
-        name.setText(productItemData.getmProductName());
+        name.setText(productItemData.getProductName());
 
         return view;
     }
-    public List<ProductGridItemData> getProductsList() {
+    public List<ProductsLauncherGridItemData> getProductsList() {
         return mProductsList;
     }
 
-    public void setProductsList(List<ProductGridItemData> productsList) {
+    public void setProductsList(List<ProductsLauncherGridItemData> productsList) {
         if(mProductsList != null){
             this.mProductsList.clear();
         }

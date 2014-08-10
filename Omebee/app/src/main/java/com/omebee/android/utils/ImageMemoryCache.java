@@ -1,22 +1,8 @@
-/*
- * Copyright (C) 2014 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.omebee.android.utils;
 
+import android.annotation.TargetApi;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.util.LruCache;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -24,7 +10,7 @@ import com.android.volley.toolbox.ImageLoader;
 import java.util.Map;
 
 /**
- * An image memory cache implementation for Volley which allows the retrieval of entires via a URL.
+ * An image memory cache implementation for Volley which allows the retrieval of entries via a URL.
  * Volley internally inserts items with a key which is a combination of a the size of the image,
  * and the url.
  *
@@ -89,8 +75,13 @@ public class ImageMemoryCache extends LruCache<String, Bitmap> implements ImageL
         return key.substring(key.indexOf("http"));
     }
 
+
     @Override
     protected int sizeOf(String key, Bitmap value) {
-        return value.getAllocationByteCount();
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return value.getAllocationByteCount();
+        }
+        return value.getByteCount();
+
     }
 }

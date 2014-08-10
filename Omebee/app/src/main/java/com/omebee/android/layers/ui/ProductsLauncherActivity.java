@@ -1,10 +1,7 @@
 package com.omebee.android.layers.ui;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,20 +12,17 @@ import com.omebee.android.layers.ui.fragments.ProductsLauncherFragment;
 import com.omebee.android.layers.ui.presenters.ProductsLauncherPresenterImpl;
 import com.omebee.android.layers.ui.presenters.base.IProductsLauncherPresenter;
 import com.omebee.android.layers.ui.views.IProductsLauncherView;
-import com.omebee.android.unknown.ProductGridItemData;
+import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
 
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by phan on 8/6/2014.
@@ -62,7 +56,7 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mPlanetTitles));
+                R.layout.navigation_drawer_list_item, mPlanetTitles));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         // Always hidden title
         getActionBar().setTitle("");
@@ -168,7 +162,7 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
     }
 
     @Override
-    public void showProducts(List<ProductGridItemData> productList) {
+    public void showProducts(List<ProductsLauncherGridItemData> productList) {
         mProductsLauncherFragment.setProductList(productList);
     }
 

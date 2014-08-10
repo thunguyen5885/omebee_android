@@ -5,15 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseFragment;
+import com.omebee.android.layers.ui.components.adapters.ProductsLauncherGridAdapter;
 import com.omebee.android.layers.ui.presenters.ProductsLauncherPresenterImpl;
 import com.omebee.android.layers.ui.presenters.base.IPresenter;
-import com.omebee.android.unknown.ProductGridAdapter;
-import com.omebee.android.unknown.ProductGridItemData;
+import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
 
 import java.util.List;
 
@@ -23,7 +21,7 @@ import java.util.List;
 public class ProductsLauncherFragment extends BaseFragment{
     private ProductsLauncherPresenterImpl mPresenter;
     private GridView mProductsGrid;
-    private ProductGridAdapter mProductsGridAdapter;
+    private ProductsLauncherGridAdapter mProductsGridAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,9 +57,10 @@ public class ProductsLauncherFragment extends BaseFragment{
     public void selectItem(int position){
         mPresenter.onItemClicked(position);
     }
-    public void setProductList(List<ProductGridItemData> productList){
+
+    public void setProductList(List<ProductsLauncherGridItemData> productList){
         if(mProductsGridAdapter == null){
-            mProductsGridAdapter = new ProductGridAdapter(getActivity());
+            mProductsGridAdapter = new ProductsLauncherGridAdapter(getActivity());
             mProductsGridAdapter.setProductsList(productList);
             mProductsGrid.setAdapter(mProductsGridAdapter);
         }else{
