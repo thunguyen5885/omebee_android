@@ -59,6 +59,7 @@ public class ProductsLauncherFragment extends BaseFragment{
     }
 
     public void setProductList(List<ProductsLauncherGridItemData> productList){
+        // Check the adapter object, create new object in case of null otherwise notify it
         if(mProductsGridAdapter == null){
             mProductsGridAdapter = new ProductsLauncherGridAdapter(getActivity());
             mProductsGridAdapter.setProductsList(productList);
