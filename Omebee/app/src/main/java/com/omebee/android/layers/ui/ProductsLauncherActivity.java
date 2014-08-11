@@ -1,6 +1,7 @@
 package com.omebee.android.layers.ui;
 
 import android.content.res.Configuration;
+import android.nfc.tech.NfcBarcode;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +19,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -41,6 +43,7 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_products_launcher);
         mProductsLauncherPresenter = new ProductsLauncherPresenterImpl(this);
         mProductsLauncherFragment = (ProductsLauncherFragment)getFragmentManager().findFragmentById(R.id.productsLauncherFragment);
@@ -60,6 +63,7 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         // Always hidden title
         getActionBar().setTitle("");
+
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);

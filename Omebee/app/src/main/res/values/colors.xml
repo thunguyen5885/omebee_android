@@ -10,4 +10,5 @@
     <color name="white">#ffffff</color>
     <color name="gray">#CFCFCF</color>
     <color name="listview_item_focus_on">#FFF2E406</color>
+    <color name="action_bar_background">#e9e2c1</color>
 </resources>

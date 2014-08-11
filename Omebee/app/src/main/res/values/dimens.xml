@@ -3,4 +3,5 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="grid_spacing">4dp</dimen>
+    <item name="action_bar_background_alpha" type="dimen" format="float">0.8</item>
 </resources>

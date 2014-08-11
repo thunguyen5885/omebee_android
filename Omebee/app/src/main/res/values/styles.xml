@@ -12,9 +12,12 @@
         </style>
 
         <style name="ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-            <item name="android:background">@color/sa_green</item>
-            <item name="android:backgroundStacked">@color/stacked_green</item>
+            <item name="android:background">@color/action_bar_background</item>
+
             <item name="android:backgroundSplit">@color/sa_green</item>
+            <item name="android:backgroundStacked">@color/stacked_green</item>
+            <item name="android:alpha">@dimen/action_bar_background_alpha</item>
+
         </style>
 
         <style name="OverflowMenu" parent="@android:style/Widget.Holo.ListPopupWindow">
