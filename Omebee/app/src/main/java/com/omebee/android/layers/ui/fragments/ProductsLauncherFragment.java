@@ -64,7 +64,7 @@ public class ProductsLauncherFragment extends BaseFragment{
             mProductsGridAdapter = new ProductsLauncherGridAdapter(getActivity());
             mProductsGridAdapter.setProductsList(productList);
             mProductsGrid.setAdapter(mProductsGridAdapter);
-        }else{
+        }else{ // Notify
             mProductsGridAdapter.setProductsList(productList);
             mProductsGridAdapter.notifyDataSetChanged();
         }
