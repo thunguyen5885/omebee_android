@@ -1,5 +1,6 @@
 package com.omebee.android.layers.ui;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.nfc.tech.NfcBarcode;
 import android.os.Bundle;
@@ -107,9 +108,16 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
         }
         // Handle action buttons
         switch(item.getItemId()) {
+            case R.id.menu_search:
+                // Go to search screen
+                Intent intent = new Intent(this, SearchActivity.class);
+                startActivity(intent);
+                break;
             default:
-                return super.onOptionsItemSelected(item);
+                break;
+
         }
+        return super.onOptionsItemSelected(item);
     }
 
     /* The click listner for ListView in the navigation drawer */

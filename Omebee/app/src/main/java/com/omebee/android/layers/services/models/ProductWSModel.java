@@ -44,5 +44,11 @@ public class ProductWSModel extends AbstractWebServiceModel {
         this.productUrl = productUrl;
     }
 
-
+    public boolean match(String key){
+        if(productName.toLowerCase().contains(key.toLowerCase()) ||
+                productDescription.toLowerCase().contains(key.toLowerCase())){
+            return true;
+        }
+        return false;
+    }
 }

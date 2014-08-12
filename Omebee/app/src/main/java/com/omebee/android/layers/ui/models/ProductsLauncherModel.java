@@ -58,4 +58,31 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
     }
 
+    @Override
+    public List<ProductsLauncherGridItemData> search(String key) {
+        String LARGE_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/large/";
+        String THUMB_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/";
+        ProductWSModel[] ITEMS = new ProductWSModel[] {
+                new ProductWSModel("Flying in the Light", "Romain Guy", "flying_in_the_light.jpg"),
+                new ProductWSModel("Caterpillar", "Romain Guy", "caterpillar.jpg"),
+                new ProductWSModel("Look Me in the Eye", "Romain Guy", "look_me_in_the_eye.jpg"),
+                new ProductWSModel("Flamingo", "Romain Guy", "flamingo.jpg"),
+                new ProductWSModel("Rainbow", "Romain Guy", "rainbow.jpg"),
+                new ProductWSModel("Over there", "Romain Guy", "over_there.jpg"),
+                new ProductWSModel("Jelly Fish 2", "Romain Guy", "jelly_fish_2.jpg"),
+                new ProductWSModel("Lone Pine Sunset", "Romain Guy", "lone_pine_sunset.jpg")
+        };
+        List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
+        if(key.length() > 0) {
+            for (ProductWSModel productModelItem : ITEMS) {
+                if (productModelItem.match(key)) {
+                    ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
+                            THUMB_BASE_URL + productModelItem.getProductUrl());
+                    productList.add(item);
+                }
+            }
+        }
+        return  productList;
+    }
+
 }
