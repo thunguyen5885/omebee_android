@@ -9,6 +9,8 @@ import android.widget.GridView;
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseFragment;
 import com.omebee.android.layers.ui.components.adapters.ProductsLauncherGridAdapter;
+import com.omebee.android.layers.ui.components.views.pullrefresh.PullAndLoadListView;
+import com.omebee.android.layers.ui.components.views.pullrefresh.PullToRefreshListView;
 import com.omebee.android.layers.ui.presenters.ProductsLauncherPresenterImpl;
 import com.omebee.android.layers.ui.presenters.base.IPresenter;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
@@ -20,7 +22,7 @@ import java.util.List;
  */
 public class ProductsLauncherFragment extends BaseFragment{
     private ProductsLauncherPresenterImpl mPresenter;
-    private GridView mProductsGrid;
+    private PullAndLoadListView mProductsGrid;
     private ProductsLauncherGridAdapter mProductsGridAdapter;
 
     @Override
@@ -28,8 +30,20 @@ public class ProductsLauncherFragment extends BaseFragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_products_launcher,
                 container, false);
-        mProductsGrid = (GridView)view.findViewById(R.id.productGrid);
-
+        mProductsGrid = (PullAndLoadListView)view.findViewById(R.id.productGrid);
+        // Catch the refresh listener
+        mProductsGrid.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.pullRefresh();
+            }
+        });
+        mProductsGrid.setOnLoadMoreListener(new PullAndLoadListView.OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                mPresenter.loadMore();
+            }
+        });
         return view;
     }
 
@@ -58,7 +72,12 @@ public class ProductsLauncherFragment extends BaseFragment{
         mPresenter.onItemClicked(position);
     }
 
+    /**
+     * Load the first list of product
+     * @param productList
+     */
     public void setProductList(List<ProductsLauncherGridItemData> productList){
+        mProductsGrid.onRefreshComplete();
         // Check the adapter object, create new object in case of null otherwise notify it
         if(mProductsGridAdapter == null){
             mProductsGridAdapter = new ProductsLauncherGridAdapter(getActivity());
@@ -68,5 +87,26 @@ public class ProductsLauncherFragment extends BaseFragment{
             mProductsGridAdapter.setProductsList(productList);
             mProductsGridAdapter.notifyDataSetChanged();
         }
+        if(productList == null || productList.size() == 0){
+            mProductsGrid.setProgressBarVisibility(View.GONE);
+        }else{
+            mProductsGrid.setProgressBarVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * Load more products
+     * @param productList
+     */
+    public void loadMore(List<ProductsLauncherGridItemData> productList){
+        // Make sure that load more complete to reset something
+        mProductsGrid.onLoadMoreComplete();
+        if(productList == null || productList.size() == 0){
+            mProductsGrid.setProgressBarVisibility(View.GONE);
+        }else{
+            mProductsGrid.setProgressBarVisibility(View.VISIBLE);
+        }
+        mProductsGridAdapter.loadMore(productList);
+        mProductsGridAdapter.notifyDataSetChanged();
     }
 }

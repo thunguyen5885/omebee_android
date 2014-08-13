@@ -11,4 +11,6 @@ public interface IProductsLauncherModel extends IBaseModel{
     String getProductName();
     List<ProductsLauncherGridItemData> loadProductList();
     List<ProductsLauncherGridItemData> search(String key);
+    void loadMore();
+    void pullRefresh();
 }

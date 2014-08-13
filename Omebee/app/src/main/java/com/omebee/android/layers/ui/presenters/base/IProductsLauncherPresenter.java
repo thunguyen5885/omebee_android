@@ -9,4 +9,6 @@ public interface IProductsLauncherPresenter extends IPresenter<IProductsLauncher
     void showName();
     void onItemClicked(int position);
     void showProductList();
+    void loadMore();
+    void pullRefresh();
 }

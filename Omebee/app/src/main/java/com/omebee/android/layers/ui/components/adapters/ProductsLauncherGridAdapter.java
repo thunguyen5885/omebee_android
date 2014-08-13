@@ -69,6 +69,13 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
         if(mProductsList != null){
             this.mProductsList.clear();
         }
-        this.mProductsList.addAll(productsList);
+        if(productsList != null && productsList.size() > 0) {
+            this.mProductsList.addAll(productsList);
+        }
+    }
+    public void loadMore(List<ProductsLauncherGridItemData> productsList){
+        if(productsList != null && productsList.size() > 0) {
+            this.mProductsList.addAll(productsList);
+        }
     }
 }

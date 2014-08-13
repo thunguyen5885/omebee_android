@@ -4,13 +4,15 @@
     <string-array name="product_menu_array">
         <item>New</item>
         <item>Sale</item>
-        <item>Most favorite</item>
+        <item>Most Favorite</item>
+        <item>Mix Layout</item>
     </string-array>
     <string name="app_name">Omebee</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="menu_account">Account</string>
     <string name="menu_logout">Logout</string>
+
     <!--For the drawer-->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
@@ -18,4 +20,21 @@
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
     <string name="search_hint">Search product...</string>
     <string name="empty_search">No matching products.</string>
+
+    <!--For the pull and refresh-->
+    <string name="pull_to_refresh_pull_label">Pull to refresh...</string>
+    <string name="pull_to_refresh_release_label">Release to refresh...</string>
+    <string name="pull_to_refresh_refreshing_label">Loading...</string>
+    <string name="pull_to_refresh_tap_label">Tap to refresh...</string>
+
+    <!--For progress bar-->
+
+    <string-array name="interpolators">
+        <item>Accelerate</item>
+        <item>Linear</item>
+        <item>AccelerateDecelerate</item>
+        <item>Decelerate</item>
+    </string-array>
+
+
 </resources>

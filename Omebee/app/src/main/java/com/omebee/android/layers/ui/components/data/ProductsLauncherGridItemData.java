@@ -37,4 +37,14 @@ public class ProductsLauncherGridItemData {
     public void setProductUrl(String mProductUrl) {
         this.mProductUrl = mProductUrl;
     }
+
+    // Check name for duplication temporarily
+    // Will check by product id later
+    public boolean duplicate(ProductsLauncherGridItemData item){
+        if(this.mProductName != null && item.getProductName() != null &&
+                this.mProductName.equals(item.getProductName())){
+            return true;
+        }
+        return false;
+    }
 }
