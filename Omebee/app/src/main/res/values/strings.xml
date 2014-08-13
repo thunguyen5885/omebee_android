@@ -4,7 +4,8 @@
     <string-array name="product_menu_array">
         <item>New</item>
         <item>Sale</item>
-        <item>Most favorite</item>
+        <item>Most Favorite</item>
+        <item>Mix Layout</item>
     </string-array>
     <string name="app_name">Omebee</string>
     <string name="hello_world">Hello world!</string>

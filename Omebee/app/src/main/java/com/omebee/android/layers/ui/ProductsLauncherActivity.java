@@ -2,7 +2,6 @@ package com.omebee.android.layers.ui;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.nfc.tech.NfcBarcode;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,7 +38,7 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private String[] mPlanetTitles;
+    private String[] mMenuTitles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,7 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
             mProductsLauncherFragment.setPresenter(mProductsLauncherPresenter);
         }
         mTitle = mDrawerTitle = getTitle();
-        mPlanetTitles = getResources().getStringArray(R.array.product_menu_array);
+        mMenuTitles = getResources().getStringArray(R.array.product_menu_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -60,7 +59,7 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.navigation_drawer_list_item, mPlanetTitles));
+                R.layout.navigation_drawer_list_item, mMenuTitles));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         // Always hidden title
         getActionBar().setTitle("");
@@ -125,6 +124,11 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
+            if(position == mMenuTitles.length - 1){ // The last item
+                // Go to mix layout
+                Intent intent = new Intent(ProductsLauncherActivity.this, MixDemoActivity.class);
+                startActivity(intent);
+            }
         }
     }
 
@@ -133,7 +137,7 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
 //        // update selected item and title, then close the drawer
         mProductsLauncherFragment.selectItem(position);
         mDrawerList.setItemChecked(position, true);
-        setTitle(mPlanetTitles[position]);
+        setTitle(mMenuTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
