@@ -40,7 +40,7 @@ limitations under the License.
         android:id = "@+id/pull_to_refresh_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="?android:attr/actionBarSize"
+        android:paddingTop="?android:attr/actionBarSize"
         android:indeterminate="true"
         android:visibility="gone"
         style="@style/GNowProgressBar"/>

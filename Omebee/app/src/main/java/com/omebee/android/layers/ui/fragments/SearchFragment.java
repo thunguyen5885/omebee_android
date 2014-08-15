@@ -87,7 +87,9 @@ public class SearchFragment extends BaseFragment{
      */
     public void reset(){
         mEmptyView.setVisibility(View.GONE);
-        mProductAdapter.getProductsList().clear();
-        mProductAdapter.notifyDataSetChanged();
+        if(mProductAdapter != null) {
+            mProductAdapter.getProductsList().clear();
+            mProductAdapter.notifyDataSetChanged();
+        }
     }
 }

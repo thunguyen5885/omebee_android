@@ -135,6 +135,8 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
         // Handle action buttons
         switch(item.getItemId()) {
             case R.id.menu_search:
+                // Close drawer
+                mDrawerLayout.closeDrawers();
                 // Go to search screen
                 showHomeFragment(false);
                 break;
