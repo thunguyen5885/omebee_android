@@ -34,6 +34,6 @@ public class SearchPresenterImpl implements ISearchPresenter {
 
     @Override
     public void search(String key) {
-        mView.showProducts(mModel.search(key));
+        mView.showSearchProducts(mModel.search(key));
     }
 }

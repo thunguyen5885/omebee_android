@@ -9,5 +9,5 @@ import java.util.List;
  * Created by Thu Nguyen on 8/6/2014.
  */
 public interface ISearchView extends IBaseView {
-    void showProducts(List<ProductsLauncherGridItemData> productList);
+    void showSearchProducts(List<ProductsLauncherGridItemData> productList);
 }

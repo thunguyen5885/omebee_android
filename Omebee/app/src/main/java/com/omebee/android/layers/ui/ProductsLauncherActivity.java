@@ -1,8 +1,12 @@
 package com.omebee.android.layers.ui;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,10 +14,14 @@ import android.view.MenuItem;
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseActivity;
 import com.omebee.android.layers.ui.fragments.ProductsLauncherFragment;
+import com.omebee.android.layers.ui.fragments.SearchFragment;
 import com.omebee.android.layers.ui.presenters.ProductsLauncherPresenterImpl;
+import com.omebee.android.layers.ui.presenters.SearchPresenterImpl;
 import com.omebee.android.layers.ui.presenters.base.IProductsLauncherPresenter;
+import com.omebee.android.layers.ui.presenters.base.ISearchPresenter;
 import com.omebee.android.layers.ui.views.IProductsLauncherView;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
+import com.omebee.android.layers.ui.views.ISearchView;
 
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -23,15 +31,18 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import java.util.List;
 
 /**
  * Created by phan on 8/6/2014.
  */
-public class ProductsLauncherActivity extends BaseActivity implements IProductsLauncherView, AdapterView.OnItemClickListener{
+public class ProductsLauncherActivity extends BaseActivity implements IProductsLauncherView, ISearchView, SearchView.OnQueryTextListener, AdapterView.OnItemClickListener{
     private ProductsLauncherPresenterImpl mProductsLauncherPresenter;
     private ProductsLauncherFragment mProductsLauncherFragment;
+    private SearchFragment mSearchFragment;
+    private ISearchPresenter mSearchPresenter;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -40,16 +51,27 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
     private CharSequence mTitle;
     private String[] mMenuTitles;
 
+    private SearchView mSearchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_products_launcher);
+
+        // Initialize the product launcher fragment
         mProductsLauncherPresenter = new ProductsLauncherPresenterImpl(this);
-        mProductsLauncherFragment = (ProductsLauncherFragment)getFragmentManager().findFragmentById(R.id.productsLauncherFragment);
+        mProductsLauncherFragment = new ProductsLauncherFragment();
+        mProductsLauncherFragment = (ProductsLauncherFragment) getFragmentManager().findFragmentById(R.id.productsLauncherFragment);
         if(mProductsLauncherFragment != null) {
             mProductsLauncherFragment.setPresenter(mProductsLauncherPresenter);
         }
+        // Initialize the search fragment
+        mSearchFragment = (SearchFragment) getFragmentManager().findFragmentById(R.id.searchFragment);
+        if(mSearchFragment != null) {
+            mSearchPresenter = new SearchPresenterImpl(this);
+        }
+        mSearchFragment.setPresenter(mSearchPresenter);
         mTitle = mDrawerTitle = getTitle();
         mMenuTitles = getResources().getStringArray(R.array.product_menu_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -82,13 +104,18 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
         if (savedInstanceState == null) {
             selectItem(0);
         }
+        // Default to load product launcher fragment
+        showHomeFragment(true);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.abmenu_products_launcher, menu);
-        return super.onCreateOptionsMenu(menu);
+        MenuItem searchItem = menu.findItem(R.id.menu_search);
+        mSearchView = (SearchView) searchItem.getActionView();
+        setupSearchView(searchItem);
+        return true;
     }
 
     /* Called whenever we call invalidateOptionsMenu() */
@@ -109,8 +136,7 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
         switch(item.getItemId()) {
             case R.id.menu_search:
                 // Go to search screen
-                Intent intent = new Intent(this, SearchActivity.class);
-                startActivity(intent);
+                showHomeFragment(false);
                 break;
             default:
                 break;
@@ -118,6 +144,12 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void showSearchProducts(List<ProductsLauncherGridItemData> productList) {
+        mSearchFragment.showProducts(productList);
+    }
+
 
     /* The click listner for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -190,5 +222,85 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mProductsLauncherPresenter.onItemClicked(position);
+    }
+
+    private void setupSearchView(MenuItem searchItem) {
+
+        if (isAlwaysExpanded()) {
+            mSearchView.setIconifiedByDefault(false);
+        } else {
+            searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM
+                    | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        }
+        // search hint
+        mSearchView.setQueryHint(getString(R.string.search_hint));
+//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        if (searchManager != null) {
+//            List<SearchableInfo> searchables = searchManager.getSearchablesInGlobalSearch();
+//
+//            SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
+//            for (SearchableInfo inf : searchables) {
+//                if (inf.getSuggestAuthority() != null
+//                        && inf.getSuggestAuthority().startsWith("applications")) {
+//                    info = inf;
+//                }
+//            }
+//            mSearchView.setSearchableInfo(info);
+//        }
+
+        mSearchView.setOnQueryTextListener(this);
+        // When using the support library, the setOnActionExpandListener() method is
+        // static and accepts the MenuItem object as an argument
+        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // Reset search fragment
+                mSearchFragment.reset();
+                // Come back
+                showHomeFragment(true);
+                return true;  // Return true to collapse action view
+            }
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                // Do something when expanded
+                return true;  // Return true to expand action view
+            }
+        });
+
+    }
+    @Override
+    public boolean onQueryTextChange(String newText) { // Autocomplete
+        Log.d("ThuNguyen", "Text change: " + newText);
+        if(newText.trim().length() > 0) {
+            mSearchFragment.search(newText.trim());
+        }
+        return true;
+    }
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        Log.d("ThuNguyen", "Query Text Submit: " + query);
+        if(query.trim().length() > 0) {
+            mSearchFragment.search(query.trim());
+        }
+        return true;
+    }
+
+    protected boolean isAlwaysExpanded() {
+        return false;
+    }
+
+    /**
+     * Change to other fragment
+     * @param isHomeFragment
+     */
+    protected void showHomeFragment(boolean isHomeFragment){
+        if(isHomeFragment){
+            mProductsLauncherFragment.getView().setVisibility(View.VISIBLE);
+            mSearchFragment.getView().setVisibility(View.GONE);
+        }else{
+            mProductsLauncherFragment.getView().setVisibility(View.GONE);
+            mSearchFragment.getView().setVisibility(View.VISIBLE);
+        }
     }
 }

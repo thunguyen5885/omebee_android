@@ -81,4 +81,13 @@ public class SearchFragment extends BaseFragment{
     public IPresenter getPresenter(){
         return mPresenter;
     }
+
+    /**
+     * Reset before hide
+     */
+    public void reset(){
+        mEmptyView.setVisibility(View.GONE);
+        mProductAdapter.getProductsList().clear();
+        mProductAdapter.notifyDataSetChanged();
+    }
 }
