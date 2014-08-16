@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -46,9 +48,6 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 	protected int mCurrentScrollState;
 	//protected int mRefreshState;
 
-	private RotateAnimation mFlipAnimation;
-	private RotateAnimation mReverseFlipAnimation;
-
 	private int mRefreshViewHeight;
 	private int mRefreshOriginalBottomPadding;
 	private int mLastMotionY;
@@ -72,20 +71,6 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 	}
 
 	protected void init(Context context) {
-		// Load all of the animations we need in code rather than through XML
-		mFlipAnimation = new RotateAnimation(0, -180,
-				RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-				RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-		mFlipAnimation.setInterpolator(new LinearInterpolator());
-		mFlipAnimation.setDuration(250);
-		mFlipAnimation.setFillAfter(true);
-		mReverseFlipAnimation = new RotateAnimation(-180, 0,
-				RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-				RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-		mReverseFlipAnimation.setInterpolator(new LinearInterpolator());
-		mReverseFlipAnimation.setDuration(250);
-		mReverseFlipAnimation.setFillAfter(true);
-
 		mInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -157,6 +142,11 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 
 	}
 
+    private Animation createTranslateAnimation(int fromY){
+        Animation translateAnimation = new TranslateAnimation(0, 0, fromY, 0);
+        translateAnimation.setDuration(350);
+        return translateAnimation;
+    }
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
         final int y = (int) event.getY();
@@ -173,8 +163,9 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
                         // Initiate the refresh
                         Log.d(TAG, "prepareForRefresh");
                         prepareForRefresh();
-                        //this.clearAnimation();
-                        //this.startAnimation(mReverseFlipAnimation);
+                        this.clearAnimation();
+                        Animation translateAnim = createTranslateAnimation(mRefreshView.getBottom());
+                        this.startAnimation(translateAnim);
                         //onRefresh();
                     } else if (mRefreshView.getBottom() < mRefreshViewHeight
                             || mRefreshView.getTop() <= 0) {
@@ -255,18 +246,16 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 		mRefreshView.setPadding(mRefreshView.getPaddingLeft(),
                 mRefreshView.getPaddingTop(), mRefreshView.getPaddingRight(),
                 mRefreshOriginalBottomPadding);
+
 	}
 
 	/**
 	 * Resets the header to the original state.
 	 */
 	private void resetHeader() {
-
-
 			resetHeaderPadding();
 
 			// Set refresh view text to the pull label
-
 			mRefreshViewProgress.setVisibility(View.GONE);
 
 	}
@@ -291,8 +280,6 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 		child.measure(childWidthSpec, childHeightSpec);
 	}
 
-
-
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		mCurrentScrollState = scrollState;
 
@@ -307,9 +294,8 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 
 	public void prepareForRefresh() {
 		resetHeaderPadding();
-		mRefreshViewProgress.setVisibility(View.GONE);
+		//mRefreshViewProgress.setVisibility(View.GONE);
 		// Set refresh view text to the refreshing label
-
 	}
 
 	public void onRefresh() {
