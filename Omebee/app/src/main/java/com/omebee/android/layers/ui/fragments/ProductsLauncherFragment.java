@@ -104,8 +104,8 @@ public class ProductsLauncherFragment extends BaseFragment{
             mProductsGrid.setProgressBarVisibility(View.GONE);
         }else{
             mProductsGrid.setProgressBarVisibility(View.VISIBLE);
+            mProductsGridAdapter.loadMore(productList);
+            mProductsGridAdapter.notifyDataSetChanged();
         }
-        mProductsGridAdapter.loadMore(productList);
-        mProductsGridAdapter.notifyDataSetChanged();
     }
 }

@@ -54,7 +54,6 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
         // Load the thumbnail image
         NetworkImageView image = (NetworkImageView) view.findViewById(R.id.imageview_item);
         image.setImageUrl(productItemData.getProductUrl(), mImageLoader);
-
         // Set the TextView's contents
         TextView name = (TextView) view.findViewById(R.id.textview_name);
         name.setText(productItemData.getProductName());
