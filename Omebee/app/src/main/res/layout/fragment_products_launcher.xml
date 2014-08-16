@@ -14,7 +14,7 @@
         <!--android:padding="@dimen/grid_spacing"-->
         <!--android:verticalSpacing="@dimen/grid_spacing"-->
         <!--android:scrollbars="none"/>-->
-    <com.omebee.android.layers.ui.components.views.pullrefresh.PullAndLoadListView
+    <com.omebee.android.layers.ui.components.views.pullrefresh.ListViewPullAndLoadMore
         android:id="@+id/productGrid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

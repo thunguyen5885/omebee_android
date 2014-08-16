@@ -13,7 +13,6 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.GridView;
 import android.widget.ListAdapter;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
@@ -35,7 +34,7 @@ import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
  * limitations under the License.
  */
 
-public class LoadMoreGridView extends GridView implements OnScrollListener {
+public class GridViewLoadMore extends GridView implements OnScrollListener {
 
 	private static final String TAG = "LoadMoreGridView";
 
@@ -56,17 +55,17 @@ public class LoadMoreGridView extends GridView implements OnScrollListener {
 	private boolean mIsLoadingMore = false;
 	private int mCurrentScrollState;
 
-	public LoadMoreGridView(Context context) {
+	public GridViewLoadMore(Context context) {
 		super(context);
 		init(context);
 	}
 
-	public LoadMoreGridView(Context context, AttributeSet attrs) {
+	public GridViewLoadMore(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context);
 	}
 
-	public LoadMoreGridView(Context context, AttributeSet attrs, int defStyle) {
+	public GridViewLoadMore(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(context);
 	}
@@ -78,7 +77,7 @@ public class LoadMoreGridView extends GridView implements OnScrollListener {
 
 		// footer
 		mFooterView = (RelativeLayout) mInflater.inflate(
-				R.layout.load_more_footer, this, false);
+				R.layout.ctrl_footer_load_more, this, false);
 		/*
 		 * mLabLoadMore = (TextView) mFooterView
 		 * .findViewById(R.id.load_more_lab_view);

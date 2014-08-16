@@ -2,26 +2,13 @@ package com.omebee.android.layers.ui;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.SearchView;
 
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseActivity;
-import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
-import com.omebee.android.layers.ui.fragments.SearchFragment;
-import com.omebee.android.layers.ui.presenters.SearchPresenterImpl;
-import com.omebee.android.layers.ui.presenters.base.ISearchPresenter;
-import com.omebee.android.layers.ui.views.ISearchView;
 
-import java.util.List;
 import java.util.Random;
 
 /**

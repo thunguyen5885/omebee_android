@@ -38,7 +38,7 @@
             android:id="@+id/searchFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="com.omebee.android.layers.ui.fragments.SearchFragment" >
+            class="com.omebee.android.layers.ui.fragments.SearchProductFragment" >
         </fragment>
     </FrameLayout>
 

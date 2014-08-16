@@ -1,7 +1,5 @@
 package com.omebee.android.layers.ui;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -14,14 +12,14 @@ import android.view.MenuItem;
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseActivity;
 import com.omebee.android.layers.ui.fragments.ProductsLauncherFragment;
-import com.omebee.android.layers.ui.fragments.SearchFragment;
+import com.omebee.android.layers.ui.fragments.SearchProductFragment;
+import com.omebee.android.layers.ui.presenters.ProductSearchPresenterImpl;
 import com.omebee.android.layers.ui.presenters.ProductsLauncherPresenterImpl;
-import com.omebee.android.layers.ui.presenters.SearchPresenterImpl;
+import com.omebee.android.layers.ui.presenters.base.IProductSearchPresenter;
 import com.omebee.android.layers.ui.presenters.base.IProductsLauncherPresenter;
-import com.omebee.android.layers.ui.presenters.base.ISearchPresenter;
+import com.omebee.android.layers.ui.views.IProductSearchView;
 import com.omebee.android.layers.ui.views.IProductsLauncherView;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
-import com.omebee.android.layers.ui.views.ISearchView;
 
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -38,11 +36,11 @@ import java.util.List;
 /**
  * Created by phan on 8/6/2014.
  */
-public class ProductsLauncherActivity extends BaseActivity implements IProductsLauncherView, ISearchView, SearchView.OnQueryTextListener, AdapterView.OnItemClickListener{
+public class ProductsLauncherActivity extends BaseActivity implements IProductsLauncherView, IProductSearchView, SearchView.OnQueryTextListener, AdapterView.OnItemClickListener{
     private ProductsLauncherPresenterImpl mProductsLauncherPresenter;
     private ProductsLauncherFragment mProductsLauncherFragment;
-    private SearchFragment mSearchFragment;
-    private ISearchPresenter mSearchPresenter;
+    private SearchProductFragment mSearchFragment;
+    private IProductSearchPresenter mSearchPresenter;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -67,9 +65,9 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
             mProductsLauncherFragment.setPresenter(mProductsLauncherPresenter);
         }
         // Initialize the search fragment
-        mSearchFragment = (SearchFragment) getFragmentManager().findFragmentById(R.id.searchFragment);
+        mSearchFragment = (SearchProductFragment) getFragmentManager().findFragmentById(R.id.searchFragment);
         if(mSearchFragment != null) {
-            mSearchPresenter = new SearchPresenterImpl(this);
+            mSearchPresenter = new ProductSearchPresenterImpl(this);
         }
         mSearchFragment.setPresenter(mSearchPresenter);
         mTitle = mDrawerTitle = getTitle();
@@ -81,7 +79,7 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.navigation_drawer_list_item, mMenuTitles));
+                R.layout.ctrl_navigation_drawer_list_item, mMenuTitles));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         // Always hidden title
         getActionBar().setTitle("");

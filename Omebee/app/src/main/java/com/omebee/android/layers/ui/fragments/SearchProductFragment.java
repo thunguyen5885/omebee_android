@@ -1,11 +1,9 @@
 package com.omebee.android.layers.ui.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,7 +12,7 @@ import com.omebee.android.layers.ui.base.BaseFragment;
 import com.omebee.android.layers.ui.components.adapters.ProductsLauncherGridAdapter;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
 import com.omebee.android.layers.ui.presenters.base.IPresenter;
-import com.omebee.android.layers.ui.presenters.base.ISearchPresenter;
+import com.omebee.android.layers.ui.presenters.base.IProductSearchPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,15 +20,15 @@ import java.util.List;
 /**
  * Created by Thu Nguyen on 8/12/2014.
  */
-public class SearchFragment extends BaseFragment{
+public class SearchProductFragment extends BaseFragment{
     private ListView mProductListView;
     private TextView mEmptyView;
     private ProductsLauncherGridAdapter mProductAdapter;
-    private ISearchPresenter mPresenter;
+    private IProductSearchPresenter mPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search,
+        View view = inflater.inflate(R.layout.fragment_product_search,
                 container, false);
         mProductListView = (ListView) view.findViewById(R.id.productSearchList);
         mEmptyView = (TextView) view.findViewById(R.id.emptySearchView);
@@ -49,7 +47,7 @@ public class SearchFragment extends BaseFragment{
     public void search(String key){
         if(key.length() > 0) {
             if (mPresenter != null) {
-                mPresenter.search(key);
+                mPresenter.searchProduct(key);
             }
         }else{
             showProducts(new ArrayList<ProductsLauncherGridItemData>());
@@ -75,7 +73,7 @@ public class SearchFragment extends BaseFragment{
             mProductListView.setVisibility(View.VISIBLE);
         }
     }
-    public void setPresenter(ISearchPresenter presenter){
+    public void setPresenter(IProductSearchPresenter presenter){
         mPresenter = presenter;
     }
     public IPresenter getPresenter(){

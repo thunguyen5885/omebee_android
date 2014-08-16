@@ -10,7 +10,7 @@ import java.util.List;
 public interface IProductsLauncherModel extends IBaseModel{
     String getProductName();
     List<ProductsLauncherGridItemData> loadProductList();
-    List<ProductsLauncherGridItemData> search(String key);
+    List<ProductsLauncherGridItemData> searchProduct(String keyword);
     void loadMore();
     void pullRefresh();
 }

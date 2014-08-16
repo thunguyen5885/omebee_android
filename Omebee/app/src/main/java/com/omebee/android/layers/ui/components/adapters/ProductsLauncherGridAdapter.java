@@ -47,7 +47,7 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        view = ((Activity)mContext).getLayoutInflater().inflate(R.layout.grid_products_launcher_item, null);
+        view = ((Activity)mContext).getLayoutInflater().inflate(R.layout.ctrl_grid_products_launcher_item, null);
 
         ProductsLauncherGridItemData productItemData = getItem(position);
 

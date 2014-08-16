@@ -5,33 +5,16 @@ import com.omebee.android.R;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 import android.widget.AbsListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
-/*
- * Copyright (C) 2012 Fabian Leon Ortega <http://orleonsoft.blogspot.com/,
- *  http://yelamablog.blogspot.com/>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-public class PullAndLoadListView extends PullToRefreshListView {
 
-	public PullAndLoadListView(Context context, AttributeSet attrs) {
+public class ListViewPullAndLoadMore extends ListViewPullToRefresh {
+
+	public ListViewPullAndLoadMore(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initComponent(context);
 	}
@@ -46,10 +29,10 @@ public class PullAndLoadListView extends PullToRefreshListView {
 	// private TextView mLabLoadMore;
 	private SmoothProgressBar mProgressBarLoadMore;
 
-	public PullAndLoadListView(Context context) { super(context);
+	public ListViewPullAndLoadMore(Context context) { super(context);
 	  initComponent(context); }
 
-	public PullAndLoadListView(Context context, AttributeSet attrs, int defStyle) {
+	public ListViewPullAndLoadMore(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		initComponent(context);
 	}
@@ -58,7 +41,7 @@ public class PullAndLoadListView extends PullToRefreshListView {
 
 		// footer
 		mFooterView = (RelativeLayout) mInflater.inflate(
-				R.layout.load_more_footer, this, false);
+				R.layout.ctrl_footer_load_more, this, false);
 		/*
 		 * mLabLoadMore = (TextView) mFooterView
 		 * .findViewById(R.id.load_more_lab_view);
@@ -132,7 +115,7 @@ public class PullAndLoadListView extends PullToRefreshListView {
 		/**
 		 * Called when the list reaches the last item (the last item is visible
 		 * to the user) A call to
-		 * {@link com.omebee.android.layers.ui.components.views.pullrefresh.PullAndLoadListView #onLoadMoreComplete()} is expected to
+		 * {@link com.omebee.android.layers.ui.components.views.pullrefresh.ListViewPullAndLoadMore #onLoadMoreComplete()} is expected to
 		 * indicate that the loadmore has completed.
 		 */
 		public void onLoadMore();

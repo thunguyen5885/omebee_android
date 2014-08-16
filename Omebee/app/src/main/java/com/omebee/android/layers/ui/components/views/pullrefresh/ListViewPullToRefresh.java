@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -20,22 +19,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AbsListView.OnScrollListener;
 
-/*Copyright (C) 2011 Johan Nilsson <http://markupartist.com>
 
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
 
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
- */
-
-public class PullToRefreshListView extends ListView implements OnScrollListener {
+public class ListViewPullToRefresh extends ListView implements OnScrollListener {
 
 	private static final int TAP_TO_REFRESH = 1;
 	private static final int PULL_TO_REFRESH = 2;
@@ -71,17 +57,17 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 
 	private boolean mBounceHack;
 
-	public PullToRefreshListView(Context context) {
+	public ListViewPullToRefresh(Context context) {
 		super(context);
 		init(context);
 	}
 
-	public PullToRefreshListView(Context context, AttributeSet attrs) {
+	public ListViewPullToRefresh(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context);
 	}
 
-	public PullToRefreshListView(Context context, AttributeSet attrs,
+	public ListViewPullToRefresh(Context context, AttributeSet attrs,
                                  int defStyle) {
 		super(context, attrs, defStyle);
 		init(context);
@@ -107,7 +93,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 
 		// header
 		mRefreshView = (RelativeLayout) mInflater.inflate(
-				R.layout.pull_to_refresh_header, this, false);
+				R.layout.ctrl_header_pull_to_refresh, this, false);
 		mRefreshViewText = (TextView) mRefreshView
 				.findViewById(R.id.pull_to_refresh_text);
 		mRefreshViewImage = (ImageView) mRefreshView
@@ -420,7 +406,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 		/**
 		 * Called when the list should be refreshed.
 		 * <p>
-		 * A call to {@link com.omebee.android.layers.ui.components.views.pullrefresh.PullToRefreshListView #onRefreshComplete()} is
+		 * A call to {@link com.omebee.android.layers.ui.components.views.pullrefresh.ListViewPullToRefresh #onRefreshComplete()} is
 		 * expected to indicate that the refresh has completed.
 		 */
 		public void onRefresh();

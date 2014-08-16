@@ -4,13 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseFragment;
 import com.omebee.android.layers.ui.components.adapters.ProductsLauncherGridAdapter;
-import com.omebee.android.layers.ui.components.views.pullrefresh.PullAndLoadListView;
-import com.omebee.android.layers.ui.components.views.pullrefresh.PullToRefreshListView;
+import com.omebee.android.layers.ui.components.views.pullrefresh.ListViewPullAndLoadMore;
+import com.omebee.android.layers.ui.components.views.pullrefresh.ListViewPullToRefresh;
 import com.omebee.android.layers.ui.presenters.ProductsLauncherPresenterImpl;
 import com.omebee.android.layers.ui.presenters.base.IPresenter;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
@@ -22,7 +21,7 @@ import java.util.List;
  */
 public class ProductsLauncherFragment extends BaseFragment{
     private ProductsLauncherPresenterImpl mPresenter;
-    private PullAndLoadListView mProductsGrid;
+    private ListViewPullAndLoadMore mProductsGrid;
     private ProductsLauncherGridAdapter mProductsGridAdapter;
 
     @Override
@@ -30,15 +29,15 @@ public class ProductsLauncherFragment extends BaseFragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_products_launcher,
                 container, false);
-        mProductsGrid = (PullAndLoadListView)view.findViewById(R.id.productGrid);
+        mProductsGrid = (ListViewPullAndLoadMore)view.findViewById(R.id.productGrid);
         // Catch the refresh listener
-        mProductsGrid.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+        mProductsGrid.setOnRefreshListener(new ListViewPullToRefresh.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mPresenter.pullRefresh();
             }
         });
-        mProductsGrid.setOnLoadMoreListener(new PullAndLoadListView.OnLoadMoreListener() {
+        mProductsGrid.setOnLoadMoreListener(new ListViewPullAndLoadMore.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 mPresenter.loadMore();

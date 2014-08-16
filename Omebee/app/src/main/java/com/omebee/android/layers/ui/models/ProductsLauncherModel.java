@@ -92,7 +92,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
     }
 
     @Override
-    public List<ProductsLauncherGridItemData> search(String key) {
+    public List<ProductsLauncherGridItemData> searchProduct(String keyword) {
         String LARGE_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/large/";
         String THUMB_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/";
         ProductWSModel[] ITEMS = new ProductWSModel[] {
@@ -106,9 +106,9 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
                 new ProductWSModel("Lone Pine Sunset", "Romain Guy", "lone_pine_sunset.jpg")
         };
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
-        if(key.length() > 0) {
+        if(keyword.length() > 0) {
             for (ProductWSModel productModelItem : ITEMS) {
-                if (productModelItem.match(key)) {
+                if (productModelItem.match(keyword)) {
                     ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
                             THUMB_BASE_URL + productModelItem.getProductUrl());
                     productList.add(item);
