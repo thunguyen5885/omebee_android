@@ -80,7 +80,7 @@ public class ListViewPullAndLoadMore extends ListViewPullToRefresh {
 
 			boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
 
-			if (!mIsLoadingMore && loadMore && mRefreshState != REFRESHING
+			if (!mIsLoadingMore && loadMore
 					&& mCurrentScrollState != SCROLL_STATE_IDLE) {
 //				mProgressBarLoadMore.setVisibility(View.VISIBLE);
 				// mLabLoadMore.setVisibility(View.VISIBLE);
