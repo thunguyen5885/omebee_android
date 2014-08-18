@@ -12,4 +12,5 @@ public interface IProductsLauncherView extends IBaseView {
     void displayProductName(String name);
     void showProducts(List<ProductsLauncherGridItemData> productList);
     void loadMoreProducts(List<ProductsLauncherGridItemData> productList);
+    void pullRefreshProducts(List<ProductsLauncherGridItemData> productList);
 }

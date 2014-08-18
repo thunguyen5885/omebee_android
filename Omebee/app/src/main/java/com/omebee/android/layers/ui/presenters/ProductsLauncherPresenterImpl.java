@@ -73,11 +73,11 @@ public class ProductsLauncherPresenterImpl implements IProductsLauncherPresenter
 
     @Override
     public void pullRefreshSuccess(List<ProductsLauncherGridItemData> productsList) {
-        mView.showProducts(productsList);
+        mView.pullRefreshProducts(productsList);
     }
 
     @Override
     public void pullRefreshFailed() {
-        mView.showProducts(new ArrayList<ProductsLauncherGridItemData>());
+        mView.pullRefreshProducts(new ArrayList<ProductsLauncherGridItemData>());
     }
 }

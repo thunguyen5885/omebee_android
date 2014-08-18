@@ -19,7 +19,18 @@ import java.util.Random;
  * Created by phan on 8/6/2014.
  */
 public class ProductsLauncherModel implements IProductsLauncherModel{
-
+    String LARGE_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/large/";
+    String THUMB_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/";
+    ProductWSModel[] ITEMS = new ProductWSModel[] {
+            new ProductWSModel("Picture 1", "Romain Guy", "flamingo.jpg"),
+            new ProductWSModel("Picture 2", "Romain Guy", "rainbow.jpg"),
+            new ProductWSModel("Picture 3", "Romain Guy", "over_there.jpg"),
+            new ProductWSModel("Picture 4", "Romain Guy", "jelly_fish_2.jpg"),
+            new ProductWSModel("Picture 5", "Romain Guy", "lone_pine_sunset.jpg"),
+            new ProductWSModel("Picture 6", "Romain Guy", "flying_in_the_light.jpg"),
+            new ProductWSModel("Picture 7", "Romain Guy", "caterpillar.jpg"),
+            new ProductWSModel("Picture 8", "Romain Guy", "look_me_in_the_eye.jpg")
+    };
     public interface IPullRefreshCallback{
         void pullRefreshSuccess(List<ProductsLauncherGridItemData> productsList);
         void pullRefreshFailed();
@@ -32,9 +43,9 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
     private IPullRefreshCallback mIPullRefreshCallback;
     private ILoadMoreCallback mILoadMoreRefreshCallback;
     // Temporary to limit the load more
-    private static final int TIMES_TO_LOAD_MORE = 5;
+    private static final int TIMES_TO_LOAD_MORE = 5000;
     private int mCurrentPage = 0;
-
+    private int mRefreshCount = 0;
     public IPullRefreshCallback getIPullRefreshCallback() {
         return mIPullRefreshCallback;
     }
@@ -69,18 +80,8 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
     @Override
     public List<ProductsLauncherGridItemData> loadProductList() {
-        String LARGE_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/large/";
-        String THUMB_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/";
-        ProductWSModel[] ITEMS = new ProductWSModel[] {
-                new ProductWSModel("Flying in the Light", "Romain Guy", "flying_in_the_light.jpg"),
-                new ProductWSModel("Caterpillar", "Romain Guy", "caterpillar.jpg"),
-                new ProductWSModel("Look Me in the Eye", "Romain Guy", "look_me_in_the_eye.jpg"),
-                new ProductWSModel("Flamingo", "Romain Guy", "flamingo.jpg"),
-                new ProductWSModel("Rainbow", "Romain Guy", "rainbow.jpg"),
-                new ProductWSModel("Over there", "Romain Guy", "over_there.jpg"),
-                new ProductWSModel("Jelly Fish 2", "Romain Guy", "jelly_fish_2.jpg"),
-                new ProductWSModel("Lone Pine Sunset", "Romain Guy", "lone_pine_sunset.jpg")
-        };
+
+
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
         for(ProductWSModel productModelItem: ITEMS){
             ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
@@ -93,18 +94,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
     @Override
     public List<ProductsLauncherGridItemData> searchProduct(String keyword) {
-        String LARGE_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/large/";
-        String THUMB_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/";
-        ProductWSModel[] ITEMS = new ProductWSModel[] {
-                new ProductWSModel("Flying in the Light", "Romain Guy", "flying_in_the_light.jpg"),
-                new ProductWSModel("Caterpillar", "Romain Guy", "caterpillar.jpg"),
-                new ProductWSModel("Look Me in the Eye", "Romain Guy", "look_me_in_the_eye.jpg"),
-                new ProductWSModel("Flamingo", "Romain Guy", "flamingo.jpg"),
-                new ProductWSModel("Rainbow", "Romain Guy", "rainbow.jpg"),
-                new ProductWSModel("Over there", "Romain Guy", "over_there.jpg"),
-                new ProductWSModel("Jelly Fish 2", "Romain Guy", "jelly_fish_2.jpg"),
-                new ProductWSModel("Lone Pine Sunset", "Romain Guy", "lone_pine_sunset.jpg")
-        };
+
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
         if(keyword.length() > 0) {
             for (ProductWSModel productModelItem : ITEMS) {
@@ -123,25 +113,20 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
      * @return
      */
     public List<ProductsLauncherGridItemData> createDumpDataForPullRefresh() {
-        String LARGE_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/large/";
-        String THUMB_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/";
-        ProductWSModel[] ITEMS = new ProductWSModel[] {
-                new ProductWSModel("Flamingo", "Romain Guy", "flamingo.jpg"),
-                new ProductWSModel("Rainbow", "Romain Guy", "rainbow.jpg"),
-                new ProductWSModel("Over there", "Romain Guy", "over_there.jpg"),
-                new ProductWSModel("Jelly Fish 2", "Romain Guy", "jelly_fish_2.jpg"),
-                new ProductWSModel("Lone Pine Sunset", "Romain Guy", "lone_pine_sunset.jpg"),
-                new ProductWSModel("Flying in the Light", "Romain Guy", "flying_in_the_light.jpg"),
-                new ProductWSModel("Caterpillar", "Romain Guy", "caterpillar.jpg"),
-                new ProductWSModel("Look Me in the Eye", "Romain Guy", "look_me_in_the_eye.jpg")
-        };
+
+        mRefreshCount ++;
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
-        for (ProductWSModel productModelItem : ITEMS) {
-            ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
+        for(int index = 0; index < 5; index ++) {
+            String pictureName = "New picture " + (ITEMS.length + (mRefreshCount - 1) * 10  + index + 1);
+            Random random = new Random();
+            int indexRan = random.nextInt(ITEMS.length);
+
+            ProductWSModel productModelItem = ITEMS[indexRan];
+            ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(pictureName, productModelItem.getProductDescription(),
                     THUMB_BASE_URL + productModelItem.getProductUrl());
             productList.add(item);
         }
-        return  productList;
+        return productList;
     }
 
     /**
@@ -149,27 +134,19 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
      * @return
      */
     private List<ProductsLauncherGridItemData> createDumpDataForLoadMore(){
-        String LARGE_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/large/";
-        String THUMB_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/";
-        ProductWSModel[] ITEMS = new ProductWSModel[] {
-                new ProductWSModel("Flying in the Light", "Romain Guy", "flying_in_the_light.jpg"),
-                new ProductWSModel("Caterpillar", "Romain Guy", "caterpillar.jpg"),
-                new ProductWSModel("Look Me in the Eye", "Romain Guy", "look_me_in_the_eye.jpg"),
-                new ProductWSModel("Flamingo", "Romain Guy", "flamingo.jpg"),
-                new ProductWSModel("Rainbow", "Romain Guy", "rainbow.jpg"),
-                new ProductWSModel("Over there", "Romain Guy", "over_there.jpg"),
-                new ProductWSModel("Jelly Fish 2", "Romain Guy", "jelly_fish_2.jpg"),
-                new ProductWSModel("Lone Pine Sunset", "Romain Guy", "lone_pine_sunset.jpg")
-        };
         mCurrentPage ++;
-        if(mCurrentPage <= TIMES_TO_LOAD_MORE){
-            Random random = new Random();
-            int indexRan = random.nextInt(ITEMS.length);
+        if(mCurrentPage <= TIMES_TO_LOAD_MORE){ // Load more 10 items
             List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
-            ProductWSModel productModelItem = ITEMS[indexRan];
-            ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
-                    THUMB_BASE_URL + productModelItem.getProductUrl());
-            productList.add(item);
+            for(int index = 0; index < 10; index ++) {
+                String pictureName = "Picture " + (ITEMS.length + (mCurrentPage - 1) * 10  + index + 1);
+                Random random = new Random();
+                int indexRan = random.nextInt(ITEMS.length);
+
+                ProductWSModel productModelItem = ITEMS[indexRan];
+                ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(pictureName, productModelItem.getProductDescription(),
+                        THUMB_BASE_URL + productModelItem.getProductUrl());
+                productList.add(item);
+            }
             return productList;
         }
 
@@ -198,7 +175,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
             // Simulates a background task
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
             }
 
@@ -247,7 +224,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
                 mIPullRefreshCallback.pullRefreshSuccess(result);
             }
             // Reset the current page
-            mCurrentPage = 0;
+            //mCurrentPage = 0;
         }
 
         @Override

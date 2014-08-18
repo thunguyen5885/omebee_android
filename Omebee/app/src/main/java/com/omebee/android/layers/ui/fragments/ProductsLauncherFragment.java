@@ -76,7 +76,6 @@ public class ProductsLauncherFragment extends BaseFragment{
      * @param productList
      */
     public void setProductList(List<ProductsLauncherGridItemData> productList){
-        mProductsGrid.onRefreshComplete();
         // Check the adapter object, create new object in case of null otherwise notify it
         if(mProductsGridAdapter == null){
             mProductsGridAdapter = new ProductsLauncherGridAdapter(getActivity());
@@ -104,7 +103,19 @@ public class ProductsLauncherFragment extends BaseFragment{
             mProductsGrid.setProgressBarVisibility(View.GONE);
         }else{
             mProductsGrid.setProgressBarVisibility(View.VISIBLE);
-            mProductsGridAdapter.loadMore(productList);
+            mProductsGridAdapter.addItemsOnLast(productList);
+            mProductsGridAdapter.notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * Pull refresh the product (Add the newest items to the top of the list)
+     * @param productList
+     */
+    public void pullRefresh(List<ProductsLauncherGridItemData> productList){
+        mProductsGrid.onRefreshComplete();
+        if(productList != null && productList.size() > 0){
+            mProductsGridAdapter.addItemsOnFirst(productList);
             mProductsGridAdapter.notifyDataSetChanged();
         }
     }

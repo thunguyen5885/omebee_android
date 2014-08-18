@@ -143,7 +143,7 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 	}
 
     private Animation createTranslateAnimation(int fromY){
-        Animation translateAnimation = new TranslateAnimation(0, 0, fromY, 0);
+        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, fromY, 0);
         translateAnimation.setDuration(350);
         return translateAnimation;
     }
@@ -166,7 +166,7 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
                         this.clearAnimation();
                         Animation translateAnim = createTranslateAnimation(mRefreshView.getBottom());
                         this.startAnimation(translateAnim);
-                        //onRefresh();
+                        onRefresh();
                     } else if (mRefreshView.getBottom() < mRefreshViewHeight
                             || mRefreshView.getTop() <= 0) {
                         // Abort refresh and scroll down below the refresh view
@@ -254,10 +254,8 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 	 */
 	private void resetHeader() {
 			resetHeaderPadding();
-
 			// Set refresh view text to the pull label
 			mRefreshViewProgress.setVisibility(View.GONE);
-
 	}
 
 	private void measureView(View child) {

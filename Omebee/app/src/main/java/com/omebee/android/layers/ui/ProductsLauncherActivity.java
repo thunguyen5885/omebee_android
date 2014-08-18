@@ -191,12 +191,12 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
         mDrawerToggle.syncState();
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggls
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
+//    @Override
+//    public void onConfigurationChanged(Configuration newConfig) {
+//        super.onConfigurationChanged(newConfig);
+//        // Pass any configuration change to the drawer toggls
+//        mDrawerToggle.onConfigurationChanged(newConfig);
+//    }
 
 
     public IProductsLauncherPresenter getProductsLauncherPresenter() {
@@ -217,6 +217,11 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
     @Override
     public void loadMoreProducts(List<ProductsLauncherGridItemData> productList) {
         mProductsLauncherFragment.loadMore(productList);
+    }
+
+    @Override
+    public void pullRefreshProducts(List<ProductsLauncherGridItemData> productList) {
+        mProductsLauncherFragment.pullRefresh(productList);
     }
 
     @Override
