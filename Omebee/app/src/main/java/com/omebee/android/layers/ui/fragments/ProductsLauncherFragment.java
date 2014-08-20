@@ -43,6 +43,14 @@ public class ProductsLauncherFragment extends BaseFragment{
                 mPresenter.loadMore();
             }
         });
+        mProductsGrid.setIUpdateDataBackListener(new ListViewPullToRefresh.IUpdateDataBackListener() {
+            @Override
+            public void updateDataBack(Object dataCallback) {
+                if(dataCallback instanceof List) {
+                    pullRefresh((List<ProductsLauncherGridItemData>)dataCallback);
+                }
+            }
+        });
         return view;
     }
 
@@ -113,10 +121,14 @@ public class ProductsLauncherFragment extends BaseFragment{
      * @param productList
      */
     public void pullRefresh(List<ProductsLauncherGridItemData> productList){
-        mProductsGrid.onRefreshComplete();
-        if(productList != null && productList.size() > 0){
-            mProductsGridAdapter.addItemsOnFirst(productList);
-            mProductsGridAdapter.notifyDataSetChanged();
+        if(mProductsGrid.isPreparedView()) {
+            mProductsGrid.onRefreshComplete();
+            if (productList != null && productList.size() > 0) {
+                mProductsGridAdapter.addItemsOnFirst(productList);
+                mProductsGridAdapter.notifyDataSetChanged();
+            }
+        }else{
+            mProductsGrid.setDataCallbackHold(productList);
         }
     }
 }

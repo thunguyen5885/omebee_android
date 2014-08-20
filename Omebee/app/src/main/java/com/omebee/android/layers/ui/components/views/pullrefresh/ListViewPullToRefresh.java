@@ -1,7 +1,10 @@
 package com.omebee.android.layers.ui.components.views.pullrefresh;
 
 import com.omebee.android.R;
+import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
+
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AbsListView.OnScrollListener;
 
+import java.util.List;
 
 
 public class ListViewPullToRefresh extends ListView implements OnScrollListener {
@@ -33,7 +37,7 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 	protected static final String TAG = "PullToRefreshGridView";
 
 	private OnRefreshListener mOnRefreshListener;
-
+    private IUpdateDataBackListener mIUpdateDataBackListener;
 	/**
 	 * Listener that will receive notifications every time the list scrolls.
 	 */
@@ -53,7 +57,9 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 	private int mLastMotionY;
 
 	private boolean mBounceHack;
-
+    private boolean mIsRefreshing = false;
+    private boolean mIsAnimationEnd = true;
+    private Object mDataCallbackHold = null;
 	public ListViewPullToRefresh(Context context) {
 		super(context);
 		init(context);
@@ -132,7 +138,15 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 		mOnRefreshListener = onRefreshListener;
 	}
 
-	/**
+    public IUpdateDataBackListener getIUpdateDataBackListener() {
+        return mIUpdateDataBackListener;
+    }
+
+    public void setIUpdateDataBackListener(IUpdateDataBackListener mIUpdateDataBackListener) {
+        this.mIUpdateDataBackListener = mIUpdateDataBackListener;
+    }
+
+    /**
 	 * Set a text to represent when the list was last updated.
 	 * 
 	 * @param lastUpdated
@@ -165,8 +179,9 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
                         prepareForRefresh();
                         this.clearAnimation();
                         Animation translateAnim = createTranslateAnimation(mRefreshView.getBottom());
+                        translateAnim.setAnimationListener(onAnimationListener);
                         this.startAnimation(translateAnim);
-                        onRefresh();
+//                        onRefresh();
                     } else if (mRefreshView.getBottom() < mRefreshViewHeight
                             || mRefreshView.getTop() <= 0) {
                         // Abort refresh and scroll down below the refresh view
@@ -181,6 +196,14 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
                 break;
             case MotionEvent.ACTION_MOVE:
                 applyHeaderPadding(event);
+                // Call onrefresh here
+                if(!mIsRefreshing){
+                    mIsRefreshing = true;
+                    mIsAnimationEnd = false;
+                    setDataCallbackHold(null);
+                    onRefresh();
+                }
+
                 break;
         }
         return super.onTouchEvent(event);
@@ -224,7 +247,8 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 					setVerticalScrollBarEnabled(false);
 				}
 
-				int historicalY = (int) ev.getHistoricalY(p);
+//				int historicalY = (int) ev.getHistoricalY(p);
+            int historicalY = (int) ev.getY();
 
 				// Calculate the padding to apply, we divide by 1.7 to
 				// simulate a more resistant effect during pull.
@@ -329,6 +353,8 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 			invalidateViews();
 			setSelection(1);
 		}
+        // Reset isFreshing flag
+        mIsRefreshing = false;
 	}
 
 	/**
@@ -361,4 +387,48 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 		public void onRefresh();
 	}
 
+    /**
+     * Interface definition for a data callback when the animation for action_up complete
+     */
+    public interface  IUpdateDataBackListener{
+        public void updateDataBack(Object dataCallback);
+    }
+
+    private Animation.AnimationListener onAnimationListener = new Animation.AnimationListener() {
+        @Override
+        public void onAnimationStart(Animation animation) {
+            mIsAnimationEnd = false;
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            mIsAnimationEnd = true;
+            if(mDataCallbackHold != null && mIUpdateDataBackListener != null){
+                // Wait 200ms to update back
+                new CountDownTimer(150, 50){
+
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        mIUpdateDataBackListener.updateDataBack(mDataCallbackHold);
+                    }
+                }.start();
+            }
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
+        }
+    };
+    public boolean isPreparedView(){
+        return mIsAnimationEnd;
+    }
+    public void setDataCallbackHold(Object dataCallback){
+        this.mDataCallbackHold = dataCallback;
+    }
 }
