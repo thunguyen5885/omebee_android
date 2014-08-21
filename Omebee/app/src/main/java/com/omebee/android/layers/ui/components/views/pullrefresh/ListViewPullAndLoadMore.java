@@ -106,6 +106,7 @@ public class ListViewPullAndLoadMore extends ListViewPullToRefresh {
 	}
     public void setProgressBarVisibility(int visibility){
         mProgressBarLoadMore.setVisibility(visibility);
+
     }
 	/**
 	 * Interface definition for a callback to be invoked when list reaches the

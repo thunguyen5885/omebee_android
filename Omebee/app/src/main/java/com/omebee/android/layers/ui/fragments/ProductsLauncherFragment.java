@@ -46,8 +46,8 @@ public class ProductsLauncherFragment extends BaseFragment{
         mProductsGrid.setIUpdateDataBackListener(new ListViewPullToRefresh.IUpdateDataBackListener() {
             @Override
             public void updateDataBack(Object dataCallback) {
-                if(dataCallback instanceof List) {
-                    pullRefresh((List<ProductsLauncherGridItemData>)dataCallback);
+                if (dataCallback instanceof List) {
+                    pullRefresh((List<ProductsLauncherGridItemData>) dataCallback);
                 }
             }
         });
@@ -120,12 +120,20 @@ public class ProductsLauncherFragment extends BaseFragment{
      * Pull refresh the product (Add the newest items to the top of the list)
      * @param productList
      */
-    public void pullRefresh(List<ProductsLauncherGridItemData> productList){
+    public void pullRefresh(final List<ProductsLauncherGridItemData> productList){
         if(mProductsGrid.isPreparedView()) {
             mProductsGrid.onRefreshComplete();
             if (productList != null && productList.size() > 0) {
                 mProductsGridAdapter.addItemsOnFirst(productList);
-                mProductsGridAdapter.notifyDataSetChanged();
+                // Keep the last position that user stands before
+                mProductsGrid.setSelection(productList.size() + 1);
+//                mProductsGridAdapter.notifyDataSetChanged();
+//                mProductsGrid.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mProductsGrid.setSelection(productList.size() + 1);
+//                    }
+//                });
             }
         }else{
             mProductsGrid.setDataCallbackHold(productList);

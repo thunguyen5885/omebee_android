@@ -351,7 +351,7 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 		// the next item.
 		if (mRefreshView.getBottom() > 0) {
 			invalidateViews();
-			setSelection(1);
+//			setSelection(1);
 		}
         // Reset isFreshing flag
         mIsRefreshing = false;
