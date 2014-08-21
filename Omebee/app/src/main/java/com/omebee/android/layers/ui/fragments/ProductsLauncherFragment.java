@@ -125,9 +125,9 @@ public class ProductsLauncherFragment extends BaseFragment{
             mProductsGrid.onRefreshComplete();
             if (productList != null && productList.size() > 0) {
                 mProductsGridAdapter.addItemsOnFirst(productList);
+                mProductsGridAdapter.notifyDataSetChanged();
                 // Keep the last position that user stands before
                 mProductsGrid.setSelection(productList.size() + 1);
-//                mProductsGridAdapter.notifyDataSetChanged();
 //                mProductsGrid.post(new Runnable() {
 //                    @Override
 //                    public void run() {
