@@ -10,6 +10,7 @@ import com.omebee.android.layers.ui.base.BaseFragment;
 import com.omebee.android.layers.ui.components.adapters.ProductsLauncherGridAdapter;
 import com.omebee.android.layers.ui.components.views.pullrefresh.ListViewPullAndLoadMore;
 import com.omebee.android.layers.ui.components.views.pullrefresh.ListViewPullToRefresh;
+import com.omebee.android.layers.ui.components.views.pullrefresh.MultiItemRowListAdapter;
 import com.omebee.android.layers.ui.presenters.ProductsLauncherPresenterImpl;
 import com.omebee.android.layers.ui.presenters.base.IPresenter;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
@@ -22,6 +23,7 @@ import java.util.List;
 public class ProductsLauncherFragment extends BaseFragment{
     private ProductsLauncherPresenterImpl mPresenter;
     private ListViewPullAndLoadMore mProductsGrid;
+    private MultiItemRowListAdapter mMultiItemRowListAdapter;
     private ProductsLauncherGridAdapter mProductsGridAdapter;
 
     @Override
@@ -87,8 +89,11 @@ public class ProductsLauncherFragment extends BaseFragment{
         // Check the adapter object, create new object in case of null otherwise notify it
         if(mProductsGridAdapter == null){
             mProductsGridAdapter = new ProductsLauncherGridAdapter(getActivity());
+            mMultiItemRowListAdapter = new MultiItemRowListAdapter(getActivity(), mProductsGridAdapter);
+            mMultiItemRowListAdapter.setItemsPerRow(2);
+            mMultiItemRowListAdapter.setCellSpacing(10);
             mProductsGridAdapter.setProductsList(productList);
-            mProductsGrid.setAdapter(mProductsGridAdapter);
+            mProductsGrid.setAdapter(mMultiItemRowListAdapter);
         }else{ // Notify
             mProductsGridAdapter.setProductsList(productList);
             mProductsGridAdapter.notifyDataSetChanged();
@@ -127,7 +132,8 @@ public class ProductsLauncherFragment extends BaseFragment{
                 mProductsGridAdapter.addItemsOnFirst(productList);
                 mProductsGridAdapter.notifyDataSetChanged();
                 // Keep the last position that user stands before
-                mProductsGrid.setSelection(productList.size() + 1);
+                mProductsGrid.setSelection((productList.size()/mMultiItemRowListAdapter.getItemsPerRow()) + 1);
+
 //                mProductsGrid.post(new Runnable() {
 //                    @Override
 //                    public void run() {
