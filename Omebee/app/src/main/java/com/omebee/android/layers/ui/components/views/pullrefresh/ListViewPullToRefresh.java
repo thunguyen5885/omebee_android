@@ -54,8 +54,10 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 
 	private int mRefreshViewHeight;
 	private int mRefreshOriginalBottomPadding;
+    private int mRefreshOriginalTopPadding;
 	private int mLastMotionY;
-
+    private int mLastMotionMoveY;
+    private boolean isDownDirection = true;
 	private boolean mBounceHack;
     private boolean mIsRefreshing = false;
     private boolean mIsAnimationEnd = true;
@@ -90,7 +92,7 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 		//mRefreshView.setOnClickListener(new OnClickRefreshListener());
 
         mRefreshOriginalBottomPadding = mRefreshView.getPaddingBottom();
-
+        mRefreshOriginalTopPadding = mRefreshView.getPaddingTop();
 		//mRefreshState = TAP_TO_REFRESH;
 
 		addHeaderView(mRefreshView);
@@ -98,7 +100,7 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 		super.setOnScrollListener(this);
 
 		measureView(mRefreshView);
-		mRefreshViewHeight = mRefreshView.getMeasuredHeight();
+		mRefreshViewHeight = 0;//mRefreshView.getMeasuredHeight();
 
 	}
 
@@ -193,6 +195,8 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
                 break;
             case MotionEvent.ACTION_DOWN:
                 mLastMotionY = y;
+                mLastMotionMoveY = y;
+                isDownDirection = true;
                 break;
             case MotionEvent.ACTION_MOVE:
                 applyHeaderPadding(event);
@@ -241,7 +245,7 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 		// getHistorySize has been available since API 1
 		int pointerCount = ev.getHistorySize();
 
-		for (int p = 0; p < pointerCount; p++) {
+//		for (int p = 0; p < pointerCount; p++) {
 			//if (mRefreshState == RELEASE_TO_REFRESH) {
 				if (isVerticalFadingEdgeEnabled()) {
 					setVerticalScrollBarEnabled(false);
@@ -250,17 +254,38 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 //				int historicalY = (int) ev.getHistoricalY(p);
             int historicalY = (int) ev.getY();
 
-				// Calculate the padding to apply, we divide by 1.7 to
-				// simulate a more resistant effect during pull.
-				int bottomPadding = (int) (((historicalY - mLastMotionY) - mRefreshViewHeight) / 1.7);
-
-                Log.d("ThuNguyen", "bottomPadding: " + bottomPadding);
-				mRefreshView.setPadding(mRefreshView.getPaddingLeft(),
-                        mRefreshView.getPaddingTop(), mRefreshView.getPaddingRight(),
-                        bottomPadding);
-                //mRefreshView.invalidate();
+            // Calculate the padding to apply, we divide by 1.7 to
+            // simulate a more resistant effect during pull.
+            int bottomPadding = (int) (((historicalY - mLastMotionY) - mRefreshViewHeight) / 1.7);
+            int deltaMoveY = historicalY - mLastMotionMoveY;
+            int topPadding = mRefreshView.getPaddingTop();
+            if(deltaMoveY < 0){ // Move up
+                topPadding -= deltaMoveY;
+//                if(isDownDirection) {
+//                    topPadding -= deltaMoveY;
+//                }else{
+//                    isDownDirection = true;
+//                }
+                isDownDirection = false;
+            }else{ // Move down
+                if(!isDownDirection){
+                    topPadding -= deltaMoveY;
+                }else{
+                    //isDownDirection = false;
+                    //topPadding +=
+                }
+                //isDownDirection = true;
+            }
+            topPadding = Math.max(topPadding, 0);
+            Log.d("ThuNguyen", "bottomPadding: " + bottomPadding);
+            mRefreshView.setPadding(mRefreshView.getPaddingLeft(),
+                    topPadding, mRefreshView.getPaddingRight(),
+                    bottomPadding);
+            // Keep the last move motion Y
+            mLastMotionMoveY = historicalY;
+            //mRefreshView.invalidate();
 			//}
-		}
+//		}
 	}
 
 	/**
@@ -268,7 +293,7 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 	 */
 	private void resetHeaderPadding() {
 		mRefreshView.setPadding(mRefreshView.getPaddingLeft(),
-                mRefreshView.getPaddingTop(), mRefreshView.getPaddingRight(),
+                mRefreshOriginalTopPadding, mRefreshView.getPaddingRight(),
                 mRefreshOriginalBottomPadding);
 
 	}

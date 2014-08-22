@@ -115,8 +115,8 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
     public List<ProductsLauncherGridItemData> createDumpDataForPullRefresh() {
         mRefreshCount ++;
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
-        for(int index = 0; index < 500; index ++) {
-            String pictureName = "New picture " + ((mRefreshCount - 1) * 500  + index + 1);
+        for(int index = 0; index < 2; index ++) {
+            String pictureName = "New picture " + ((mRefreshCount - 1) * 2  + index + 1);
             Random random = new Random();
             int indexRan = random.nextInt(ITEMS.length);
 
