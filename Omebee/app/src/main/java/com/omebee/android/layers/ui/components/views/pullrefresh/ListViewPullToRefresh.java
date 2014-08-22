@@ -476,11 +476,6 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
         this.startAnimation(translateAnim);
     }
     private boolean isDistanceScrollExceedActionBarSize(){
-        invalidate();
-        final int[] coorPos = new int[2];
-        View firstView = getChildAt(0);
-        firstView.getLocationOnScreen(coorPos);
-
         Log.d("ThuNguyen", "Current padding = " + mRefreshView.getMeasuredHeight());
         final TypedArray styledAttributes = getContext().getTheme().obtainStyledAttributes(
                 new int[] { android.R.attr.actionBarSize });
