@@ -4,6 +4,7 @@ import com.omebee.android.R;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -58,6 +59,7 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 	private int mLastMotionY;
     private int mLastMotionMoveY;
     private boolean isDownDirection = true;
+    private boolean isRecovering = false;
 	private boolean mBounceHack;
     private boolean mIsRefreshing = false;
     private boolean mIsAnimationEnd = true;
@@ -176,13 +178,12 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
                 if (getFirstVisiblePosition() == 0) {
                     if ((mRefreshView.getBottom() >= mRefreshViewHeight
                             || mRefreshView.getTop() >= 0)) {
-                        // Initiate the refresh
-                        Log.d(TAG, "prepareForRefresh");
-                        prepareForRefresh();
-                        this.clearAnimation();
-                        Animation translateAnim = createTranslateAnimation(mRefreshView.getBottom());
-                        translateAnim.setAnimationListener(onAnimationListener);
-                        this.startAnimation(translateAnim);
+                        if(!isRecovering) {
+                            // Initiate the refresh
+                            Log.d(TAG, "prepareForRefresh");
+                            recoverLayout();
+                        }
+
 //                        onRefresh();
                     } else if (mRefreshView.getBottom() < mRefreshViewHeight
                             || mRefreshView.getTop() <= 0) {
@@ -197,6 +198,7 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
                 mLastMotionY = y;
                 mLastMotionMoveY = y;
                 isDownDirection = true;
+                isRecovering = false;
                 break;
             case MotionEvent.ACTION_MOVE:
                 applyHeaderPadding(event);
@@ -278,11 +280,22 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
             }
             topPadding = Math.max(topPadding, 0);
             Log.d("ThuNguyen", "bottomPadding: " + bottomPadding);
-            mRefreshView.setPadding(mRefreshView.getPaddingLeft(),
-                    topPadding, mRefreshView.getPaddingRight(),
-                    bottomPadding);
-            // Keep the last move motion Y
-            mLastMotionMoveY = historicalY;
+
+            if(isDistanceScrollExceedActionBarSize()){
+                Log.d("ThuNguyen", "Exceed");
+                if(!isRecovering) {
+                    Log.d("ThuNguyen", "Start to recovering layout");
+                    isRecovering = true;
+                    recoverLayout();
+                }
+            }else if(!isRecovering){
+                Log.d("ThuNguyen", "Start to set padding again");
+                mRefreshView.setPadding(mRefreshView.getPaddingLeft(),
+                        topPadding, mRefreshView.getPaddingRight(),
+                        bottomPadding);
+                // Keep the last move motion Y
+                mLastMotionMoveY = historicalY;
+            }
             //mRefreshView.invalidate();
 			//}
 //		}
@@ -295,7 +308,6 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 		mRefreshView.setPadding(mRefreshView.getPaddingLeft(),
                 mRefreshOriginalTopPadding, mRefreshView.getPaddingRight(),
                 mRefreshOriginalBottomPadding);
-
 	}
 
 	/**
@@ -428,6 +440,7 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
         @Override
         public void onAnimationEnd(Animation animation) {
             mIsAnimationEnd = true;
+
             if(mDataCallbackHold != null && mIUpdateDataBackListener != null){
                 // Wait 200ms to update back
                 new CountDownTimer(150, 50){
@@ -439,6 +452,7 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 
                     @Override
                     public void onFinish() {
+
                         mIUpdateDataBackListener.updateDataBack(mDataCallbackHold);
                     }
                 }.start();
@@ -450,6 +464,35 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 
         }
     };
+
+    /**
+     * Make layout be on the original position
+     */
+    private void recoverLayout(){
+        prepareForRefresh();
+        this.clearAnimation();
+        Animation translateAnim = createTranslateAnimation(mRefreshView.getBottom());
+        translateAnim.setAnimationListener(onAnimationListener);
+        this.startAnimation(translateAnim);
+    }
+    private boolean isDistanceScrollExceedActionBarSize(){
+        invalidate();
+        final int[] coorPos = new int[2];
+        View firstView = getChildAt(0);
+        firstView.getLocationOnScreen(coorPos);
+
+        Log.d("ThuNguyen", "Current padding = " + mRefreshView.getMeasuredHeight());
+        final TypedArray styledAttributes = getContext().getTheme().obtainStyledAttributes(
+                new int[] { android.R.attr.actionBarSize });
+        int actionBarSize = (int) styledAttributes.getDimension(0, 0);
+        styledAttributes.recycle();
+        Log.d("ThuNguyen", "progress bar height = " + mRefreshViewProgress.getMeasuredHeight());
+        Log.d("ThuNguyen", "action bar bar height = " + actionBarSize);
+        if(mRefreshView.getMeasuredHeight() >= 2*actionBarSize){
+            return true;
+        }
+        return false;
+    }
     public boolean isPreparedView(){
         return mIsAnimationEnd;
     }
