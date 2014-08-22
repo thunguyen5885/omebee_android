@@ -46,8 +46,8 @@
             <item name="spb_stroke_width">@dimen/smooth_progressbar_height</item>
             <item name="spb_sections_count">5</item>
             <item name="spb_speed">1.5</item>
-            <item name="spb_progressiveStart_speed">2</item>
-            <item name="spb_progressiveStop_speed">3.4</item>
+            <item name="spb_progressiveStart_speed">10</item>
+            <item name="spb_progressiveStop_speed">15</item>
             <item name="spb_interpolator">spb_interpolator_acceleratedecelerate</item>
             <item name="spb_mirror_mode">true</item>
             <item name="spb_reversed">false</item>

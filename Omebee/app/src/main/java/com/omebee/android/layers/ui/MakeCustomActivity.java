@@ -74,6 +74,7 @@ public class MakeCustomActivity extends Activity {
     findViewById(R.id.button_start).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+          mProgressBar.setSmoothProgressDrawableProgressiveStartSpeed(12);
         mProgressBar.progressiveStart();
       }
     });
@@ -249,6 +250,7 @@ public class MakeCustomActivity extends Activity {
 
     mProgressBar.setSmoothProgressDrawableInterpolator(interpolator);
     mProgressBar.setSmoothProgressDrawableColors(getResources().getIntArray(R.array.gplus_colors));
+
   }
 
   public int dpToPx(int dp) {
