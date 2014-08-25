@@ -19,7 +19,7 @@
 
 
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/load_more_footer"
     android:layout_width="fill_parent"
@@ -32,4 +32,4 @@
         android:indeterminate="true"
         style="@style/GNowProgressBar"
         android:visibility="gone"/>
-</RelativeLayout>
+</LinearLayout>

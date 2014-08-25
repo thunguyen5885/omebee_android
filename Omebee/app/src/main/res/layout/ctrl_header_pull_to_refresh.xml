@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/pull_to_refresh_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -34,6 +34,7 @@ limitations under the License.
         <!--android:layout_centerVertical="true"-->
         <!--style="?android:attr/progressBarStyleSmall"-->
         <!--/>-->
+
     <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
         android:id = "@+id/pull_to_refresh_progress"
         android:layout_width="match_parent"
@@ -42,5 +43,5 @@ limitations under the License.
         android:visibility="gone"
         style="@style/GNowProgressBar"/>
 
-</RelativeLayout>
+</LinearLayout>
 
