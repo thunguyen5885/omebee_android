@@ -18,6 +18,7 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -46,7 +47,7 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 	protected LayoutInflater mInflater;
 
 	// header
-	private RelativeLayout mRefreshView;
+	private LinearLayout mRefreshView;
 
 	private ProgressBar mRefreshViewProgress;
 
@@ -85,7 +86,7 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		// header
-		mRefreshView = (RelativeLayout) mInflater.inflate(
+		mRefreshView = (LinearLayout) mInflater.inflate(
 				R.layout.ctrl_header_pull_to_refresh, null, false);
 
 		mRefreshViewProgress = (ProgressBar) mRefreshView
@@ -102,7 +103,8 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 		super.setOnScrollListener(this);
 
 		measureView(mRefreshView);
-		mRefreshViewHeight = 0;//mRefreshView.getMeasuredHeight();
+		mRefreshViewHeight = mRefreshView.getMeasuredHeight();
+        Log.d(TAG, "mRefreshViewHeight "+mRefreshViewHeight);
 
 	}
 

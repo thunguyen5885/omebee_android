@@ -6,6 +6,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.AbsListView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
@@ -25,7 +26,7 @@ public class ListViewPullAndLoadMore extends ListViewPullToRefresh {
 	private boolean mIsLoadingMore = false;
 
 	// footer
-	private RelativeLayout mFooterView;
+	private LinearLayout mFooterView;
 	// private TextView mLabLoadMore;
 	private SmoothProgressBar mProgressBarLoadMore;
 
@@ -40,7 +41,7 @@ public class ListViewPullAndLoadMore extends ListViewPullToRefresh {
 	public void initComponent(Context context) {
 
 		// footer
-		mFooterView = (RelativeLayout) mInflater.inflate(
+		mFooterView = (LinearLayout) mInflater.inflate(
 				R.layout.ctrl_footer_load_more, this, false);
 		/*
 		 * mLabLoadMore = (TextView) mFooterView
