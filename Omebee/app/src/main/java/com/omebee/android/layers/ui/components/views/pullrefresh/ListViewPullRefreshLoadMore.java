@@ -49,7 +49,7 @@ public class ListViewPullRefreshLoadMore extends LinearLayout{
     private int mRefreshOriginalTopPadding;
     private int mLastMotionY;
     private int mLastMotionMoveY;
-    private boolean isDownDirection = true;
+    //private boolean isDownDirection = true;
     private boolean isRecovering = false;
     private boolean mBounceHack;
     private int mActionBarSize;
@@ -170,11 +170,11 @@ public class ListViewPullRefreshLoadMore extends LinearLayout{
                     }
                 } else if (mCurrentScrollState == SCROLL_STATE_FLING && firstVisibleItem == 0) {
                     Log.d(TAG, "SCROLL_STATE_FLING ABC");
-                    mMainListView.setSelection(0);
+                   // mMainListView.setSelection(0);
                     mBounceHack = true;
                 } else if (mBounceHack && mCurrentScrollState == SCROLL_STATE_FLING) {
                     Log.d(TAG, "SCROLL_STATE_FLING XYZ");
-                    mMainListView.setSelection(0);
+                   // mMainListView.setSelection(0);
                 }
 
                 // if need a list to load more items
@@ -250,10 +250,7 @@ public class ListViewPullRefreshLoadMore extends LinearLayout{
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_UP:
-                        if (!isVerticalScrollBarEnabled()) {
-                            setVerticalScrollBarEnabled(true);
-                        }
-                        if (mMainListView.getFirstVisiblePosition() == 0) {
+                        /*if (mMainListView.getFirstVisiblePosition() == 0) {
                             if ((mRefreshView.getBottom() >= mRefreshViewHeight
                                     || mRefreshView.getTop() >= 0)) {
                                 if(!isRecovering) {
@@ -270,12 +267,13 @@ public class ListViewPullRefreshLoadMore extends LinearLayout{
                                 resetHeader();
                                 mMainListView.setSelection(0);
                             }
-                        }
+                        }*/
+                        recoverLayout();
                         break;
                     case MotionEvent.ACTION_DOWN:
                         mLastMotionY = y;
                         mLastMotionMoveY = y;
-                        isDownDirection = true;
+                       //isDownDirection = true;
                         isRecovering = false;
                         break;
                     case MotionEvent.ACTION_MOVE:
@@ -364,17 +362,18 @@ public class ListViewPullRefreshLoadMore extends LinearLayout{
 
         // Calculate the padding to apply, we divide by 1.7 to
         // simulate a more resistant effect during pull.
-        int bottomPadding = (int) (((historicalY - mLastMotionY) - mRefreshViewHeight) / 1.7);
+        int bottomPadding = (int) (((historicalY - mLastMotionY) - mRefreshViewHeight) / 1);
         int deltaMoveY = historicalY - mLastMotionMoveY;
+
         int topPadding = mRefreshView.getPaddingTop();
-        if(deltaMoveY < 0){ // Move up
+/*        if(deltaMoveY < 0){ // Move up
             topPadding -= deltaMoveY;
 //                if(isDownDirection) {
 //                    topPadding -= deltaMoveY;
 //                }else{
 //                    isDownDirection = true;
 //                }
-            isDownDirection = false;
+            //isDownDirection = false;
         }else{ // Move down
             if(!isDownDirection){
                 topPadding -= deltaMoveY;
@@ -385,9 +384,14 @@ public class ListViewPullRefreshLoadMore extends LinearLayout{
             //isDownDirection = true;
         }
         topPadding = Math.max(topPadding, 0);
+        */
+       // if(deltaMoveY < 0)
+       //     bottomPadding=0;
+        if(bottomPadding<0)
+            bottomPadding = mRefreshOriginalBottomPadding;
         Log.d("ThuNguyen", "bottomPadding: " + bottomPadding);
 
-        if(isDistanceScrollExceedActionBarSize()){
+        if(deltaMoveY>0 && isDistanceScrollExceedActionBarSize()){//move down and exceed distance
             Log.d("ThuNguyen", "Exceed");
             if(!isRecovering) {
                 Log.d("ThuNguyen", "Start to recovering layout");
@@ -397,7 +401,7 @@ public class ListViewPullRefreshLoadMore extends LinearLayout{
         }else if(!isRecovering){
             Log.d("ThuNguyen", "Start to set padding again");
             mRefreshView.setPadding(mRefreshView.getPaddingLeft(),
-                    topPadding, mRefreshView.getPaddingRight(),
+                    mRefreshView.getPaddingTop(), mRefreshView.getPaddingRight(),
                     bottomPadding);
             // Keep the last move motion Y
             mLastMotionMoveY = historicalY;
