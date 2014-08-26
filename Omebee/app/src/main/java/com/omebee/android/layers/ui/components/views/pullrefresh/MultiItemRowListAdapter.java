@@ -46,6 +46,9 @@ public class MultiItemRowListAdapter implements WrapperListAdapter {
         mItemLayoutParams.weight = 1;
         mRowLayoutParams = new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
     }
+    private void initComponent(int itemsPerRow, int cellSpacing){
+
+    }
     @Override
     public boolean isEmpty() {
         return (mAdapter == null || mAdapter.isEmpty());
@@ -142,35 +145,53 @@ public class MultiItemRowListAdapter implements WrapperListAdapter {
         if (convertView == null
                 || !(convertView instanceof LinearLayout)
                 || !((Integer) convertView.getTag()).equals(mItemsPerRow)) {
-// create a linear Layout
+            // create a linear Layout
             view = new LinearLayout(c);
             view.setPadding(0, 0, mCellSpacing, 0);
             view.setLayoutParams(mRowLayoutParams);
             view.setOrientation(LinearLayout.HORIZONTAL);
             view.setBaselineAligned(false);
             view.setTag(Integer.valueOf(mItemsPerRow));
+            // Create vertical layout
+            for(int index = 0; index < mItemsPerRow; index ++){
+                LinearLayout verticalItemLayout = new LinearLayout(c);
+                verticalItemLayout.setPadding(0, 0, mCellSpacing, 0);
+                verticalItemLayout.setLayoutParams(mItemLayoutParams);
+                verticalItemLayout.setOrientation(LinearLayout.VERTICAL);
+                verticalItemLayout.setBaselineAligned(false);
+                view.addView(verticalItemLayout);
+            }
+
         } else {
             view = (LinearLayout) convertView;
         }
         for (int i = 0; i < mItemsPerRow; ++i) {
-            View subView = i < view.getChildCount() ? view.getChildAt(i) : null;
+            LinearLayout verticalItemLayout = (LinearLayout) view.getChildAt(i);
+//            View subView = i < view.getChildCount() ? view.getChildAt(i) : null;
+            View subView = verticalItemLayout.getChildAt(position);
             int p = position * mItemsPerRow + i;
             View newView = subView;
             if (p < mAdapter.getCount()) {
                 if (subView instanceof PlaceholderView) {
-                    view.removeView(subView);
+                    verticalItemLayout.removeAllViews();
+                    //view.removeView(verticalItemLayout);
                     subView = null;
                 }
-                newView = mAdapter.getView(p, subView, view);
+                newView = mAdapter.getView(p, subView, verticalItemLayout);
             } else if (subView == null || !(subView instanceof PlaceholderView)) {
                 newView = new PlaceholderView(c);
             }
-            if (newView != subView || i >= view.getChildCount()) {
+            /*if (newView != subView || i >= view.getChildCount()) {
                 if (i < view.getChildCount()) {
                     view.removeView(subView);
                 }
-                newView.setLayoutParams(mItemLayoutParams);
+                newView.setLayoutParams(mRowLayoutParams);
                 view.addView(newView, i);
+            }*/
+            if(newView != subView || position >= verticalItemLayout.getChildCount()){
+                verticalItemLayout.removeAllViews();
+                newView.setLayoutParams(mRowLayoutParams);
+                verticalItemLayout.addView(newView);
             }
         }
         return view;

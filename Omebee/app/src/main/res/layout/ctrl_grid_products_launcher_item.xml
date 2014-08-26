@@ -5,17 +5,18 @@
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
-    <com.omebee.android.layers.ui.components.ProductSquareFrameLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content">
-
-        <com.android.volley.toolbox.NetworkImageView
+    <FrameLayout
+        android:id="@+id/panel_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants">
+          <com.omebee.android.layers.ui.components.views.pullrefresh.DynamicHeightImageView
               android:id="@+id/imageview_item"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:scaleType="centerCrop" />
 
-    </com.omebee.android.layers.ui.components.ProductSquareFrameLayout>
+    </FrameLayout>
 
     <TextView
           android:id="@+id/textview_name"
