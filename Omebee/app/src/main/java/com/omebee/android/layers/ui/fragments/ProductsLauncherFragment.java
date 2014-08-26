@@ -9,6 +9,7 @@ import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseFragment;
 import com.omebee.android.layers.ui.components.adapters.ProductsLauncherGridAdapter;
 import com.omebee.android.layers.ui.components.views.pullrefresh.ListViewPullAndLoadMore;
+import com.omebee.android.layers.ui.components.views.pullrefresh.ListViewPullRefreshLoadMore;
 import com.omebee.android.layers.ui.components.views.pullrefresh.ListViewPullToRefresh;
 import com.omebee.android.layers.ui.components.views.pullrefresh.MultiItemRowListAdapter;
 import com.omebee.android.layers.ui.presenters.ProductsLauncherPresenterImpl;

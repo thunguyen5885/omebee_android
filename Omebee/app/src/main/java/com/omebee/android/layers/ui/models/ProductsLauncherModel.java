@@ -209,7 +209,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
             // Simulates a background task
             try {
-                Thread.sleep(2000);
+                Thread.sleep(10000);
             } catch (InterruptedException e) {
             }
 
