@@ -292,8 +292,8 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
                 }
             }else if(!isRecovering){
                 Log.d("ThuNguyen", "Start to set padding again");
-                mRefreshView.setPadding(mRefreshView.getPaddingLeft(),
-                        topPadding, mRefreshView.getPaddingRight(),
+               mRefreshView.setPadding(mRefreshView.getPaddingLeft(),
+                       topPadding, mRefreshView.getPaddingRight(),
                         bottomPadding);
                 // Keep the last move motion Y
                 mLastMotionMoveY = historicalY;
@@ -354,47 +354,47 @@ public class ListViewPullToRefresh extends ListView implements OnScrollListener 
 	}
 
 	public void prepareForRefresh() {
-		resetHeaderPadding();
-		//mRefreshViewProgress.setVisibility(View.GONE);
-		// Set refresh view text to the refreshing label
-	}
+        resetHeaderPadding();
+        //mRefreshViewProgress.setVisibility(View.GONE);
+        // Set refresh view text to the refreshing label
+    }
 
-	public void onRefresh() {
-		Log.d(TAG, "onRefresh");
+    public void onRefresh() {
+        Log.d(TAG, "onRefresh");
 
-		if (mOnRefreshListener != null) {
-			mOnRefreshListener.onRefresh();
-		}
-	}
+        if (mOnRefreshListener != null) {
+            mOnRefreshListener.onRefresh();
+        }
+    }
 
-	/**
-	 * Resets the list to a normal state after a refresh.
-	 * 
-	 * @param lastUpdated
-	 *            Last updated at.
-	 */
-	public void onRefreshComplete(CharSequence lastUpdated) {
-		setLastUpdated(lastUpdated);
-		onRefreshComplete();
-	}
+    /**
+     * Resets the list to a normal state after a refresh.
+     *
+     * @param lastUpdated
+     *            Last updated at.
+     */
+    public void onRefreshComplete(CharSequence lastUpdated) {
+        setLastUpdated(lastUpdated);
+        onRefreshComplete();
+    }
 
-	/**
-	 * Resets the list to a normal state after a refresh.
-	 */
-	public void onRefreshComplete() {
-		Log.d(TAG, "onRefreshComplete");
+    /**
+     * Resets the list to a normal state after a refresh.
+     */
+    public void onRefreshComplete() {
+        Log.d(TAG, "onRefreshComplete");
 
-		resetHeader();
+        resetHeader();
 
-		// If refresh view is visible when loading completes, scroll down to
-		// the next item.
-		if (mRefreshView.getBottom() > 0) {
-			invalidateViews();
+        // If refresh view is visible when loading completes, scroll down to
+        // the next item.
+        if (mRefreshView.getBottom() > 0) {
+            invalidateViews();
 //			setSelection(1);
-		}
+        }
         // Reset isFreshing flag
         mIsRefreshing = false;
-	}
+    }
 
 	/**
 	 * Invoked when the refresh view is clicked on. This is mainly used when
