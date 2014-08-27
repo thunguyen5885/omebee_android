@@ -65,8 +65,8 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
             holder = new ViewHolder(v);
             v.setTag(holder);
         }
-        double positionHeight = getPositionRatio(position);
-        holder.productImage.setHeightRatio(positionHeight);
+//        double positionHeight = getPositionRatio(position);
+//        holder.productImage.setHeightRatio(positionHeight);
         // Load the thumbnail image
         holder.productImage.setImageUrl(productItemData.getProductUrl(), mImageLoader);
         // Set the TextView's contents
@@ -75,10 +75,10 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
         return v;
     }
     private class ViewHolder {
-        DynamicHeightImageView productImage;
+        NetworkImageView productImage;
         TextView title;
         public ViewHolder(View v) {
-            productImage = (DynamicHeightImageView) v.findViewById(R.id.imageview_item);
+            productImage = (NetworkImageView) v.findViewById(R.id.imageview_item);
             title = (TextView) v.findViewById(R.id.textview_name);
             v.setTag(this);
         }
