@@ -83,10 +83,12 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
 
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
-        for(ProductWSModel productModelItem: ITEMS){
-            ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
-                    THUMB_BASE_URL + productModelItem.getProductUrl());
-            productList.add(item);
+        for(int index = 0; index < 125; index ++) {
+            for (ProductWSModel productModelItem : ITEMS) {
+                ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
+                        THUMB_BASE_URL + productModelItem.getProductUrl());
+                productList.add(item);
+            }
         }
         return  productList;
 

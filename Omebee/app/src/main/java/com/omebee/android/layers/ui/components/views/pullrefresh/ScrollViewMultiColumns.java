@@ -99,13 +99,13 @@ public class ScrollViewMultiColumns extends ScrollView implements MultiColumnsAd
 
     @Override
     public void addItemToFirst(View view, int position) {
-
     }
 
     @Override
     public void addItemToLast(View view, int position) {
         LinearLayout itemLayout = (LinearLayout)mRootLayout.getChildAt(mNextPositionToAdd);
         itemLayout.addView(view);
+        mRootLayout.invalidate();
         mNextPositionToAdd++;
         mNextPositionToAdd = mNextPositionToAdd % mColumnNum;
     }

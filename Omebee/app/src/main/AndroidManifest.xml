@@ -14,7 +14,13 @@
 
         </activity>
         <activity
-            android:name=".layers.ui.MultisizeProductsLauncherActivity"
+        android:name=".layers.ui.MultisizeProductsLauncherActivity"
+        android:label="@string/app_name"
+        >
+
+        </activity>
+        <activity
+            android:name=".layers.ui.QuiltViewActivity"
             android:label="@string/app_name"
             >
             <intent-filter>

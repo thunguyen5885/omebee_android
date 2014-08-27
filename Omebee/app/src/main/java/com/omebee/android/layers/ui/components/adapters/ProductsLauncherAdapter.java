@@ -1,4 +1,4 @@
-package com.omebee.android.layers.ui.components.views.pullrefresh;
+package com.omebee.android.layers.ui.components.adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,11 +8,18 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
+import com.omebee.android.layers.ui.components.views.pullrefresh.DynamicHeightImageView;
+import com.omebee.android.layers.ui.components.views.pullrefresh.MultiColumnsAdapter;
 import com.omebee.android.utils.ImageMemoryCache;
 
 import java.util.ArrayList;
@@ -22,7 +29,7 @@ import java.util.Random;
 /**
  * Created by IT on 8/27/2014.
  */
-public class ProductsLauncherAdapter extends MultiColumnsAdapter{
+public class ProductsLauncherAdapter extends MultiColumnsAdapter {
     private Context mContext;
     private ImageLoader mImageLoader;
     private List<ProductsLauncherGridItemData> mProductsList = new ArrayList<ProductsLauncherGridItemData>();
@@ -30,7 +37,11 @@ public class ProductsLauncherAdapter extends MultiColumnsAdapter{
     private final Random mRandom;
     public ProductsLauncherAdapter(Context context){
         mContext = context;
-        mImageLoader = new ImageLoader(Volley.newRequestQueue(context), ImageMemoryCache.INSTANCE);
+        RequestQueue volleyQueue = Volley.newRequestQueue(context);
+        DiskBasedCache cache = new DiskBasedCache(context.getCacheDir(), 16 * 1024 * 1024);
+        volleyQueue = new RequestQueue(cache, new BasicNetwork(new HurlStack()));
+        volleyQueue.start();
+        mImageLoader = new ImageLoader(volleyQueue, ImageMemoryCache.INSTANCE);
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mRandom = new Random();
     }
@@ -113,6 +124,16 @@ public class ProductsLauncherAdapter extends MultiColumnsAdapter{
             if(productItemData != null) {
                 double positionHeight = getRandomHeightRatio();
                 networkImageView.setHeightRatio(positionHeight);
+//                mImageLoader.get("", new ImageLoader.ImageListener() {
+//                    @Override
+//                    public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+//                    }
+//
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//
+//                    }
+//                })
                 networkImageView.setImageUrl(productItemData.getProductUrl(), mImageLoader);
                 // Set the TextView's contents
                 titleView.setText(productItemData.getProductName());

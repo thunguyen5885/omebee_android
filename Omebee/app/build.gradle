@@ -22,6 +22,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:20.0.0'
+    compile 'com.android.support:gridlayout-v7:18.0.+'
     compile 'com.github.castorflex.smoothprogressbar:library:0.+'
     compile 'com.mcxiaoke.volley:library:1.0.+'
 
