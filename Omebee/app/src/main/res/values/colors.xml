@@ -22,8 +22,9 @@
         <item>@color/holo_purple_dark</item>
         <item>@color/holo_red_dark</item>
     </integer-array>
-
-
+    <!--Color for layout selector-->
+    <color name="item_color_normal">#00000000</color>
+    <color name="item_color_pressed">#40000000</color>
 
     <integer-array name="pocket_bar_colors">
         <item>@color/pocket_color_1</item>

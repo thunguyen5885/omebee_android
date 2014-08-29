@@ -2,6 +2,7 @@ package com.omebee.android.layers.ui.components.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -15,7 +16,8 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
-import com.omebee.android.layers.ui.components.views.pullrefresh.DynamicHeightImageView;
+import com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout;
+import com.omebee.android.layers.ui.components.views.util.DynamicImageView;
 import com.omebee.android.utils.ImageMemoryCache;
 
 import java.util.ArrayList;
@@ -30,11 +32,13 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
     private ImageLoader mImageLoader;
     private List<ProductsLauncherGridItemData> mProductsList = new ArrayList<ProductsLauncherGridItemData>();
     private final Random mRandom;
-    private static final SparseArray<Double> sPositionHeightRatios = new SparseArray<Double>();
+    private Drawable mDrawable;
     public ProductsLauncherGridAdapter(Context context){
         mContext = context;
         mImageLoader = new ImageLoader(Volley.newRequestQueue(context), ImageMemoryCache.INSTANCE);
         this.mRandom = new Random();
+        mDrawable = mContext.getResources().getDrawable(R.drawable.layout_item_selector);
+
     }
     @Override
     public int getCount() {
@@ -59,14 +63,18 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
         if (v == null) {
             LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = vi.inflate(R.layout.ctrl_grid_products_launcher_item, null);
+
         }
+//        if(v instanceof ForegroundLinearLayout){
+//            ((ForegroundLinearLayout)v).setForeground(mDrawable);
+//        }
         ViewHolder holder = (ViewHolder) v.getTag();
         if (holder == null) {
             holder = new ViewHolder(v);
             v.setTag(holder);
         }
-//        double positionHeight = getPositionRatio(position);
-//        holder.productImage.setHeightRatio(positionHeight);
+        double positionHeight = getRandomHeightRatio();
+        holder.productImage.setHeightRatio(positionHeight);
         // Load the thumbnail image
         holder.productImage.setImageUrl(productItemData.getProductUrl(), mImageLoader);
         // Set the TextView's contents
@@ -75,10 +83,10 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
         return v;
     }
     private class ViewHolder {
-        NetworkImageView productImage;
+        DynamicImageView productImage;
         TextView title;
         public ViewHolder(View v) {
-            productImage = (NetworkImageView) v.findViewById(R.id.imageview_item);
+            productImage = (DynamicImageView) v.findViewById(R.id.imageview_item);
             title = (TextView) v.findViewById(R.id.textview_name);
             v.setTag(this);
         }
@@ -119,21 +127,8 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
             this.mProductsList.addAll(0, productsList);
         }
     }
-    private double getPositionRatio(final int position) {
-        double ratio = sPositionHeightRatios.get(position, 0.0);
-        // if not yet done generate and stash the columns height
-        // in our real world scenario this will be determined by
-        // some match based on the known height and width of the image
-        // and maybe a helpful way to get the column height!
-        if (ratio == 0) {
-            ratio = getRandomHeightRatio();
-            sPositionHeightRatios.append(position, ratio);
-            Log.d("Thu Nguyen", "getPositionRatio:" + position + " ratio:" + ratio);
-            }
-            return ratio;
-        }
+
     private double getRandomHeightRatio() {
         return (mRandom.nextDouble() / 2.0) + 1.0; // height will be 1.0 - 1.5
-        // the width
     }
 }

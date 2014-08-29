@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+<com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:clickable="true"
+    android:orientation="vertical"
+    custom:foreground="@drawable/layout_item_selector">
 
-    <com.omebee.android.layers.ui.components.ProductSquareFrameLayout
+    <com.omebee.android.layers.ui.components.views.util.DynamicImageView
+        android:id="@+id/imageview_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/imageview_item"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-
-    </com.omebee.android.layers.ui.components.ProductSquareFrameLayout>
-
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop" />
 
     <TextView
           android:id="@+id/textview_name"
@@ -26,4 +24,4 @@
           android:maxLines="1"
           android:padding="16dp" />
 
-</LinearLayout>
+</com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout>

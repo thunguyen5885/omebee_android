@@ -1,27 +1,24 @@
-package com.omebee.android.layers.ui.components.views.pullrefresh;
+package com.omebee.android.layers.ui.components.views.util;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.etsy.android.grid.util.DynamicHeightImageView;
 
 /**
- * Created by Thu Nguyen on 8/25/2014.
+ * Created by Thu Nguyen on 8/29/2014.
  */
-public class DynamicHeightImageView extends NetworkImageView{
+public class DynamicImageView extends NetworkImageView{
     private double mHeightRatio;
-    public DynamicHeightImageView(Context context) {
-        super(context);
-    }
-
-    public DynamicHeightImageView(Context context, AttributeSet attrs) {
+    public DynamicImageView(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
     }
 
-    public DynamicHeightImageView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+    public DynamicImageView(Context context) {
+        super(context);
     }
-
     public void setHeightRatio(double ratio) {
         if (ratio != mHeightRatio) {
             mHeightRatio = ratio;

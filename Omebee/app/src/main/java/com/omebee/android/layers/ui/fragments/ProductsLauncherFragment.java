@@ -12,6 +12,7 @@ import com.omebee.android.layers.ui.components.views.pullrefresh.ListViewPullAnd
 import com.omebee.android.layers.ui.components.views.pullrefresh.ListViewPullRefreshLoadMore;
 import com.omebee.android.layers.ui.components.views.pullrefresh.ListViewPullToRefresh;
 import com.omebee.android.layers.ui.components.views.pullrefresh.MultiItemRowListAdapter;
+import com.omebee.android.layers.ui.components.views.util.CustomStaggeredGridView;
 import com.omebee.android.layers.ui.presenters.ProductsLauncherPresenterImpl;
 import com.omebee.android.layers.ui.presenters.base.IPresenter;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
@@ -23,8 +24,7 @@ import java.util.List;
  */
 public class ProductsLauncherFragment extends BaseFragment{
     private ProductsLauncherPresenterImpl mPresenter;
-    private ListViewPullAndLoadMore mProductsGrid;
-    private MultiItemRowListAdapter mMultiItemRowListAdapter;
+    private CustomStaggeredGridView mProductsGrid;
     private ProductsLauncherGridAdapter mProductsGridAdapter;
 
     @Override
@@ -32,28 +32,28 @@ public class ProductsLauncherFragment extends BaseFragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_products_launcher,
                 container, false);
-        mProductsGrid = (ListViewPullAndLoadMore)view.findViewById(R.id.productGrid);
+        mProductsGrid = (CustomStaggeredGridView)view.findViewById(R.id.productGrid);
         // Catch the refresh listener
-        mProductsGrid.setOnRefreshListener(new ListViewPullToRefresh.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mPresenter.pullRefresh();
-            }
-        });
-        mProductsGrid.setOnLoadMoreListener(new ListViewPullAndLoadMore.OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                mPresenter.loadMore();
-            }
-        });
-        mProductsGrid.setIUpdateDataBackListener(new ListViewPullToRefresh.IUpdateDataBackListener() {
-            @Override
-            public void updateDataBack(Object dataCallback) {
-                if (dataCallback instanceof List) {
-                    pullRefresh((List<ProductsLauncherGridItemData>) dataCallback);
-                }
-            }
-        });
+//        mProductsGrid.setOnRefreshListener(new ListViewPullToRefresh.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                mPresenter.pullRefresh();
+//            }
+//        });
+//        mProductsGrid.setOnLoadMoreListener(new ListViewPullAndLoadMore.OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore() {
+//                mPresenter.loadMore();
+//            }
+//        });
+//        mProductsGrid.setIUpdateDataBackListener(new ListViewPullToRefresh.IUpdateDataBackListener() {
+//            @Override
+//            public void updateDataBack(Object dataCallback) {
+//                if (dataCallback instanceof List) {
+//                    pullRefresh((List<ProductsLauncherGridItemData>) dataCallback);
+//                }
+//            }
+//        });
         return view;
     }
 
@@ -90,20 +90,17 @@ public class ProductsLauncherFragment extends BaseFragment{
         // Check the adapter object, create new object in case of null otherwise notify it
         if(mProductsGridAdapter == null){
             mProductsGridAdapter = new ProductsLauncherGridAdapter(getActivity());
-            mMultiItemRowListAdapter = new MultiItemRowListAdapter(getActivity(), mProductsGridAdapter);
-            mMultiItemRowListAdapter.setItemsPerRow(2);
-            mMultiItemRowListAdapter.setCellSpacing(10);
             mProductsGridAdapter.setProductsList(productList);
-            mProductsGrid.setAdapter(mMultiItemRowListAdapter);
+            mProductsGrid.setAdapter(mProductsGridAdapter);
         }else{ // Notify
             mProductsGridAdapter.setProductsList(productList);
             mProductsGridAdapter.notifyDataSetChanged();
         }
-        if(productList == null || productList.size() == 0){
-            mProductsGrid.setProgressBarVisibility(View.GONE);
-        }else{
-            mProductsGrid.setProgressBarVisibility(View.VISIBLE);
-        }
+//        if(productList == null || productList.size() == 0){
+//            mProductsGrid.setProgressBarVisibility(View.GONE);
+//        }else{
+//            mProductsGrid.setProgressBarVisibility(View.VISIBLE);
+//        }
     }
 
     /**
@@ -112,11 +109,11 @@ public class ProductsLauncherFragment extends BaseFragment{
      */
     public void loadMore(List<ProductsLauncherGridItemData> productList){
         // Make sure that load more complete to reset something
-        mProductsGrid.onLoadMoreComplete();
+//        mProductsGrid.onLoadMoreComplete();
         if(productList == null || productList.size() == 0){
-            mProductsGrid.setProgressBarVisibility(View.GONE);
+//            mProductsGrid.setProgressBarVisibility(View.GONE);
         }else{
-            mProductsGrid.setProgressBarVisibility(View.VISIBLE);
+//            mProductsGrid.setProgressBarVisibility(View.VISIBLE);
             mProductsGridAdapter.addItemsOnLast(productList);
             mProductsGridAdapter.notifyDataSetChanged();
         }
@@ -127,23 +124,17 @@ public class ProductsLauncherFragment extends BaseFragment{
      * @param productList
      */
     public void pullRefresh(final List<ProductsLauncherGridItemData> productList){
-        if(mProductsGrid.isPreparedView()) {
-            mProductsGrid.onRefreshComplete();
-            if (productList != null && productList.size() > 0) {
-                mProductsGridAdapter.addItemsOnFirst(productList);
-                mProductsGridAdapter.notifyDataSetChanged();
-                // Keep the last position that user stands before
-                mProductsGrid.setSelection((productList.size()/mMultiItemRowListAdapter.getItemsPerRow()) + 1);
-
-//                mProductsGrid.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mProductsGrid.setSelection(productList.size() + 1);
-//                    }
-//                });
-            }
-        }else{
-            mProductsGrid.setDataCallbackHold(productList);
-        }
+//        if(mProductsGrid.isPreparedView()) {
+//            mProductsGrid.onRefreshComplete();
+//            if (productList != null && productList.size() > 0) {
+//                mProductsGridAdapter.addItemsOnFirst(productList);
+//                mProductsGridAdapter.notifyDataSetChanged();
+//                // Keep the last position that user stands before
+//                mProductsGrid.setSelection((productList.size()/mMultiItemRowListAdapter.getItemsPerRow()) + 1);
+//
+//            }
+//        }else{
+//            mProductsGrid.setDataCallbackHold(productList);
+//        }
     }
 }
