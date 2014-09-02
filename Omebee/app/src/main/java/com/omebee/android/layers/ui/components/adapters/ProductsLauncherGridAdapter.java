@@ -9,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
+import com.etsy.android.grid.util.DynamicHeightTextView;
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
 import com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout;
@@ -33,8 +35,10 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
     private List<ProductsLauncherGridItemData> mProductsList = new ArrayList<ProductsLauncherGridItemData>();
     private final Random mRandom;
     private Drawable mDrawable;
+    private final LayoutInflater mLayoutInflater;
     public ProductsLauncherGridAdapter(Context context){
         mContext = context;
+        mLayoutInflater = LayoutInflater.from(context);
         mImageLoader = new ImageLoader(Volley.newRequestQueue(context), ImageMemoryCache.INSTANCE);
         this.mRandom = new Random();
         mDrawable = mContext.getResources().getDrawable(R.drawable.layout_item_selector);
@@ -58,29 +62,37 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ProductsLauncherGridItemData productItemData = getItem(position);
-
-        View v = convertView;
-        if (v == null) {
-            LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = vi.inflate(R.layout.ctrl_grid_products_launcher_item, null);
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = mLayoutInflater.inflate(R.layout.ctrl_grid_products_launcher_item, parent, false);
+            holder = new ViewHolder(convertView);
 
         }
-//        if(v instanceof ForegroundLinearLayout){
-//            ((ForegroundLinearLayout)v).setForeground(mDrawable);
+        else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+//        View v = convertView;
+//        if (v == null) {
+//            LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            v = vi.inflate(R.layout.ctrl_grid_products_launcher_item, null);
+//
 //        }
-        ViewHolder holder = (ViewHolder) v.getTag();
-        if (holder == null) {
-            holder = new ViewHolder(v);
-            v.setTag(holder);
-        }
-        double positionHeight = getRandomHeightRatio();
-        holder.productImage.setHeightRatio(positionHeight);
+////        if(v instanceof ForegroundLinearLayout){
+////            ((ForegroundLinearLayout)v).setForeground(mDrawable);
+////        }
+//        ViewHolder holder = (ViewHolder) v.getTag();
+//        if (holder == null) {
+//            holder = new ViewHolder(v);
+//            v.setTag(holder);
+//        }
+       // double positionHeight = getRandomHeightRatio();
+        //holder.productImage.setHeightRatio(positionHeight);
         // Load the thumbnail image
         holder.productImage.setImageUrl(productItemData.getProductUrl(), mImageLoader);
         // Set the TextView's contents
         holder.title.setText(productItemData.getProductName());
 
-        return v;
+        return convertView;
     }
     private class ViewHolder {
         DynamicImageView productImage;

@@ -115,12 +115,14 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
 
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
-        for(int index = 0; index < 100; index ++) {
-            for (ProductWSModel productModelItem : ITEMS) {
-                ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
-                        productModelItem.getProductUrl());
-                productList.add(item);
-            }
+        int countTest = 0;
+        for (ProductWSModel productModelItem : ITEMS) {
+            ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
+                    productModelItem.getProductUrl());
+            productList.add(item);
+            countTest++;
+            if(countTest>50)
+                break;
         }
         return  productList;
 
@@ -147,6 +149,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
      * @return
      */
     public List<ProductsLauncherGridItemData> createDumpDataForPullRefresh() {
+        Log.d("ThuNguyen", "createDumpDataForPullRefresh");
         mRefreshCount ++;
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
         for(int index = 0; index < 2; index ++) {
@@ -170,8 +173,8 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
         mCurrentPage ++;
         if(mCurrentPage <= TIMES_TO_LOAD_MORE){ // Load more 10 items
             List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
-            for(int index = 0; index < 10; index ++) {
-                String pictureName = "Picture " + (ITEMS.length + (mCurrentPage - 1) * 10  + index + 1);
+            for(int index = 0; index < 4; index ++) {
+                String pictureName = "Old Picture " + (ITEMS.length + (mCurrentPage - 1) * 10  + index + 1);
                 Random random = new Random();
                 int indexRan = random.nextInt(ITEMS.length);
 
@@ -208,7 +211,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
             // Simulates a background task
             try {
-                Thread.sleep(500);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
             }
 
@@ -243,7 +246,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
             // Simulates a background task
             try {
-                Thread.sleep(1000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
             }
 

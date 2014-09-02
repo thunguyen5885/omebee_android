@@ -50,7 +50,7 @@
             <item name="spb_progressiveStop_speed">15</item>
             <item name="spb_interpolator">spb_interpolator_acceleratedecelerate</item>
             <item name="spb_mirror_mode">true</item>
-            <item name="spb_reversed">false</item>
+            <item name="spb_reversed">true</item>
             <item name="spb_gradients">true</item>
             <item name="spb_colors">@array/gplus_colors</item>
             <item name="spb_progressiveStart_activated">true</item>
