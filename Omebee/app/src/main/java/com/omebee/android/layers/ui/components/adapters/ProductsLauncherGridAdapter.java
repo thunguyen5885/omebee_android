@@ -135,6 +135,12 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
     public void addItemsOnFirst(List<ProductsLauncherGridItemData> productsList){
         if(productsList != null && productsList.size() > 0) {
             this.mProductsList.addAll(0, productsList);
+//            List<ProductsLauncherGridItemData> tempList = new ArrayList<ProductsLauncherGridItemData>(productsList);
+//            tempList.addAll(this.mProductsList);
+//            this.mProductsList.clear();
+//            this.mProductsList.addAll(tempList);
+//            tempList.clear();
+//            tempList = null;
         }
     }
 
