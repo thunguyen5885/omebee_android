@@ -131,7 +131,7 @@ public class ProductsLauncherFragment extends BaseFragment{
             mProductsGridAdapter.addItemsOnFirst(productList);
             mProductsGridAdapter.notifyDataSetChanged();
             // Keep the last position that user stands before
-            mProductsGrid.setSelection((productList.size()) + 1);
+            mProductsGrid.setSelection((productList.size()));
 
         }
 

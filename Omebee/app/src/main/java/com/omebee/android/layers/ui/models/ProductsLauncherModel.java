@@ -244,18 +244,20 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
      * @return
      */
     public List<ProductsLauncherGridItemData> createDumpDataForPullRefresh() {
-        Log.d("ThuNguyen", "createDumpDataForPullRefresh");
+        Log.d("ThuNguyen", "createDumpDataForPullRefresh "+mRefreshCount);
         mRefreshCount ++;
+        int num = 10;
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
-        for(int index = 0; index < 10; index ++) {
-            String pictureName = "New picture " + ((mRefreshCount - 1) * 2  + index + 1);
+        for(int index = 0; index < num; index ++) {
+            String pictureName = "New picture " + ((mRefreshCount - 1) * num  + index + 1);
             Random random = new Random();
             int indexRan = random.nextInt(ITEMS.length);
 
             ProductWSModel productModelItem = ITEMS[indexRan];
             ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(pictureName, productModelItem.getProductDescription(),
                     productModelItem.getProductUrl(),getRandomHeightRatio());
-            productList.add(item);
+            productList.add(0,item);
+
         }
         return productList;
     }
@@ -265,12 +267,13 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
      * @return
      */
     private List<ProductsLauncherGridItemData> createDumpDataForLoadMore(){
-        Log.d("ThuNguyen", "createDumpDataForLoadMore");
+        Log.d("ThuNguyen", "createDumpDataForLoadMore "+mCurrentPage);
         mCurrentPage ++;
+        int num = 4;
         if(mCurrentPage <= TIMES_TO_LOAD_MORE){ // Load more 10 items
             List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
-            for(int index = 0; index < 4; index ++) {
-                String pictureName = "Old Picture " + (ITEMS.length + (mCurrentPage - 1) * 10  + index + 1);
+            for(int index = 0; index < num; index ++) {
+                String pictureName = "Old Picture " + ((mCurrentPage - 1) * num  + index + 1);
                 Random random = new Random();
                 int indexRan = random.nextInt(ITEMS.length);
 
