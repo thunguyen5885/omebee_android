@@ -115,6 +115,7 @@ public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
     public void setSelection(int position){
         mMainListView.setSelection(position);
     }
+
     public void setAdapter(ListAdapter adapter) {
         mMainListView.setAdapter(adapter);
         mMainListView.setSelection(0);//display first item
