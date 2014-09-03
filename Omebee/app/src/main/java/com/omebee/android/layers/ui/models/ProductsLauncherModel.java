@@ -22,6 +22,7 @@ import java.util.Random;
 public class ProductsLauncherModel implements IProductsLauncherModel{
     String LARGE_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/large/";
     //static final String THUMB_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/";
+    private final Random mRandom = new Random();
     static ProductWSModel[] ITEMS = new ProductWSModel[] {
             new ProductWSModel("Picture 1", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/flamingo.jpg"),
             new ProductWSModel("Picture 2", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/rainbow.jpg"),
@@ -86,11 +87,11 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
         this.mIPullRefreshCallback = iPullRefreshCallback;
     }
 
-    public ILoadMoreCallback getmILoadMoreRefreshCallback() {
+    public ILoadMoreCallback getILoadMoreRefreshCallback() {
         return mILoadMoreRefreshCallback;
     }
 
-    public void setmILoadMoreRefreshCallback(ILoadMoreCallback mILoadMoreRefreshCallback) {
+    public void setILoadMoreRefreshCallback(ILoadMoreCallback mILoadMoreRefreshCallback) {
         this.mILoadMoreRefreshCallback = mILoadMoreRefreshCallback;
     }
 
@@ -118,7 +119,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
         int countTest = 0;
         for (ProductWSModel productModelItem : ITEMS) {
             ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
-                    productModelItem.getProductUrl());
+                    productModelItem.getProductUrl(),getRandomHeightRatio());
             productList.add(item);
             countTest++;
             if(countTest>50)
@@ -136,7 +137,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
             for (ProductWSModel productModelItem : ITEMS) {
                 if (productModelItem.match(keyword)) {
                     ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
-                            productModelItem.getProductUrl());
+                            productModelItem.getProductUrl(),getRandomHeightRatio());
                     productList.add(item);
                 }
             }
@@ -144,50 +145,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
         return  productList;
     }
 
-    /**
-     * Create dump data for pull refresh
-     * @return
-     */
-    public List<ProductsLauncherGridItemData> createDumpDataForPullRefresh() {
-        Log.d("ThuNguyen", "createDumpDataForPullRefresh");
-        mRefreshCount ++;
-        List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
-        for(int index = 0; index < 2; index ++) {
-            String pictureName = "New picture " + ((mRefreshCount - 1) * 2  + index + 1);
-            Random random = new Random();
-            int indexRan = random.nextInt(ITEMS.length);
 
-            ProductWSModel productModelItem = ITEMS[indexRan];
-            ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(pictureName, productModelItem.getProductDescription(),
-                    productModelItem.getProductUrl());
-            productList.add(item);
-        }
-        return productList;
-    }
-
-    /**
-     * Create dump data for load more function
-     * @return
-     */
-    private List<ProductsLauncherGridItemData> createDumpDataForLoadMore(){
-        mCurrentPage ++;
-        if(mCurrentPage <= TIMES_TO_LOAD_MORE){ // Load more 10 items
-            List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
-            for(int index = 0; index < 4; index ++) {
-                String pictureName = "Old Picture " + (ITEMS.length + (mCurrentPage - 1) * 10  + index + 1);
-                Random random = new Random();
-                int indexRan = random.nextInt(ITEMS.length);
-
-                ProductWSModel productModelItem = ITEMS[indexRan];
-                ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(pictureName, productModelItem.getProductDescription(),
-                        productModelItem.getProductUrl());
-                productList.add(item);
-            }
-            return productList;
-        }
-
-        return null;
-    }
     @Override
     public void loadMore() {
         new LoadMoreDataTask().execute();
@@ -276,5 +234,54 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
         String url = ITEMS[index].getProductUrl();
         Log.d("ThuNguyen", "URL: " + url);
         return url;
+    }
+    private double getRandomHeightRatio() {
+        return (mRandom.nextDouble() / 2.0) + 1.0; // height will be 1.0 - 1.5
+    }
+
+    /**
+     * Create dump data for pull refresh
+     * @return
+     */
+    public List<ProductsLauncherGridItemData> createDumpDataForPullRefresh() {
+        Log.d("ThuNguyen", "createDumpDataForPullRefresh");
+        mRefreshCount ++;
+        List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
+        for(int index = 0; index < 2; index ++) {
+            String pictureName = "New picture " + ((mRefreshCount - 1) * 2  + index + 1);
+            Random random = new Random();
+            int indexRan = random.nextInt(ITEMS.length);
+
+            ProductWSModel productModelItem = ITEMS[indexRan];
+            ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(pictureName, productModelItem.getProductDescription(),
+                    productModelItem.getProductUrl(),getRandomHeightRatio());
+            productList.add(item);
+        }
+        return productList;
+    }
+
+    /**
+     * Create dump data for load more function
+     * @return
+     */
+    private List<ProductsLauncherGridItemData> createDumpDataForLoadMore(){
+        Log.d("ThuNguyen", "createDumpDataForLoadMore");
+        mCurrentPage ++;
+        if(mCurrentPage <= TIMES_TO_LOAD_MORE){ // Load more 10 items
+            List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
+            for(int index = 0; index < 4; index ++) {
+                String pictureName = "Old Picture " + (ITEMS.length + (mCurrentPage - 1) * 10  + index + 1);
+                Random random = new Random();
+                int indexRan = random.nextInt(ITEMS.length);
+
+                ProductWSModel productModelItem = ITEMS[indexRan];
+                ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(pictureName, productModelItem.getProductDescription(),
+                        productModelItem.getProductUrl(),getRandomHeightRatio());
+                productList.add(item);
+            }
+            return productList;
+        }
+
+        return null;
     }
 }

@@ -33,14 +33,13 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
     private Context mContext;
     private ImageLoader mImageLoader;
     private List<ProductsLauncherGridItemData> mProductsList = new ArrayList<ProductsLauncherGridItemData>();
-    private final Random mRandom;
+
     private Drawable mDrawable;
     private final LayoutInflater mLayoutInflater;
     public ProductsLauncherGridAdapter(Context context){
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
         mImageLoader = new ImageLoader(Volley.newRequestQueue(context), ImageMemoryCache.INSTANCE);
-        this.mRandom = new Random();
         mDrawable = mContext.getResources().getDrawable(R.drawable.layout_item_selector);
 
     }
@@ -66,7 +65,6 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
         if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.ctrl_grid_products_launcher_item, parent, false);
             holder = new ViewHolder(convertView);
-
         }
         else {
             holder = (ViewHolder) convertView.getTag();
@@ -86,7 +84,7 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
 //            v.setTag(holder);
 //        }
        // double positionHeight = getRandomHeightRatio();
-        //holder.productImage.setHeightRatio(positionHeight);
+        holder.productImage.setHeightRatio(productItemData.getImageHeightRatio());
         // Load the thumbnail image
         holder.productImage.setImageUrl(productItemData.getProductUrl(), mImageLoader);
         // Set the TextView's contents
@@ -140,7 +138,5 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
         }
     }
 
-    private double getRandomHeightRatio() {
-        return (mRandom.nextDouble() / 2.0) + 1.0; // height will be 1.0 - 1.5
-    }
+
 }

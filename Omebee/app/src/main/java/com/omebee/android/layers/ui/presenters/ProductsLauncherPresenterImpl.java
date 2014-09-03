@@ -20,7 +20,7 @@ public class ProductsLauncherPresenterImpl implements IProductsLauncherPresenter
         this.mView = mView;
         this.mModel = new ProductsLauncherModel();
         ((ProductsLauncherModel) mModel).setIPullRefreshCallback(this);
-        ((ProductsLauncherModel) mModel).setmILoadMoreRefreshCallback(this);
+        ((ProductsLauncherModel) mModel).setILoadMoreRefreshCallback(this);
     }
 
     @Override

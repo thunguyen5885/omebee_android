@@ -7,11 +7,13 @@ public class ProductsLauncherGridItemData {
     private String mProductName;
     private String mProductDescription;
     private String mProductUrl;
+    private double mImageHeightRatio;
 
-    public ProductsLauncherGridItemData(String mProductName, String mProductDescription, String mProductUrl) {
+    public ProductsLauncherGridItemData(String mProductName, String mProductDescription, String mProductUrl,double mImageHeightRatio) {
         this.mProductName = mProductName;
         this.mProductDescription = mProductDescription;
         this.mProductUrl = mProductUrl;
+        this.mImageHeightRatio = mImageHeightRatio;
     }
 
     public String getProductName() {
@@ -46,5 +48,13 @@ public class ProductsLauncherGridItemData {
             return true;
         }
         return false;
+    }
+
+    public double getImageHeightRatio() {
+        return mImageHeightRatio;
+    }
+
+    public void setImageHeightRatio(double mImageHeightRatio) {
+        this.mImageHeightRatio = mImageHeightRatio;
     }
 }
