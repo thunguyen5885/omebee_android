@@ -19,7 +19,6 @@ import com.omebee.android.layers.ui.presenters.base.IPresenter;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
 
 import java.util.List;
-import android.os.Handler;
 
 /**
  * Created by phan on 8/6/2014.
@@ -112,11 +111,12 @@ public class ProductsLauncherFragment extends BaseFragment{
     public void loadMore(List<ProductsLauncherGridItemData> productList){
         // Make sure that load more complete to reset something
         mProductsGrid.onLoadMoreComplete();
-        if (productList != null && productList.size() > 0) {
+        if(productList == null || productList.size() == 0){
+          //  mProductsGrid.setProgressBarVisibility(View.GONE);
+        }else{
             //mProductsGrid.setProgressBarVisibility(View.VISIBLE);
             mProductsGridAdapter.addItemsOnLast(productList);
             mProductsGridAdapter.notifyDataSetChanged();
-            //mProductsGrid.setSelection(productList.size());
         }
     }
 
@@ -129,12 +129,9 @@ public class ProductsLauncherFragment extends BaseFragment{
         mProductsGrid.OnRefreshComplete();
         if (productList != null && productList.size() > 0) {
             mProductsGridAdapter.addItemsOnFirst(productList);
-            mProductsGrid.setSelection(productList.size());
-            mProductsGridAdapter.notifyDataSetChanged();
             // Keep the last position that user stands before
-
-
-
+            mProductsGrid.setSelection((productList.size()) * 2);
+            mProductsGridAdapter.notifyDataSetChanged();
         }
 
 //        if(mProductsGrid.isPreparedView()) {

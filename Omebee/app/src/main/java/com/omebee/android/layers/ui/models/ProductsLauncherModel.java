@@ -60,8 +60,8 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
             new ProductWSModel("Picture 35", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-03.jpeg?v=1407820934"),
             new ProductWSModel("Picture 36", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-05.jpeg?v=1407820934"),
             new ProductWSModel("Picture 37", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-06.jpeg?v=1407820934"),
-            new ProductWSModel("Picture 38", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-07.jpeg?v=1407820934"),
-            new ProductWSModel("Picture 39", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-09.jpeg?v=1407820934"),
+            new ProductWSModel("Picture 38", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-07.jpeg?v=1407820934")
+//            new ProductWSModel("Picture 39", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-09.jpeg?v=1407820934"),
 
     };
     public interface IPullRefreshCallback{
@@ -246,7 +246,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
     public List<ProductsLauncherGridItemData> createDumpDataForPullRefresh() {
         Log.d("ThuNguyen", "createDumpDataForPullRefresh "+mRefreshCount);
         mRefreshCount ++;
-        int num = 10;
+        int num = 50;
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
         for(int index = 0; index < num; index ++) {
             String pictureName = "New picture " + ((mRefreshCount - 1) * num  + index + 1);
@@ -256,7 +256,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
             ProductWSModel productModelItem = ITEMS[indexRan];
             ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(pictureName, productModelItem.getProductDescription(),
                     productModelItem.getProductUrl(),getRandomHeightRatio());
-            productList.add(0,item);
+            productList.add(0, item);
 
         }
         return productList;

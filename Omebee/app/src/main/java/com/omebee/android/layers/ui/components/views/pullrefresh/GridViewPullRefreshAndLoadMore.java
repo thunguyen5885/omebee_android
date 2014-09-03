@@ -108,7 +108,7 @@ public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
     public void onAttachedToWindow() {
         //have to ask super to attach to window, otherwise it won't scroll in jelly bean.
         super.onAttachedToWindow();
-        mMainListView.setSelection(0);//display first item
+        //mMainListView.setSelection(0);//display first item
     }
 
 
