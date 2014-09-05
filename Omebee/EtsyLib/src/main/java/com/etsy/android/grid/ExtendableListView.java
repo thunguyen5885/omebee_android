@@ -568,7 +568,7 @@ public abstract class ExtendableListView extends AbsListView {
             // our last state so we keep our position
             if (mLayoutMode == LAYOUT_NORMAL) {
                 oldFirst = getChildAt(0);
-            }
+           }
 
             boolean dataChanged = mDataChanged;
             if (dataChanged) {
@@ -1179,7 +1179,13 @@ public abstract class ExtendableListView extends AbsListView {
                 // No need to do all this work if we're not going to move anyway
                 boolean atEdge = false;
                 if (incrementalDeltaY != 0) {
-                    atEdge = moveTheChildren(deltaY, incrementalDeltaY);
+                    /*ThuNguyen comment S*/
+                    // Only move the children in case of not implementing selection before
+                    //atEdge = moveTheChildren(deltaY, incrementalDeltaY);
+                    if(mLayoutMode != LAYOUT_SYNC) {
+                        atEdge = moveTheChildren(deltaY, incrementalDeltaY);
+                    }
+                    /*ThuNguyen comment E*/
                 }
 
                 // Check to see if we have bumped into the scroll limit
@@ -1433,7 +1439,7 @@ public abstract class ExtendableListView extends AbsListView {
 
         int end = mClipToPadding ? getListPaddingTop() : 0;
 
-        while ((nextBottom > end || hasSpaceUp()) && pos >= 0) {
+        while (/*(nextBottom > end || hasSpaceUp()) &&*/ pos >= 0) {
             // TODO : add selection support
             makeAndAddView(pos, nextBottom, false, false);
             pos--;
@@ -1493,7 +1499,6 @@ public abstract class ExtendableListView extends AbsListView {
         if (childCount > 0) {
             correctTooHigh(childCount);
         }
-
         if (tempIsSelected) {
             return temp;
         }

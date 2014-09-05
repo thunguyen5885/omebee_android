@@ -83,7 +83,7 @@ public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
-               // mMainListView.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+                //mMainListView.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
                // Log.d("PhanNguyen", "SCROLL To position "+mMainListView.get());
                 // if need a list to load more items
                 if (mOnLoadMoreListener != null) {
@@ -93,7 +93,9 @@ public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
                         return;
                     }
 
-                    boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
+                    boolean loadMore = firstVisibleItem + visibleItemCount >= (totalItemCount - 1); // -1 for the footerview
+                    Log.d("ThuNguyen", "isLoadMore = " + loadMore);
+                    Log.d("ThuNguyen", "firstVisibleItem = " + firstVisibleItem + ",visibleItemCount = " + visibleItemCount + ",totalItemCount = " + totalItemCount);
                     if (!mIsLoadingMore && loadMore) {
 				        mProgressBarLoadMore.setVisibility(View.VISIBLE);
                         mIsLoadingMore = true;
@@ -108,14 +110,16 @@ public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
     public void onAttachedToWindow() {
         //have to ask super to attach to window, otherwise it won't scroll in jelly bean.
         super.onAttachedToWindow();
-        //mMainListView.setSelection(0);//display first item
+        mMainListView.setSelection(0);//display first item
     }
 
 
     public void setSelection(int position){
         mMainListView.setSelection(position);
     }
-
+    public void scrollY(int y){
+        mMainListView.scrollTo(0, y);
+    }
     public void setAdapter(ListAdapter adapter) {
         mMainListView.setAdapter(adapter);
         mMainListView.setSelection(0);//display first item

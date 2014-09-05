@@ -1,6 +1,7 @@
 package com.omebee.android.layers.ui.fragments;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,9 +130,9 @@ public class ProductsLauncherFragment extends BaseFragment{
         mProductsGrid.OnRefreshComplete();
         if (productList != null && productList.size() > 0) {
             mProductsGridAdapter.addItemsOnFirst(productList);
-            // Keep the last position that user stands before
-            mProductsGrid.setSelection((productList.size()) * 2);
             mProductsGridAdapter.notifyDataSetChanged();
+            // Keep the last position that user stands before
+            mProductsGrid.setSelection(productList.size());
         }
 
 //        if(mProductsGrid.isPreparedView()) {

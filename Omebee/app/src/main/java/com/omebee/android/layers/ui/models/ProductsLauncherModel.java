@@ -52,6 +52,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
             new ProductWSModel("Picture 26", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-black-wb-web-06_medium.jpeg?v=1407820965"),
             new ProductWSModel("Picture 27", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-01_medium.jpeg?v=1407820934"),
             new ProductWSModel("Picture 28", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-03.jpeg?v=1407820934"),
+            new ProductWSModel("Picture 29", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-09.jpeg?v=1407820934"),
             new ProductWSModel("Picture 30", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-05.jpeg?v=1407820934"),
             new ProductWSModel("Picture 31", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-06.jpeg?v=1407820934"),
             new ProductWSModel("Picture 32", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-07.jpeg?v=1407820934"),
@@ -246,7 +247,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
     public List<ProductsLauncherGridItemData> createDumpDataForPullRefresh() {
         Log.d("ThuNguyen", "createDumpDataForPullRefresh "+mRefreshCount);
         mRefreshCount ++;
-        int num = 50;
+        int num = 4;
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
         for(int index = 0; index < num; index ++) {
             String pictureName = "New picture " + ((mRefreshCount - 1) * num  + index + 1);
