@@ -848,6 +848,7 @@ public class StaggeredGridView extends ExtendableListView {
     @Override
     protected boolean hasSpaceUp() {
         int end = mClipToPadding ? getRowPaddingTop() : 0;
+        //Log.d("Phan", "hasSpaceUp - getLowestPositionedTop:" + getLowestPositionedTop() + " end:" + end);
         return getLowestPositionedTop() > end;
     }
 
@@ -1301,4 +1302,7 @@ public class StaggeredGridView extends ExtendableListView {
         mNeedSync = true;
         super.onRestoreInstanceState(ss);
     }
+
+
+
 }

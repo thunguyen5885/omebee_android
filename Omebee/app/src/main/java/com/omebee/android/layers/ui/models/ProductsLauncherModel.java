@@ -65,14 +65,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 //            new ProductWSModel("Picture 39", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-09.jpeg?v=1407820934"),
 
     };
-    public interface IPullRefreshCallback{
-        void pullRefreshSuccess(List<ProductsLauncherGridItemData> productsList);
-        void pullRefreshFailed();
-    }
-    public interface  ILoadMoreCallback{
-        void loadMoreSuccess(List<ProductsLauncherGridItemData> productsList);
-        void loadMoreFailed();
-    }
+
     // Properties
     private IPullRefreshCallback mIPullRefreshCallback;
     private ILoadMoreCallback mILoadMoreRefreshCallback;
@@ -80,6 +73,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
     private static final int TIMES_TO_LOAD_MORE = 5000;
     private int mCurrentPage = 0;
     private int mRefreshCount = 0;
+
     public IPullRefreshCallback getIPullRefreshCallback() {
         return mIPullRefreshCallback;
     }
@@ -123,7 +117,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
                     productModelItem.getProductUrl(),getRandomHeightRatio());
             productList.add(item);
             countTest++;
-            if(countTest>50)
+            if(countTest>10)
                 break;
         }
         return  productList;
@@ -205,7 +199,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
             // Simulates a background task
             try {
-                Thread.sleep(2000);
+                Thread.sleep(4000);
             } catch (InterruptedException e) {
             }
 
@@ -240,18 +234,23 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
         return (mRandom.nextDouble() / 2.0) + 1.0; // height will be 1.0 - 1.5
     }
 
+    int mPictureCount = 1;
     /**
      * Create dump data for pull refresh
      * @return
      */
     public List<ProductsLauncherGridItemData> createDumpDataForPullRefresh() {
-        Log.d("ThuNguyen", "createDumpDataForPullRefresh "+mRefreshCount);
+
         mRefreshCount ++;
-        int num = 4;
+        Random random = new Random();
+        int num = random.nextInt(5);
+        Log.d("ThuNguyen", "createDumpDataForPullRefresh "+mRefreshCount +" with num = "+num);
+        //if(mRefreshCount%2==0)
+        //    num = 0;
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
         for(int index = 0; index < num; index ++) {
-            String pictureName = "New picture " + ((mRefreshCount - 1) * num  + index + 1);
-            Random random = new Random();
+            String pictureName = "New picture " + mPictureCount;//((mRefreshCount - 1) * num  + index + 1);
+            mPictureCount++;
             int indexRan = random.nextInt(ITEMS.length);
 
             ProductWSModel productModelItem = ITEMS[indexRan];

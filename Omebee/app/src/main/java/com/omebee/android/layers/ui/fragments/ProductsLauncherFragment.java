@@ -98,24 +98,16 @@ public class ProductsLauncherFragment extends BaseFragment{
             mProductsGridAdapter.setProductsList(productList);
             mProductsGridAdapter.notifyDataSetChanged();
         }
-//        if(productList == null || productList.size() == 0){
-//            mProductsGrid.setProgressBarVisibility(View.GONE);
-//        }else{
-//            mProductsGrid.setProgressBarVisibility(View.VISIBLE);
-//        }
     }
 
     /**
      * Load more products complete
      * @param productList
      */
-    public void loadMore(List<ProductsLauncherGridItemData> productList){
+    public void loadMoreComplete(List<ProductsLauncherGridItemData> productList){
         // Make sure that load more complete to reset something
         mProductsGrid.onLoadMoreComplete();
-        if(productList == null || productList.size() == 0){
-          //  mProductsGrid.setProgressBarVisibility(View.GONE);
-        }else{
-            //mProductsGrid.setProgressBarVisibility(View.VISIBLE);
+        if (productList != null && productList.size() > 0) {
             mProductsGridAdapter.addItemsOnLast(productList);
             mProductsGridAdapter.notifyDataSetChanged();
         }
@@ -125,27 +117,14 @@ public class ProductsLauncherFragment extends BaseFragment{
      * Pull refresh the product complete (Add the newest items to the top of the list)
      * @param productList
      */
-    public void pullRefresh(final List<ProductsLauncherGridItemData> productList){
+    public void pullRefreshComplete(final List<ProductsLauncherGridItemData> productList){
 
         mProductsGrid.OnRefreshComplete();
         if (productList != null && productList.size() > 0) {
             mProductsGridAdapter.addItemsOnFirst(productList);
             mProductsGridAdapter.notifyDataSetChanged();
             // Keep the last position that user stands before
-            mProductsGrid.setSelection(productList.size());
+            mProductsGrid.keepCurrentPositionAsAddTop(productList.size());
         }
-
-//        if(mProductsGrid.isPreparedView()) {
-//            mProductsGrid.onRefreshComplete();
-//            if (productList != null && productList.size() > 0) {
-//                mProductsGridAdapter.addItemsOnFirst(productList);
-//                mProductsGridAdapter.notifyDataSetChanged();
-//                // Keep the last position that user stands before
-//                mProductsGrid.setSelection((productList.size()/2) + 1);
-//
-//            }
-//        }else{
-//            mProductsGrid.setDataCallbackHold(productList);
-//        }
     }
 }

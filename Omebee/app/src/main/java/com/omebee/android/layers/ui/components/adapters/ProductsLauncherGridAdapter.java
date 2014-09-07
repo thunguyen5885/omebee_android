@@ -65,6 +65,7 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
         if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.ctrl_grid_products_launcher_item, parent, false);
             holder = new ViewHolder(convertView);
+            //Log.d("Phan", "create new View position:" + position);
         }
         else {
             holder = (ViewHolder) convertView.getTag();
@@ -135,12 +136,6 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
     public void addItemsOnFirst(List<ProductsLauncherGridItemData> productsList){
         if(productsList != null && productsList.size() > 0) {
             this.mProductsList.addAll(0, productsList);
-//            List<ProductsLauncherGridItemData> tempList = new ArrayList<ProductsLauncherGridItemData>(productsList);
-//            tempList.addAll(this.mProductsList);
-//            this.mProductsList.clear();
-//            this.mProductsList.addAll(tempList);
-//            tempList.clear();
-//            tempList = null;
         }
     }
 

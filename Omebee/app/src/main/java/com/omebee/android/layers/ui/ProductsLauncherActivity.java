@@ -215,13 +215,13 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
     }
 
     @Override
-    public void loadMoreProducts(List<ProductsLauncherGridItemData> productList) {
-        mProductsLauncherFragment.loadMore(productList);
+    public void loadMoreProductsComplete(List<ProductsLauncherGridItemData> productList) {
+        mProductsLauncherFragment.loadMoreComplete(productList);
     }
 
     @Override
-    public void pullRefreshProducts(List<ProductsLauncherGridItemData> productList) {
-        mProductsLauncherFragment.pullRefresh(productList);
+    public void pullRefreshProductsComplete(List<ProductsLauncherGridItemData> productList) {
+        mProductsLauncherFragment.pullRefreshComplete(productList);
     }
 
     @Override

@@ -28,6 +28,7 @@ public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
 
     // footer
     private LinearLayout mFooterView;
+
     private SmoothProgressBar mProgressBarLoadMore;
     private OnLoadMoreListener mOnLoadMoreListener;
 
@@ -59,17 +60,17 @@ public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
 
         mMainListView.addFooterView(mFooterView);
 
-        setupColorForProgressBar();
+        setupColorForProgressBar(context);
         setupOnScrollLoadMoreListener();
     }
 
-    private void setupColorForProgressBar() {
+    private void setupColorForProgressBar(Context context) {
 
         this.setColorSchemeResources(
-                android.R.color.holo_blue_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_green_light,
-                android.R.color.holo_red_light);
+                R.color.holo_blue_light,
+                R.color.holo_orange_light,
+                R.color.holo_green_light,
+                R.color.holo_red_light);
 
     }
 
@@ -88,14 +89,12 @@ public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
                 // if need a list to load more items
                 if (mOnLoadMoreListener != null) {
                     if (visibleItemCount == totalItemCount) {
-//				mProgressBarLoadMore.setVisibility(View.GONE);
-                        // mLabLoadMore.setVisibility(View.GONE);
                         return;
                     }
 
                     boolean loadMore = firstVisibleItem + visibleItemCount >= (totalItemCount - 1); // -1 for the footerview
-                    Log.d("ThuNguyen", "isLoadMore = " + loadMore);
-                    Log.d("ThuNguyen", "firstVisibleItem = " + firstVisibleItem + ",visibleItemCount = " + visibleItemCount + ",totalItemCount = " + totalItemCount);
+                   // Log.d("ThuNguyen", "isLoadMore = " + loadMore);
+                   // Log.d("ThuNguyen", "firstVisibleItem = " + firstVisibleItem + ",visibleItemCount = " + visibleItemCount + ",totalItemCount = " + totalItemCount);
                     if (!mIsLoadingMore && loadMore) {
 				        mProgressBarLoadMore.setVisibility(View.VISIBLE);
                         mIsLoadingMore = true;
@@ -110,21 +109,25 @@ public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
     public void onAttachedToWindow() {
         //have to ask super to attach to window, otherwise it won't scroll in jelly bean.
         super.onAttachedToWindow();
-        mMainListView.setSelection(0);//display first item
     }
 
 
     public void setSelection(int position){
         mMainListView.setSelection(position);
     }
-    public void scrollY(int y){
-        mMainListView.scrollTo(0, y);
-    }
+
     public void setAdapter(ListAdapter adapter) {
         mMainListView.setAdapter(adapter);
         mMainListView.setSelection(0);//display first item
     }
 
+    /**
+     * keep current position when add more items at top
+     * @param nAddTopItems
+     */
+    public void keepCurrentPositionAsAddTop(int nAddTopItems){
+        mMainListView.keepCurrentPositionAsAddTop(nAddTopItems);
+    }
     /**
      * Register a callback to be invoked when this list should be refreshed.
      *

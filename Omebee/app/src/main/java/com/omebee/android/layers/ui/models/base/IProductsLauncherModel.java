@@ -13,4 +13,19 @@ public interface IProductsLauncherModel extends IBaseModel{
     List<ProductsLauncherGridItemData> searchProduct(String keyword);
     void loadMore();
     void pullRefresh();
+    IPullRefreshCallback getIPullRefreshCallback();
+    void setIPullRefreshCallback(IPullRefreshCallback iPullRefreshCallback);
+    ILoadMoreCallback getILoadMoreRefreshCallback();
+    void setILoadMoreRefreshCallback(ILoadMoreCallback mILoadMoreRefreshCallback);
+
+    public interface IPullRefreshCallback{
+        void pullRefreshSuccess(List<ProductsLauncherGridItemData> productsList);
+        void pullRefreshFailed();
+    }
+    public interface  ILoadMoreCallback{
+        void loadMoreSuccess(List<ProductsLauncherGridItemData> productsList);
+        void loadMoreFailed();
+    }
 }
+
+

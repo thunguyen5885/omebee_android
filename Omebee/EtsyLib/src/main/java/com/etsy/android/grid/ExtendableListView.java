@@ -143,6 +143,9 @@ public abstract class ExtendableListView extends AbsListView {
     private Runnable mPendingCheckForTap;
     private CheckForLongPress mPendingCheckForLongPress;
 
+    //phan add start
+    private boolean mIsJustAddTop;
+    //phan add end
     private class CheckForLongPress extends WindowRunnnable implements Runnable {
         public void run() {
             final int motionPosition = mMotionPosition;
@@ -211,6 +214,9 @@ public abstract class ExtendableListView extends AbsListView {
 
         // start our layout mode drawing from the top
         mLayoutMode = LAYOUT_NORMAL;
+        //phan add start
+        mIsJustAddTop = false;
+        //phan add end
     }
 
 
@@ -321,11 +327,15 @@ public abstract class ExtendableListView extends AbsListView {
     @Override
     public void setSelection(final int position) {
         if (position >= 0) {
+            //Log.e("Phan", "setSelection position="+position);
             mLayoutMode = LAYOUT_SYNC;
             mSpecificTop = getListPaddingTop();
-
-            mFirstPosition = 0;
+            //Thu edit start
+            //mFirstPosition = 0;
+            mFirstPosition = position;
+            //Thu edit end
             if (mNeedSync) {
+                //Log.e("Phan", "setSelection mNeedSync="+mNeedSync);
                 mSyncPosition = position;
                 mSyncRowId = mAdapter.getItemId(position);
             }
@@ -333,6 +343,17 @@ public abstract class ExtendableListView extends AbsListView {
         }
     }
 
+    //Phan add start
+    public void setJustAddTop(){
+        mIsJustAddTop = true;
+    }
+    public void keepCurrentPositionAsAddTop(int nAddTopItems){
+        setJustAddTop();
+        int newCurrentPosition = nAddTopItems+mFirstPosition;
+        setSelection(newCurrentPosition);
+
+    }
+    //Phan add end
     // //////////////////////////////////////////////////////////////////////////////////////////
     // HEADER & FOOTER
     //
@@ -619,6 +640,7 @@ public abstract class ExtendableListView extends AbsListView {
                     break;
                 }
                 case LAYOUT_SYNC: {
+                    //Log.e("Phan", "fillSpecific mSyncPosition="+mSyncPosition);
                     fillSpecific(mSyncPosition, mSpecificTop);
                     break;
                 }
@@ -628,10 +650,12 @@ public abstract class ExtendableListView extends AbsListView {
                         fillFromTop(childrenTop);
                     }
                     else if (mFirstPosition < mItemCount) {
+                       // Log.e("Phan", "fillSpecific mFirstPosition="+mFirstPosition);
                         fillSpecific(mFirstPosition,
                                 oldFirst == null ? childrenTop : oldFirst.getTop());
                     }
                     else {
+                        //Log.e("Phan", "fillSpecific Position=0");
                         fillSpecific(0, childrenTop);
                     }
                     break;
@@ -659,8 +683,10 @@ public abstract class ExtendableListView extends AbsListView {
         if (count > 0 && mNeedSync) {
             mNeedSync = false;
             mSyncState = null;
-
+            //Thu edit start
             mLayoutMode = LAYOUT_SYNC;
+            //mLayoutMode = LAYOUT_NORMAL;
+            //Thu edit end
             mSyncPosition = Math.min(Math.max(0, mSyncPosition), count - 1);
             return;
         }
@@ -1181,10 +1207,10 @@ public abstract class ExtendableListView extends AbsListView {
                 if (incrementalDeltaY != 0) {
                     /*ThuNguyen comment S*/
                     // Only move the children in case of not implementing selection before
-                    //atEdge = moveTheChildren(deltaY, incrementalDeltaY);
-                    if(mLayoutMode != LAYOUT_SYNC) {
+                    atEdge = moveTheChildren(deltaY, incrementalDeltaY);
+                    /*if(mLayoutMode != LAYOUT_SYNC) {
                         atEdge = moveTheChildren(deltaY, incrementalDeltaY);
-                    }
+                    }*/
                     /*ThuNguyen comment E*/
                 }
 
@@ -1434,19 +1460,22 @@ public abstract class ExtendableListView extends AbsListView {
     }
 
     private View fillUp(int pos, int nextBottom) {
+        //Log.d("Phan", "fillUp - position:" + pos + " nextBottom:" + nextBottom);
         if (DBG) Log.d(TAG, "fillUp - position:" + pos + " nextBottom:" + nextBottom);
         View selectedView = null;
-
         int end = mClipToPadding ? getListPaddingTop() : 0;
 
-        while (/*(nextBottom > end || hasSpaceUp()) &&*/ pos >= 0) {
+        while ((nextBottom > end || hasSpaceUp() || mIsJustAddTop) && pos >= 0) {
             // TODO : add selection support
+           // Log.d("Phan", "fillUp makeAndAddView - position:" + pos + " hasSpaceUp: "+hasSpaceUp() + " nextBottom " + nextBottom + " end "+end );
             makeAndAddView(pos, nextBottom, false, false);
             pos--;
             nextBottom = getNextChildUpsBottom(pos);
             if (DBG) Log.d(TAG, "fillUp next - position:" + pos + " nextBottom:" + nextBottom);
-        }
 
+        }
+        if(mIsJustAddTop)
+            mIsJustAddTop = false;
         mFirstPosition = pos + 1;
         return selectedView;
     }
@@ -1695,6 +1724,7 @@ public abstract class ExtendableListView extends AbsListView {
 
         View child;
         if (scrapView != null) {
+           // Log.d("Phan", "getView from scrap position:" + position);
             if (DBG) Log.d(TAG, "getView from scrap position:" + position);
             child = mAdapter.getView(position, scrapView, this);
 
@@ -1707,6 +1737,7 @@ public abstract class ExtendableListView extends AbsListView {
         }
         else {
             if (DBG) Log.d(TAG, "getView position:" + position);
+            //Log.d("Phan", "getView position:" + position);
             child = mAdapter.getView(position, null, this);
         }
 
@@ -2209,7 +2240,6 @@ public abstract class ExtendableListView extends AbsListView {
             else {
                 rememberSyncState();
             }
-
             updateEmptyStatus();
             requestLayout();
         }
