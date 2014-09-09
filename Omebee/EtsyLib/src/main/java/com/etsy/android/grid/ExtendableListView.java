@@ -17,6 +17,7 @@
 
 package com.etsy.android.grid;
 
+import android.animation.LayoutTransition;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Rect;
@@ -29,6 +30,8 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.*;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -217,6 +220,7 @@ public abstract class ExtendableListView extends AbsListView {
         //phan add start
         mIsJustAddTop = false;
         //phan add end
+
     }
 
 
@@ -548,7 +552,7 @@ public abstract class ExtendableListView extends AbsListView {
         if (mAdapter == null) {
             return;
         }
-
+        Log.d("ThuNguyen", "OnLayout()++++++");
         if (changed) {
             int childCount = getChildCount();
             for (int i = 0; i < childCount; i++) {
@@ -1205,13 +1209,7 @@ public abstract class ExtendableListView extends AbsListView {
                 // No need to do all this work if we're not going to move anyway
                 boolean atEdge = false;
                 if (incrementalDeltaY != 0) {
-                    /*ThuNguyen comment S*/
-                    // Only move the children in case of not implementing selection before
                     atEdge = moveTheChildren(deltaY, incrementalDeltaY);
-                    /*if(mLayoutMode != LAYOUT_SYNC) {
-                        atEdge = moveTheChildren(deltaY, incrementalDeltaY);
-                    }*/
-                    /*ThuNguyen comment E*/
                 }
 
                 // Check to see if we have bumped into the scroll limit
@@ -1272,7 +1270,6 @@ public abstract class ExtendableListView extends AbsListView {
         final int spaceAbove = effectivePaddingTop - getFirstChildTop();
         final int end = gridHeight - effectivePaddingBottom;
         final int spaceBelow = getLastChildBottom() - end;
-
         final int height = gridHeight - getListPaddingBottom() - getListPaddingTop();
 
         if (incrementalDeltaY < 0) {
@@ -1474,8 +1471,9 @@ public abstract class ExtendableListView extends AbsListView {
             if (DBG) Log.d(TAG, "fillUp next - position:" + pos + " nextBottom:" + nextBottom);
 
         }
-        if(mIsJustAddTop)
+        if(mIsJustAddTop) {
             mIsJustAddTop = false;
+        }
         mFirstPosition = pos + 1;
         return selectedView;
     }
@@ -1510,7 +1508,6 @@ public abstract class ExtendableListView extends AbsListView {
      */
     private View fillSpecific(int position, int top) {
         boolean tempIsSelected = false; // ain't no body got time for that @ Etsy
-        View temp = makeAndAddView(position, top, true, tempIsSelected);
         // Possibly changed again in fillUp if we add rows above this one.
         mFirstPosition = position;
 
@@ -1521,6 +1518,7 @@ public abstract class ExtendableListView extends AbsListView {
         int nextTop = getNextChildDownsTop(position + 1);
 
         above = fillUp(position - 1, nextBottom);
+        View temp = makeAndAddView(position, top, true, tempIsSelected);
         // This will correct for the top of the first view not touching the top of the list
         adjustViewsUpOrDown();
         below = fillDown(position + 1, nextTop);
@@ -1547,7 +1545,7 @@ public abstract class ExtendableListView extends AbsListView {
 
         onChildCreated(position, flowDown);
 
-        if (!mDataChanged) {
+        if (!mDataChanged || mLayoutMode == LAYOUT_SYNC) {
             // Try to use an existing view for this position
             child = mRecycleBin.getActiveView(position);
             if (child != null) {
@@ -2064,6 +2062,7 @@ public abstract class ExtendableListView extends AbsListView {
             mLastFlingY = initialY;
             mScroller.startScroll(0, initialY, 0, distance, duration);
             mTouchMode = TOUCH_MODE_FLINGING;
+            scrollUp();
             postOnAnimate(this);
         }
 
@@ -2943,6 +2942,35 @@ public abstract class ExtendableListView extends AbsListView {
 
         public boolean sameWindow() {
             return hasWindowFocus() && getWindowAttachCount() == mOriginalAttachCount;
+        }
+    }
+    private void scrollUp() {
+        int mOffsetBetweenItems = 10;
+        for(int i = getFirstVisiblePosition(); i < getLastChildBottom(); i++) {
+            final View child = getChildAt(i);
+            final int index = i;
+//            final int newleft = child.getLeft() + mOffsetBetweenItems;
+//            final int newTop = child.getTop() - mOffsetBetweenItems;
+            TranslateAnimation scrollUp = new TranslateAnimation(0, 0, mOffsetBetweenItems, 0);
+            scrollUp.setDuration(1500);
+            scrollUp.setFillEnabled(true);
+            scrollUp.setAnimationListener(
+                    new Animation.AnimationListener() {
+
+                        @Override
+                        public void onAnimationStart(Animation animation) {}
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {}
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+//                            child.layout(newleft, newTop, newleft + child.getMeasuredWidth(), newTop + child.getMeasuredHeight() );
+                        }
+                    }
+            );
+
+            child.startAnimation(scrollUp);
         }
     }
 }

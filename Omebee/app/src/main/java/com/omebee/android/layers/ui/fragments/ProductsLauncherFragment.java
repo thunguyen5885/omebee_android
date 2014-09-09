@@ -104,12 +104,16 @@ public class ProductsLauncherFragment extends BaseFragment{
      * Load more products complete
      * @param productList
      */
-    public void loadMoreComplete(List<ProductsLauncherGridItemData> productList){
+    public void loadMoreComplete(List<ProductsLauncherGridItemData> productList, boolean isEndOfList){
         // Make sure that load more complete to reset something
         mProductsGrid.onLoadMoreComplete();
         if (productList != null && productList.size() > 0) {
             mProductsGridAdapter.addItemsOnLast(productList);
             mProductsGridAdapter.notifyDataSetChanged();
+        }
+        // Process when the listview load data completely
+        if(isEndOfList){
+            mProductsGrid.onReachToEndOfList();
         }
     }
 

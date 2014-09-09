@@ -70,7 +70,8 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
     private IPullRefreshCallback mIPullRefreshCallback;
     private ILoadMoreCallback mILoadMoreRefreshCallback;
     // Temporary to limit the load more
-    private static final int TIMES_TO_LOAD_MORE = 5000;
+    private static final int TIMES_TO_LOAD_MORE = 10;
+    private static final int ITEMS_PER_PAGE_LOAD_MORE = 4;
     private int mCurrentPage = 0;
     private int mRefreshCount = 0;
 
@@ -108,7 +109,6 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
     @Override
     public List<ProductsLauncherGridItemData> loadProductList() {
-
 
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
         int countTest = 0;
@@ -174,7 +174,8 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
         @Override
         protected void onPostExecute(List<ProductsLauncherGridItemData> result) {
             if(mILoadMoreRefreshCallback != null){
-                mILoadMoreRefreshCallback.loadMoreSuccess(result);
+                boolean isEndOfList = (result != null) && (result.size() < ITEMS_PER_PAGE_LOAD_MORE);
+                mILoadMoreRefreshCallback.loadMoreSuccess(result, isEndOfList);
             }
             super.onPostExecute(result);
         }
@@ -243,10 +244,10 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
         mRefreshCount ++;
         Random random = new Random();
-        int num = random.nextInt(5);
+        int num = random.nextInt(50);
         Log.d("ThuNguyen", "createDumpDataForPullRefresh "+mRefreshCount +" with num = "+num);
-        //if(mRefreshCount%2==0)
-        //    num = 0;
+        if(num%2==0)
+            num++;
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
         for(int index = 0; index < num; index ++) {
             String pictureName = "New picture " + mPictureCount;//((mRefreshCount - 1) * num  + index + 1);
@@ -269,9 +270,13 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
     private List<ProductsLauncherGridItemData> createDumpDataForLoadMore(){
         Log.d("ThuNguyen", "createDumpDataForLoadMore "+mCurrentPage);
         mCurrentPage ++;
-        int num = 4;
+        int num = ITEMS_PER_PAGE_LOAD_MORE;
+
         if(mCurrentPage <= TIMES_TO_LOAD_MORE){ // Load more 10 items
             List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
+            if(mCurrentPage == TIMES_TO_LOAD_MORE - 1){
+                num = ITEMS_PER_PAGE_LOAD_MORE - 1;
+            }
             for(int index = 0; index < num; index ++) {
                 String pictureName = "Old Picture " + ((mCurrentPage - 1) * num  + index + 1);
                 Random random = new Random();

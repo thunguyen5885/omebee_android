@@ -2,6 +2,7 @@ package com.omebee.android.layers.ui.components.views.util;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.etsy.android.grid.util.DynamicHeightImageView;
@@ -40,4 +41,6 @@ public class DynamicImageView extends NetworkImageView{
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
     }
+
+
 }

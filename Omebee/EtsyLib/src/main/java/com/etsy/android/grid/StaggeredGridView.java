@@ -1038,9 +1038,9 @@ public class StaggeredGridView extends ExtendableListView {
     }
 
     private int getChildColumn(final int position, final boolean flowDown) {
-
+        /*ThuNguyen Start*/
         // do we already have a column for this child position?
-        int column = getPositionColumn(position);
+        /*int column = getPositionColumn(position);
         // we don't have the column or it no longer fits in our grid
         final int columnCount = mColumnCount;
         if (column < 0 || column >= columnCount) {
@@ -1055,7 +1055,13 @@ public class StaggeredGridView extends ExtendableListView {
 
             }
         }
-        return column;
+        return column;*/
+        // Make sure that the position to be added is the column order
+        if(position < mColumnCount)
+            return position;
+        else
+            return position%mColumnCount;
+        /*ThuNguyen End*/
     }
 
     private void initColumnTopsAndBottoms() {

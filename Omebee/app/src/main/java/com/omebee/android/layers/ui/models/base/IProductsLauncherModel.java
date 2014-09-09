@@ -23,7 +23,7 @@ public interface IProductsLauncherModel extends IBaseModel{
         void pullRefreshFailed();
     }
     public interface  ILoadMoreCallback{
-        void loadMoreSuccess(List<ProductsLauncherGridItemData> productsList);
+        void loadMoreSuccess(List<ProductsLauncherGridItemData> productsList, boolean isEndOfList);
         void loadMoreFailed();
     }
 }

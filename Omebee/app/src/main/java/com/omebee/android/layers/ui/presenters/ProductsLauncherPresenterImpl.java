@@ -71,15 +71,15 @@ public class ProductsLauncherPresenterImpl implements IProductsLauncherPresenter
     }
 
     @Override
-    public void loadMoreSuccess(List<ProductsLauncherGridItemData> productsList) {
-        mView.loadMoreProductsComplete(productsList);
+    public void loadMoreSuccess(List<ProductsLauncherGridItemData> productsList, boolean isEndOfList) {
+        mView.loadMoreProductsComplete(productsList, isEndOfList);
         if(loadMoreLock.isLocked())
             loadMoreLock.unlock();
     }
 
     @Override
     public void loadMoreFailed() {
-        mView.loadMoreProductsComplete(new ArrayList<ProductsLauncherGridItemData>());
+        mView.loadMoreProductsComplete(new ArrayList<ProductsLauncherGridItemData>(), false);
         if(loadMoreLock.isLocked())
             loadMoreLock.unlock();
     }

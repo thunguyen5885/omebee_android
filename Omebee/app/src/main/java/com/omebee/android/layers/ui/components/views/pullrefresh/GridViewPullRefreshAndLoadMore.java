@@ -91,8 +91,8 @@ public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
                     if (visibleItemCount == totalItemCount) {
                         return;
                     }
-
-                    boolean loadMore = firstVisibleItem + visibleItemCount >= (totalItemCount - 1); // -1 for the footerview
+                    // Start to load more when user scroll over 1/4 the number of list
+                    boolean loadMore = firstVisibleItem + visibleItemCount >= ((totalItemCount - 1)/4); // -1 for the footerview
                    // Log.d("ThuNguyen", "isLoadMore = " + loadMore);
                    // Log.d("ThuNguyen", "firstVisibleItem = " + firstVisibleItem + ",visibleItemCount = " + visibleItemCount + ",totalItemCount = " + totalItemCount);
                     if (!mIsLoadingMore && loadMore) {
@@ -151,6 +151,12 @@ public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
         mProgressBarLoadMore.setVisibility(View.GONE);
     }
 
+    public void onReachToEndOfList(){
+        mIsLoadingMore = true;
+    }
+    public void onResetToBeginLoading(){
+        mIsLoadingMore = false;
+    }
     /**
      * Register a callback to be invoked when this list reaches the end (last
      * item be visible)

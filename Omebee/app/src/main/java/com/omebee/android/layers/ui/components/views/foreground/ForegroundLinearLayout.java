@@ -10,6 +10,9 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 
 import com.omebee.android.R;
@@ -49,6 +52,13 @@ public class ForegroundLinearLayout extends LinearLayout {
             setForeground(d);
         }
         a.recycle();
+
+        addOnLayoutChangeListener(new OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                Log.d("ThuNguyen", "onLayoutChange() at ForegroundLinearLayout");
+            }
+        });
     }
     /**
      * Supply a Drawable that is to be rendered on top of all of the child views in the layout.
@@ -124,4 +134,6 @@ public class ForegroundLinearLayout extends LinearLayout {
             foreground.draw(canvas);
         }
     }
+
+
 }

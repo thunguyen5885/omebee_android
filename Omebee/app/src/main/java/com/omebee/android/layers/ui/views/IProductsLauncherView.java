@@ -11,6 +11,6 @@ import java.util.List;
 public interface IProductsLauncherView extends IBaseView {
     void displayProductName(String name);
     void showProducts(List<ProductsLauncherGridItemData> productList);
-    void loadMoreProductsComplete(List<ProductsLauncherGridItemData> productList);
+    void loadMoreProductsComplete(List<ProductsLauncherGridItemData> productList, boolean isEndOfList);
     void pullRefreshProductsComplete(List<ProductsLauncherGridItemData> productList);
 }
