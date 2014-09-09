@@ -243,10 +243,10 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
         mRefreshCount ++;
         Random random = new Random();
-        int num = random.nextInt(5);
+        int num = random.nextInt(50);
         Log.d("ThuNguyen", "createDumpDataForPullRefresh "+mRefreshCount +" with num = "+num);
-        //if(mRefreshCount%2==0)
-        //    num = 0;
+        if(num%2==0)
+            num++;
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
         for(int index = 0; index < num; index ++) {
             String pictureName = "New picture " + mPictureCount;//((mRefreshCount - 1) * num  + index + 1);

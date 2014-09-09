@@ -8,6 +8,8 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -36,11 +38,13 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
 
     private Drawable mDrawable;
     private final LayoutInflater mLayoutInflater;
+    private boolean flagAnimation;
     public ProductsLauncherGridAdapter(Context context){
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
         mImageLoader = new ImageLoader(Volley.newRequestQueue(context), ImageMemoryCache.INSTANCE);
         mDrawable = mContext.getResources().getDrawable(R.drawable.layout_item_selector);
+        flagAnimation = false;
 
     }
     @Override
@@ -90,7 +94,10 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
         holder.productImage.setImageUrl(productItemData.getProductUrl(), mImageLoader);
         // Set the TextView's contents
         holder.title.setText(productItemData.getProductName());
-
+        if(flagAnimation) {
+            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.view_fade_in);
+            convertView.startAnimation(animation);
+        }
         return convertView;
     }
     private class ViewHolder {
@@ -136,6 +143,7 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
     public void addItemsOnFirst(List<ProductsLauncherGridItemData> productsList){
         if(productsList != null && productsList.size() > 0) {
             this.mProductsList.addAll(0, productsList);
+            flagAnimation = true;
         }
     }
 
