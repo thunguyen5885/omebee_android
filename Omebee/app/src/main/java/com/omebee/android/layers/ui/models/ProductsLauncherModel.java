@@ -200,7 +200,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
             // Simulates a background task
             try {
-                Thread.sleep(4000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
             }
 
@@ -244,10 +244,11 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
         mRefreshCount ++;
         Random random = new Random();
-        int num = random.nextInt(50);
+        int num = 4;//random.nextInt(10);
         Log.d("ThuNguyen", "createDumpDataForPullRefresh "+mRefreshCount +" with num = "+num);
-        if(num%2==0)
-            num++;
+//        if(num%2==0) {
+//            num++;
+//        }
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
         for(int index = 0; index < num; index ++) {
             String pictureName = "New picture " + mPictureCount;//((mRefreshCount - 1) * num  + index + 1);

@@ -38,13 +38,11 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
 
     private Drawable mDrawable;
     private final LayoutInflater mLayoutInflater;
-    private boolean flagAnimation;
     public ProductsLauncherGridAdapter(Context context){
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
         mImageLoader = new ImageLoader(Volley.newRequestQueue(context), ImageMemoryCache.INSTANCE);
         mDrawable = mContext.getResources().getDrawable(R.drawable.layout_item_selector);
-        flagAnimation = false;
 
     }
     @Override
@@ -74,30 +72,12 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
         else {
             holder = (ViewHolder) convertView.getTag();
         }
-//        View v = convertView;
-//        if (v == null) {
-//            LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            v = vi.inflate(R.layout.ctrl_grid_products_launcher_item, null);
-//
-//        }
-////        if(v instanceof ForegroundLinearLayout){
-////            ((ForegroundLinearLayout)v).setForeground(mDrawable);
-////        }
-//        ViewHolder holder = (ViewHolder) v.getTag();
-//        if (holder == null) {
-//            holder = new ViewHolder(v);
-//            v.setTag(holder);
-//        }
-       // double positionHeight = getRandomHeightRatio();
         holder.productImage.setHeightRatio(productItemData.getImageHeightRatio());
         // Load the thumbnail image
         holder.productImage.setImageUrl(productItemData.getProductUrl(), mImageLoader);
         // Set the TextView's contents
         holder.title.setText(productItemData.getProductName());
-        if(flagAnimation) {
-            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.view_fade_in);
-            convertView.startAnimation(animation);
-        }
+
         return convertView;
     }
     private class ViewHolder {
@@ -143,7 +123,6 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
     public void addItemsOnFirst(List<ProductsLauncherGridItemData> productsList){
         if(productsList != null && productsList.size() > 0) {
             this.mProductsList.addAll(0, productsList);
-            flagAnimation = true;
         }
     }
 

@@ -5,6 +5,8 @@ import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseFragment;
@@ -129,6 +131,16 @@ public class ProductsLauncherFragment extends BaseFragment{
             mProductsGridAdapter.notifyDataSetChanged();
             // Keep the last position that user stands before
             mProductsGrid.keepCurrentPositionAsAddTop(productList.size());
+            // Prefer an animation to make effect
+            createAnimationForPullRefresh();
         }
+    }
+
+    /**
+     * Create fade-in animation
+     */
+    private void createAnimationForPullRefresh(){
+        Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.view_fade_in);
+        getView().startAnimation(animation);
     }
 }

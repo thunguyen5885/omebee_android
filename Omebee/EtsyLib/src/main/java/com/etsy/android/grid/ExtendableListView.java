@@ -149,6 +149,10 @@ public abstract class ExtendableListView extends AbsListView {
     //phan add start
     private boolean mIsJustAddTop;
     //phan add end
+    //ThuNguyen add start
+    private boolean mIsNeedAnimationForGap = false;
+    private boolean mIsAnimationForGapFirstTime = true;
+    //ThuNguyen add end
     private class CheckForLongPress extends WindowRunnnable implements Runnable {
         public void run() {
             final int motionPosition = mMotionPosition;
@@ -342,6 +346,9 @@ public abstract class ExtendableListView extends AbsListView {
                 //Log.e("Phan", "setSelection mNeedSync="+mNeedSync);
                 mSyncPosition = position;
                 mSyncRowId = mAdapter.getItemId(position);
+            }
+            if(position > 0){
+                mIsNeedAnimationForGap = true;
             }
             requestLayout();
         }
@@ -1510,7 +1517,7 @@ public abstract class ExtendableListView extends AbsListView {
         boolean tempIsSelected = false; // ain't no body got time for that @ Etsy
         // Possibly changed again in fillUp if we add rows above this one.
         mFirstPosition = position;
-
+        View temp = makeAndAddView(position, top, true, tempIsSelected);
         View above;
         View below;
 
@@ -1518,13 +1525,16 @@ public abstract class ExtendableListView extends AbsListView {
         int nextTop = getNextChildDownsTop(position + 1);
 
         above = fillUp(position - 1, nextBottom);
-        View temp = makeAndAddView(position, top, true, tempIsSelected);
         // This will correct for the top of the first view not touching the top of the list
         adjustViewsUpOrDown();
         below = fillDown(position + 1, nextTop);
+
         int childCount = getChildCount();
         if (childCount > 0) {
             correctTooHigh(childCount);
+            if(mLayoutMode == LAYOUT_SYNC) {
+                offsetFirstOrSecondChildTopAndBottom();
+            }
         }
         if (tempIsSelected) {
             return temp;
@@ -1975,6 +1985,76 @@ public abstract class ExtendableListView extends AbsListView {
         }
     }
 
+    /**
+     * Fill the gap by animation effect
+     */
+    protected void offsetFirstOrSecondChildTopAndBottom() {
+        if(!mIsNeedAnimationForGap){
+            return;
+        }
+        mIsNeedAnimationForGap = false;
+        View firstChild = getChildAt(0);
+        View secondChild = getChildAt(1);
+        int offset = 0;
+        boolean isMakeOffsetOnLeft = true;
+        int delta = 0; // distance to offset
+        if(firstChild != null && secondChild != null){
+            int firstChildTop = firstChild.getTop();
+            int secondChildTop = secondChild.getTop();
+            Log.d("ThuNguyen", "firstChildTop =" + firstChildTop);
+            Log.d("ThuNguyen", "secondChildTop=" + secondChildTop);
+            if(firstChildTop > secondChildTop){
+                offset = secondChildTop - getListPaddingTop();
+                delta = firstChildTop - secondChildTop;
+                isMakeOffsetOnLeft = true;
+                Log.d("ThuNguyen", "offset =" + offset);
+            }else{
+                offset = firstChildTop - getListPaddingTop();
+                delta = secondChildTop - firstChildTop;
+                isMakeOffsetOnLeft = false;
+                Log.d("ThuNguyen", "offset =" + offset);
+            }
+            final int deltaY = delta;
+            if(offset != 0 && delta != 0) {
+                for (int index = 0; index < getChildCount(); index++) {
+                    final View view = getChildAt(index);
+                    if ((isMakeOffsetOnLeft && index % 2 == 0) ||
+                            (!isMakeOffsetOnLeft && index % 2 != 0)) {
+                        Log.d("ThuNguyen", "Offset left = "+ isMakeOffsetOnLeft + ",index = " + index + ",delta="+delta);
+                        // Add animation here
+                        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0 , view.getTop(), view.getTop() - delta);
+                        translateAnimation.setDuration(1000);
+                        view.setAnimation(translateAnimation);
+                        if(mIsAnimationForGapFirstTime){
+                            mIsAnimationForGapFirstTime = false;
+                            view.offsetTopAndBottom(-deltaY);
+                            //view.invalidate();
+                        }else {
+                            translateAnimation.setFillEnabled(true);
+                            translateAnimation.setFillBefore(false);
+                            translateAnimation.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+                                    view.offsetTopAndBottom(-deltaY);
+                                    view.invalidate();
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        }
+
+    }
     @Override
     public int getFirstVisiblePosition() {
         return Math.max(0, mFirstPosition - getHeaderViewsCount());
@@ -2062,7 +2142,6 @@ public abstract class ExtendableListView extends AbsListView {
             mLastFlingY = initialY;
             mScroller.startScroll(0, initialY, 0, distance, duration);
             mTouchMode = TOUCH_MODE_FLINGING;
-            scrollUp();
             postOnAnimate(this);
         }
 
@@ -2944,33 +3023,5 @@ public abstract class ExtendableListView extends AbsListView {
             return hasWindowFocus() && getWindowAttachCount() == mOriginalAttachCount;
         }
     }
-    private void scrollUp() {
-        int mOffsetBetweenItems = 10;
-        for(int i = getFirstVisiblePosition(); i < getLastChildBottom(); i++) {
-            final View child = getChildAt(i);
-            final int index = i;
-//            final int newleft = child.getLeft() + mOffsetBetweenItems;
-//            final int newTop = child.getTop() - mOffsetBetweenItems;
-            TranslateAnimation scrollUp = new TranslateAnimation(0, 0, mOffsetBetweenItems, 0);
-            scrollUp.setDuration(1500);
-            scrollUp.setFillEnabled(true);
-            scrollUp.setAnimationListener(
-                    new Animation.AnimationListener() {
 
-                        @Override
-                        public void onAnimationStart(Animation animation) {}
-
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {}
-
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-//                            child.layout(newleft, newTop, newleft + child.getMeasuredWidth(), newTop + child.getMeasuredHeight() );
-                        }
-                    }
-            );
-
-            child.startAnimation(scrollUp);
-        }
-    }
 }
