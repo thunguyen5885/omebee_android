@@ -244,7 +244,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
         mRefreshCount ++;
         Random random = new Random();
-        int num = 4;//random.nextInt(10);
+        int num = random.nextInt(10);
         Log.d("ThuNguyen", "createDumpDataForPullRefresh "+mRefreshCount +" with num = "+num);
 //        if(num%2==0) {
 //            num++;

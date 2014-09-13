@@ -1532,9 +1532,9 @@ public abstract class ExtendableListView extends AbsListView {
         int childCount = getChildCount();
         if (childCount > 0) {
             correctTooHigh(childCount);
-            if(mLayoutMode == LAYOUT_SYNC) {
-                offsetFirstOrSecondChildTopAndBottom();
-            }
+//            if(mLayoutMode == LAYOUT_SYNC) {
+//                offsetFirstOrSecondChildTopAndBottom();
+//            }
         }
         if (tempIsSelected) {
             return temp;
@@ -1555,7 +1555,7 @@ public abstract class ExtendableListView extends AbsListView {
 
         onChildCreated(position, flowDown);
 
-        if (!mDataChanged || mLayoutMode == LAYOUT_SYNC) {
+        if (!mDataChanged) {
             // Try to use an existing view for this position
             child = mRecycleBin.getActiveView(position);
             if (child != null) {
