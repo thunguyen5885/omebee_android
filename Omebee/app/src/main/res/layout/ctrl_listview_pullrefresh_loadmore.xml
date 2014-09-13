@@ -9,7 +9,7 @@
         app:column_count= "2"
         app:item_margin_left="10dp"
         app:item_margin_bottom="35dp"
-
+        app:item_margin_top="10dp"
         />
     <!--<ListView-->
         <!--android:id="@+id/mainlistview"-->
