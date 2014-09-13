@@ -65,7 +65,7 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
         ProductsLauncherGridItemData productItemData = getItem(position);
         ViewHolder holder;
         if (convertView == null) {
-            convertView = mLayoutInflater.inflate(R.layout.ctrl_grid_products_launcher_item, parent, false);
+            convertView = mLayoutInflater.inflate(R.layout.square_layout, parent, false);
             holder = new ViewHolder(convertView);
             //Log.d("Phan", "create new View position:" + position);
         }

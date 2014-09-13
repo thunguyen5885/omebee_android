@@ -6,7 +6,10 @@
         android:layout_height="match_parent"
         android:scrollbars="none"
         android:animateLayoutChanges="true"
-        app:column_count= "2"/>
+        app:column_count= "2"
+        app:item_margin = "10dp"
+
+        />
     <!--<ListView-->
         <!--android:id="@+id/mainlistview"-->
         <!--android:layout_width="match_parent"-->
