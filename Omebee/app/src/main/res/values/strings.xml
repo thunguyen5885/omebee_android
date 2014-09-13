@@ -4,7 +4,7 @@
     <string-array name="product_menu_array">
         <item>New</item>
         <item>Sale</item>
-        <item>My lykelist</item>
+        <item>My lykelist1</item>
         <item>Most Favorite</item>
         <item>Mix Layout</item>
     </string-array>
