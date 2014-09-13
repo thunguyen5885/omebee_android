@@ -62,7 +62,10 @@ public class StaggeredGridView extends ExtendableListView {
     private int mGridPaddingRight;
     private int mGridPaddingTop;
     private int mGridPaddingBottom;
-
+    private int mItemMarginLeft;
+    private int mItemMarginRight;
+    private int mItemMarginTop;
+    private int mItemMarginBottom;
     /***
      * Our grid item state record with {@link Parcelable} implementation
      * so we can persist them across the SGV lifecycle.
@@ -171,6 +174,14 @@ public class StaggeredGridView extends ExtendableListView {
 
             mItemMargin = typedArray.getDimensionPixelSize(
                     R.styleable.StaggeredGridView_item_margin, 0);
+            mItemMarginLeft = typedArray.getDimensionPixelSize(
+                    R.styleable.StaggeredGridView_item_margin_left, 0);
+            mItemMarginRight = typedArray.getDimensionPixelSize(
+                    R.styleable.StaggeredGridView_item_margin_right, 0);
+            mItemMarginTop = typedArray.getDimensionPixelSize(
+                    R.styleable.StaggeredGridView_item_margin_top, 0);
+            mItemMarginBottom = typedArray.getDimensionPixelSize(
+                    R.styleable.StaggeredGridView_item_margin_bottom, 0);
             mGridPaddingLeft = typedArray.getDimensionPixelSize(
                     R.styleable.StaggeredGridView_grid_paddingLeft, 0);
             mGridPaddingRight = typedArray.getDimensionPixelSize(
@@ -542,11 +553,19 @@ public class StaggeredGridView extends ExtendableListView {
 
     private int getChildTopMargin(final int position) {
         boolean isFirstRow = position < (getHeaderViewsCount() + mColumnCount);
-        return isFirstRow ? mItemMargin : 0;
+        /*ThuNguyen Start*/
+        //return isFirstRow ? mItemMargin : 0;
+        // Make the top margin followed by attributes
+        return isFirstRow ? mItemMarginTop : 0;
+        /*ThuNguyen End*/
     }
 
     private int getChildBottomMargin() {
-        return mItemMargin;
+        /*ThuNguyen Start*/
+        //return mItemMargin;
+        // Make the bottom margin followed by attributes
+        return mItemMarginBottom;
+        /*ThuNguyen End*/
     }
 
     @Override
@@ -892,12 +911,19 @@ public class StaggeredGridView extends ExtendableListView {
     }
 
     private int calculateColumnWidth(final int gridWidth) {
+        /*ThuNguyen Start*/
         final int listPadding = getRowPaddingLeft() + getRowPaddingRight();
-        return (gridWidth - listPadding - mItemMargin * (mColumnCount + 1)) / mColumnCount;
+        //return (gridWidth - listPadding - mItemMargin * (mColumnCount + 1)) / mColumnCount;
+        return (gridWidth - listPadding - mItemMarginLeft * (mColumnCount + 1)) / mColumnCount;
+        /*ThuNguyen Start*/
     }
 
     private int calculateColumnLeft(final int colIndex) {
-        return getRowPaddingLeft() + mItemMargin + ((mItemMargin + mColumnWidth) * colIndex);
+        /*ThuNguyen Start*/
+        //return getRowPaddingLeft() + mItemMargin + ((mItemMargin + mColumnWidth) * colIndex);
+
+        return getRowPaddingLeft() + mItemMarginLeft + ((mItemMarginLeft + mColumnWidth) * colIndex);
+        /*ThuNguyen End*/
     }
 
     /***

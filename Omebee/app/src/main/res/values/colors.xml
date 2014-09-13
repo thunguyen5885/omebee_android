@@ -2,6 +2,7 @@
 <resources>
     <color name="gray_2">#AFAFAF</color>
     <color name="gray_1">#C0C0C0</color>
+    <color name="staggered_grid_bg">#EDEDED</color>
     <color name="sa_green">#14a804</color>
     <color name="stacked_green">#118504</color>
     <color name="accent_green">#97e08f</color>
