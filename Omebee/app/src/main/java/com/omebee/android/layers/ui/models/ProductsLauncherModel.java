@@ -20,6 +20,7 @@ import java.util.Random;
  * Created by phan on 8/6/2014.
  */
 public class ProductsLauncherModel implements IProductsLauncherModel{
+    private static final String TAG = "ProductsLauncherModel";
     String LARGE_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/large/";
     //static final String THUMB_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/";
     private final Random mRandom = new Random();
@@ -228,7 +229,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
         Random random = new Random();
         int index = random.nextInt(ITEMS.length);
         String url = ITEMS[index].getProductUrl();
-        Log.d("ThuNguyen", "URL: " + url);
+        Log.d(TAG, "URL: " + url);
         return url;
     }
     private double getRandomHeightRatio() {
@@ -244,12 +245,17 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
         mRefreshCount ++;
         Random random = new Random();
-        int num = random.nextInt(10);
-        Log.d("ThuNguyen", "createDumpDataForPullRefresh "+mRefreshCount +" with num = "+num);
+        int num = random.nextInt(100)+50;
+        Log.d(TAG, "createDumpDataForPullRefresh "+mRefreshCount +" with num = "+num);
 //        if(num%2==0) {
 //            num++;
 //        }
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
+        if(mRefreshCount > TIMES_TO_LOAD_MORE) {
+            Log.d(TAG, "createDumpDataForPullRefresh "+mRefreshCount +" with num = 0");
+            return productList;
+        }
+
         for(int index = 0; index < num; index ++) {
             String pictureName = "New picture " + mPictureCount;//((mRefreshCount - 1) * num  + index + 1);
             mPictureCount++;
@@ -261,6 +267,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
             productList.add(0, item);
 
         }
+        Log.d(TAG, "createDumpDataForPullRefresh "+mRefreshCount +" with Picture number = "+(mPictureCount-1));
         return productList;
     }
 
@@ -269,7 +276,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
      * @return
      */
     private List<ProductsLauncherGridItemData> createDumpDataForLoadMore(){
-        Log.d("ThuNguyen", "createDumpDataForLoadMore "+mCurrentPage);
+        Log.d(TAG, "createDumpDataForLoadMore "+mCurrentPage);
         mCurrentPage ++;
         int num = ITEMS_PER_PAGE_LOAD_MORE;
 

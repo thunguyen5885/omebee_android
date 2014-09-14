@@ -32,6 +32,7 @@ import java.util.Random;
  * Created by ThuNguyen on 8/9/2014.
  */
 public class ProductsLauncherGridAdapter extends BaseAdapter{
+    private static final String TAG = "ProductsLauncherGridAdapter";
     private Context mContext;
     private ImageLoader mImageLoader;
     private List<ProductsLauncherGridItemData> mProductsList = new ArrayList<ProductsLauncherGridItemData>();
@@ -67,7 +68,6 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
         if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.square_layout, parent, false);
             holder = new ViewHolder(convertView);
-            //Log.d("Phan", "create new View position:" + position);
         }
         else {
             holder = (ViewHolder) convertView.getTag();

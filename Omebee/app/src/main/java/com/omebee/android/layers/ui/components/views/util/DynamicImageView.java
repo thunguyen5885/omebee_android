@@ -11,6 +11,7 @@ import com.etsy.android.grid.util.DynamicHeightImageView;
  * Created by Thu Nguyen on 8/29/2014.
  */
 public class DynamicImageView extends NetworkImageView{
+    private static final String TAG = "DynamicImageView";
     private double mHeightRatio;
     public DynamicImageView(Context context, AttributeSet attrs)
     {

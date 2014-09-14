@@ -15,6 +15,7 @@ import com.omebee.android.R;
 
 import android.widget.RelativeLayout;
 public class ForegroundRelativeLayout extends RelativeLayout {
+    private static final String TAG = "ForegroundRelativeLayout";
     // UI
     private Drawable foreground;
     // Controller/logic fields

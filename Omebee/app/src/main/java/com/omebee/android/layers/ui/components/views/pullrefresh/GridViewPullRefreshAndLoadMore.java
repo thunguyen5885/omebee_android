@@ -21,6 +21,7 @@ import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
  * Created by phannguyen on 9/2/14.
  */
 public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
+    private static final String TAG = "GridViewPullRefreshAndLoadMore";
     protected LayoutInflater mInflater;
     private CustomStaggeredGridView mMainListView;
 
@@ -85,7 +86,7 @@ public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
                 //mMainListView.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
-               // Log.d("PhanNguyen", "SCROLL To position "+mMainListView.get());
+               // Log.d(TAG, "SCROLL To position "+mMainListView.get());
                 // if need a list to load more items
                 if (mOnLoadMoreListener != null) {
                     if (visibleItemCount == totalItemCount) {
@@ -93,8 +94,8 @@ public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
                     }
                     // Start to load more when user scroll over 1/4 the number of list
                     boolean loadMore = firstVisibleItem + visibleItemCount >= ((totalItemCount - 1)/4); // -1 for the footerview
-                   // Log.d("ThuNguyen", "isLoadMore = " + loadMore);
-                   // Log.d("ThuNguyen", "firstVisibleItem = " + firstVisibleItem + ",visibleItemCount = " + visibleItemCount + ",totalItemCount = " + totalItemCount);
+                   // Log.d("TAG, "isLoadMore = " + loadMore);
+                   // Log.d(TAG, "firstVisibleItem = " + firstVisibleItem + ",visibleItemCount = " + visibleItemCount + ",totalItemCount = " + totalItemCount);
                     if (!mIsLoadingMore && loadMore) {
 				        mProgressBarLoadMore.setVisibility(View.VISIBLE);
                         mIsLoadingMore = true;

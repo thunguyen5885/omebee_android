@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import com.omebee.android.R;
 
 public class ForegroundLinearLayout extends LinearLayout {
+    private static final String TAG = "ForegroundLinearLayout";
     // UI
     private Drawable foreground;
     // Controller/logic fields
@@ -56,7 +57,7 @@ public class ForegroundLinearLayout extends LinearLayout {
         addOnLayoutChangeListener(new OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                Log.d("ThuNguyen", "onLayoutChange() at ForegroundLinearLayout");
+                //Log.d(TAG, "onLayoutChange() at ForegroundLinearLayout");
             }
         });
     }
