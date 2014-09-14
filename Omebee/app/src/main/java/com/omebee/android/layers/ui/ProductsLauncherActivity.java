@@ -37,6 +37,7 @@ import java.util.List;
  * Created by phan on 8/6/2014.
  */
 public class ProductsLauncherActivity extends BaseActivity implements IProductsLauncherView, IProductSearchView, SearchView.OnQueryTextListener, AdapterView.OnItemClickListener{
+    private static final String TAG = "ProductsLauncherActivity";
     private ProductsLauncherPresenterImpl mProductsLauncherPresenter;
     private ProductsLauncherFragment mProductsLauncherFragment;
     private SearchProductFragment mSearchFragment;
@@ -276,7 +277,7 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
     }
     @Override
     public boolean onQueryTextChange(String newText) { // Autocomplete
-        Log.d("ThuNguyen", "Text change: " + newText);
+        Log.d(TAG, "Text change: " + newText);
         if(newText.trim().length() > 0) {
             mSearchFragment.search(newText.trim());
         }
@@ -284,7 +285,7 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
     }
     @Override
     public boolean onQueryTextSubmit(String query) {
-        Log.d("ThuNguyen", "Query Text Submit: " + query);
+        Log.d(TAG, "Query Text Submit: " + query);
         if(query.trim().length() > 0) {
             mSearchFragment.search(query.trim());
         }

@@ -39,6 +39,7 @@ import java.util.Arrays;
 public class StaggeredGridView extends ExtendableListView {
 
     private static final String TAG = "StaggeredGridView";
+    private static final String TAG_TEST = "TEST - StaggeredGridView";
     private static final boolean DBG = false;
 
     private static final int DEFAULT_COLUMNS_PORTRAIT = 2;
@@ -62,10 +63,12 @@ public class StaggeredGridView extends ExtendableListView {
     private int mGridPaddingRight;
     private int mGridPaddingTop;
     private int mGridPaddingBottom;
+    //Thu add Start
     private int mItemMarginLeft;
     private int mItemMarginRight;
     private int mItemMarginTop;
     private int mItemMarginBottom;
+    //Thu add end
     /***
      * Our grid item state record with {@link Parcelable} implementation
      * so we can persist them across the SGV lifecycle.
@@ -174,6 +177,7 @@ public class StaggeredGridView extends ExtendableListView {
 
             mItemMargin = typedArray.getDimensionPixelSize(
                     R.styleable.StaggeredGridView_item_margin, 0);
+            //Thu add start
             mItemMarginLeft = typedArray.getDimensionPixelSize(
                     R.styleable.StaggeredGridView_item_margin_left, 0);
             mItemMarginRight = typedArray.getDimensionPixelSize(
@@ -182,6 +186,8 @@ public class StaggeredGridView extends ExtendableListView {
                     R.styleable.StaggeredGridView_item_margin_top, 0);
             mItemMarginBottom = typedArray.getDimensionPixelSize(
                     R.styleable.StaggeredGridView_item_margin_bottom, 0);
+            //Thu add end
+
             mGridPaddingLeft = typedArray.getDimensionPixelSize(
                     R.styleable.StaggeredGridView_grid_paddingLeft, 0);
             mGridPaddingRight = typedArray.getDimensionPixelSize(
@@ -191,6 +197,19 @@ public class StaggeredGridView extends ExtendableListView {
             mGridPaddingBottom = typedArray.getDimensionPixelSize(
                     R.styleable.StaggeredGridView_grid_paddingBottom, 0);
 
+            //Phan add start
+            if(mItemMargin>0 && mItemMarginLeft ==0)
+                mItemMarginLeft = mItemMargin;
+
+            if(mItemMargin>0 && mItemMarginRight ==0)
+                mItemMarginRight = mItemMargin;
+
+            if(mItemMargin>0 && mItemMarginTop ==0)
+                mItemMarginTop = mItemMargin;
+
+            if(mItemMargin>0 && mItemMarginBottom ==0)
+                mItemMarginBottom = mItemMargin;
+            //Phan add end
             typedArray.recycle();
         }
 
@@ -867,7 +886,7 @@ public class StaggeredGridView extends ExtendableListView {
     @Override
     protected boolean hasSpaceUp() {
         int end = mClipToPadding ? getRowPaddingTop() : 0;
-        //Log.d("Phan", "hasSpaceUp - getLowestPositionedTop:" + getLowestPositionedTop() + " end:" + end);
+        //Log.d(TAG_TEST, "hasSpaceUp - getLowestPositionedTop:" + getLowestPositionedTop() + " end:" + end);
         return getLowestPositionedTop() > end;
     }
 

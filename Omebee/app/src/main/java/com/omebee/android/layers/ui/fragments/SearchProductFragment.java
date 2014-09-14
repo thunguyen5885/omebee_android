@@ -21,6 +21,7 @@ import java.util.List;
  * Created by Thu Nguyen on 8/12/2014.
  */
 public class SearchProductFragment extends BaseFragment{
+    private static final String TAG = "SearchProductFragment";
     private ListView mProductListView;
     private TextView mEmptyView;
     private ProductsLauncherGridAdapter mProductAdapter;

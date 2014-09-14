@@ -63,6 +63,7 @@ import java.util.ArrayList;
 public abstract class ExtendableListView extends AbsListView {
 
     private static final String TAG = "ExtendableListView";
+    private static final String TAG_TEST = "TEST - ExtendableListView";
 
     private static final boolean DBG = false;
 
@@ -347,9 +348,11 @@ public abstract class ExtendableListView extends AbsListView {
                 mSyncPosition = position;
                 mSyncRowId = mAdapter.getItemId(position);
             }
+            //Thu edit start
             if(position > 0){
                 mIsNeedAnimationForGap = true;
             }
+            //Thu edit end
             requestLayout();
         }
     }
@@ -559,7 +562,7 @@ public abstract class ExtendableListView extends AbsListView {
         if (mAdapter == null) {
             return;
         }
-        Log.d("ThuNguyen", "OnLayout()++++++");
+        //Log.d(TAG_TEST, "OnLayout()++++++");
         if (changed) {
             int childCount = getChildCount();
             for (int i = 0; i < childCount; i++) {
@@ -651,7 +654,7 @@ public abstract class ExtendableListView extends AbsListView {
                     break;
                 }
                 case LAYOUT_SYNC: {
-                    //Log.e("Phan", "fillSpecific mSyncPosition="+mSyncPosition);
+                    //Log.e(TAG_TEST, "fillSpecific mSyncPosition="+mSyncPosition);
                     fillSpecific(mSyncPosition, mSpecificTop);
                     break;
                 }
@@ -661,12 +664,12 @@ public abstract class ExtendableListView extends AbsListView {
                         fillFromTop(childrenTop);
                     }
                     else if (mFirstPosition < mItemCount) {
-                       // Log.e("Phan", "fillSpecific mFirstPosition="+mFirstPosition);
+                       // Log.e(TAG_TEST, "fillSpecific mFirstPosition="+mFirstPosition);
                         fillSpecific(mFirstPosition,
                                 oldFirst == null ? childrenTop : oldFirst.getTop());
                     }
                     else {
-                        //Log.e("Phan", "fillSpecific Position=0");
+                        //Log.e(TAG_TEST, "fillSpecific Position=0");
                         fillSpecific(0, childrenTop);
                     }
                     break;
@@ -1224,6 +1227,7 @@ public abstract class ExtendableListView extends AbsListView {
                 if (motionView != null) {
                     if (atEdge) {
                         // TODO : edge effect & overscroll
+                        Log.d(TAG_TEST, "---------------OVER SCROLL ----------------");
                     }
                     mMotionY = y;
                 }
@@ -1464,20 +1468,26 @@ public abstract class ExtendableListView extends AbsListView {
     }
 
     private View fillUp(int pos, int nextBottom) {
-        //Log.d("Phan", "fillUp - position:" + pos + " nextBottom:" + nextBottom);
+       // Log.d(TAG_TEST, "fillUp - position:" + pos + " nextBottom:" + nextBottom);
         if (DBG) Log.d(TAG, "fillUp - position:" + pos + " nextBottom:" + nextBottom);
         View selectedView = null;
         int end = mClipToPadding ? getListPaddingTop() : 0;
 
         while ((nextBottom > end || hasSpaceUp() || mIsJustAddTop) && pos >= 0) {
             // TODO : add selection support
-           // Log.d("Phan", "fillUp makeAndAddView - position:" + pos + " hasSpaceUp: "+hasSpaceUp() + " nextBottom " + nextBottom + " end "+end );
+           // Log.d(TAG_TEST, "fillUp makeAndAddView - position:" + pos + " hasSpaceUp: "+hasSpaceUp() + " nextBottom " + nextBottom + " end "+end );
             makeAndAddView(pos, nextBottom, false, false);
             pos--;
             nextBottom = getNextChildUpsBottom(pos);
             if (DBG) Log.d(TAG, "fillUp next - position:" + pos + " nextBottom:" + nextBottom);
 
         }
+        //phan test start
+        /*if(pos>=0)
+            Log.d(TAG_TEST, "fillUp - position:" + pos + " ------ FAIL ------");
+        else
+            Log.d(TAG_TEST, "fillUp - position:" + pos + " ------ OK ------");*/
+        //phan test end
         if(mIsJustAddTop) {
             mIsJustAddTop = false;
         }
@@ -1516,8 +1526,8 @@ public abstract class ExtendableListView extends AbsListView {
     private View fillSpecific(int position, int top) {
         boolean tempIsSelected = false; // ain't no body got time for that @ Etsy
         // Possibly changed again in fillUp if we add rows above this one.
-        mFirstPosition = position;
         View temp = makeAndAddView(position, top, true, tempIsSelected);
+        mFirstPosition = position;
         View above;
         View below;
 
@@ -1532,9 +1542,11 @@ public abstract class ExtendableListView extends AbsListView {
         int childCount = getChildCount();
         if (childCount > 0) {
             correctTooHigh(childCount);
+            //Thu Add start
 //            if(mLayoutMode == LAYOUT_SYNC) {
 //                offsetFirstOrSecondChildTopAndBottom();
 //            }
+            //Thu add end
         }
         if (tempIsSelected) {
             return temp;
@@ -1732,7 +1744,7 @@ public abstract class ExtendableListView extends AbsListView {
 
         View child;
         if (scrapView != null) {
-           // Log.d("Phan", "getView from scrap position:" + position);
+           // Log.d(TAG_TEST, "getView from scrap position:" + position);
             if (DBG) Log.d(TAG, "getView from scrap position:" + position);
             child = mAdapter.getView(position, scrapView, this);
 
@@ -1745,7 +1757,7 @@ public abstract class ExtendableListView extends AbsListView {
         }
         else {
             if (DBG) Log.d(TAG, "getView position:" + position);
-            //Log.d("Phan", "getView position:" + position);
+            //Log.d(TAG_TEST, "getView position:" + position);
             child = mAdapter.getView(position, null, this);
         }
 
@@ -1985,6 +1997,7 @@ public abstract class ExtendableListView extends AbsListView {
         }
     }
 
+    //Thu add start
     /**
      * Fill the gap by animation effect
      */
@@ -2001,18 +2014,18 @@ public abstract class ExtendableListView extends AbsListView {
         if(firstChild != null && secondChild != null){
             int firstChildTop = firstChild.getTop();
             int secondChildTop = secondChild.getTop();
-            Log.d("ThuNguyen", "firstChildTop =" + firstChildTop);
-            Log.d("ThuNguyen", "secondChildTop=" + secondChildTop);
+            Log.d(TAG_TEST, "firstChildTop =" + firstChildTop);
+            Log.d(TAG_TEST, "secondChildTop=" + secondChildTop);
             if(firstChildTop > secondChildTop){
                 offset = secondChildTop - getListPaddingTop();
                 delta = firstChildTop - secondChildTop;
                 isMakeOffsetOnLeft = true;
-                Log.d("ThuNguyen", "offset =" + offset);
+                Log.d(TAG_TEST, "offset =" + offset);
             }else{
                 offset = firstChildTop - getListPaddingTop();
                 delta = secondChildTop - firstChildTop;
                 isMakeOffsetOnLeft = false;
-                Log.d("ThuNguyen", "offset =" + offset);
+                Log.d(TAG_TEST, "offset =" + offset);
             }
             final int deltaY = delta;
             if(offset != 0 && delta != 0) {
@@ -2020,7 +2033,7 @@ public abstract class ExtendableListView extends AbsListView {
                     final View view = getChildAt(index);
                     if ((isMakeOffsetOnLeft && index % 2 == 0) ||
                             (!isMakeOffsetOnLeft && index % 2 != 0)) {
-                        Log.d("ThuNguyen", "Offset left = "+ isMakeOffsetOnLeft + ",index = " + index + ",delta="+delta);
+                        Log.d(TAG_TEST, "Offset left = "+ isMakeOffsetOnLeft + ",index = " + index + ",delta="+delta);
                         // Add animation here
                         TranslateAnimation translateAnimation = new TranslateAnimation(0, 0 , view.getTop(), view.getTop() - delta);
                         translateAnimation.setDuration(1000);
@@ -2055,6 +2068,8 @@ public abstract class ExtendableListView extends AbsListView {
         }
 
     }
+    //Thu add end
+
     @Override
     public int getFirstVisiblePosition() {
         return Math.max(0, mFirstPosition - getHeaderViewsCount());

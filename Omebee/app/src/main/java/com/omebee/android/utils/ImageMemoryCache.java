@@ -18,7 +18,7 @@ import java.util.Map;
  * a bitmap solely on the URL.
  */
 public class ImageMemoryCache extends LruCache<String, Bitmap> implements ImageLoader.ImageCache {
-
+    private static final String TAG = "ImageMemoryCache";
     /**
      * Singleton instance which has it's maximum size set to be 1/8th of the allowed memory size.
      */

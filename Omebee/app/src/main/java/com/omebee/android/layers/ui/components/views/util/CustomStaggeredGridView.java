@@ -9,6 +9,7 @@ import com.etsy.android.grid.StaggeredGridView;
  * Created by Thu Nguyen on 8/29/2014.
  */
 public class CustomStaggeredGridView extends StaggeredGridView{
+    private static final String TAG = "CustomStaggeredGridView";
     public CustomStaggeredGridView(Context context) {
         super(context);
     }

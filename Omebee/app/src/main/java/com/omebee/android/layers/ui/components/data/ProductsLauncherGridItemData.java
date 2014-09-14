@@ -4,6 +4,8 @@ package com.omebee.android.layers.ui.components.data;
  * Created by ThuNguyen on 8/9/2014.
  */
 public class ProductsLauncherGridItemData {
+
+    private static final String TAG = "ProductsLauncherGridAdapter";
     private String mProductName;
     private String mProductDescription;
     private String mProductUrl;

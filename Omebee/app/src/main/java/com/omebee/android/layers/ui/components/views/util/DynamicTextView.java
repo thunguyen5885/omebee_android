@@ -9,6 +9,7 @@ import com.etsy.android.grid.util.DynamicHeightTextView;
  * Created by Thu Nguyen on 8/29/2014.
  */
 public class DynamicTextView extends DynamicHeightTextView{
+    private static final String TAG = "DynamicTextView";
     public DynamicTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }

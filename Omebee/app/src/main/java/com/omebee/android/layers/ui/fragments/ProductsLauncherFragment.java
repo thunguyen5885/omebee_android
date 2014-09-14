@@ -27,6 +27,7 @@ import java.util.List;
  * Created by phan on 8/6/2014.
  */
 public class ProductsLauncherFragment extends BaseFragment{
+    private static final String TAG = "ProductsLauncherFragment";
     private ProductsLauncherPresenterImpl mPresenter;
     private GridViewPullRefreshAndLoadMore mProductsGrid;
     private ProductsLauncherGridAdapter mProductsGridAdapter;
