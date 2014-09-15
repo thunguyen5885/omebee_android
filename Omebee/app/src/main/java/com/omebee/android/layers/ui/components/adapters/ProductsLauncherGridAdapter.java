@@ -12,6 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -66,8 +67,9 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
         ProductsLauncherGridItemData productItemData = getItem(position);
         ViewHolder holder;
         if (convertView == null) {
-            convertView = mLayoutInflater.inflate(R.layout.square_layout, parent, false);
+            convertView = mLayoutInflater.inflate(R.layout.ctrl_grid_products_launcher_item, parent, false);
             holder = new ViewHolder(convertView);
+            holder.setWishlistIcon(productItemData.getWishListResourceId());
         }
         else {
             holder = (ViewHolder) convertView.getTag();
@@ -76,17 +78,29 @@ public class ProductsLauncherGridAdapter extends BaseAdapter{
         // Load the thumbnail image
         holder.productImage.setImageUrl(productItemData.getProductUrl(), mImageLoader);
         // Set the TextView's contents
-        holder.title.setText(productItemData.getProductName());
-
+        holder.productName.setText(productItemData.getProductName());
+        holder.productPrice.setText(productItemData.productPriceWithCurrencyToString());
         return convertView;
     }
     private class ViewHolder {
+
         DynamicImageView productImage;
-        TextView title;
+        TextView productName;
+        TextView productPrice;
+        ImageView wishlistIcon;
+
         public ViewHolder(View v) {
-            productImage = (DynamicImageView) v.findViewById(R.id.imageview_item);
-            title = (TextView) v.findViewById(R.id.textview_name);
+            productImage = (DynamicImageView) v.findViewById(R.id.imageview_product);
+            productName = (TextView) v.findViewById(R.id.txt_productName);
+            productPrice = (TextView) v.findViewById(R.id.txt_productPrice);
+            wishlistIcon = (ImageView) v.findViewById(R.id.imageview_wishlist);
             v.setTag(this);
+        }
+        public void setWishlistIcon(int resourceId){
+            if(wishlistIcon!=null)
+            {
+                wishlistIcon.setImageResource(resourceId);
+            }
         }
     }
     public List<ProductsLauncherGridItemData> getProductsList() {

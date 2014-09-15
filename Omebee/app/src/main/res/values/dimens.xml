@@ -5,4 +5,7 @@
     <dimen name="grid_spacing">4dp</dimen>
     <dimen name="smooth_progressbar_height">4dp</dimen>
     <item name="action_bar_background_alpha" type="dimen" format="float">1.0</item>
+    <dimen name="wishlist_icon_size">32dp</dimen>
+    <dimen name="product_info_textsize">12sp</dimen>
+    <dimen name="product_price_textsize">10sp</dimen>
 </resources>

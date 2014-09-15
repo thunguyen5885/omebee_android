@@ -11,6 +11,7 @@ import com.omebee.android.layers.services.concretes.ProductWSAccess;
 import com.omebee.android.layers.services.models.ProductWSModel;
 import com.omebee.android.layers.ui.models.base.IProductsLauncherModel;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
+import com.omebee.android.utils.AppConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
     //static final String THUMB_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/";
     private final Random mRandom = new Random();
     static ProductWSModel[] ITEMS = new ProductWSModel[] {
-            new ProductWSModel("Picture 1", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/flamingo.jpg"),
+            new ProductWSModel("Picture 123456789012345 ap67890123456 bk789 ak 01234567890", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/flamingo.jpg"),
             new ProductWSModel("Picture 2", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/rainbow.jpg"),
             new ProductWSModel("Picture 3", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/over_there.jpg"),
             new ProductWSModel("Picture 4", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/jelly_fish_2.jpg"),
@@ -110,12 +111,13 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
     @Override
     public List<ProductsLauncherGridItemData> loadProductList() {
-
+        Random random = new Random();
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
         int countTest = 0;
         for (ProductWSModel productModelItem : ITEMS) {
+            double price = random.nextInt(10000000)+100000;
             ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
-                    productModelItem.getProductUrl(),getRandomHeightRatio());
+                    productModelItem.getProductUrl(),getRandomHeightRatio(),price, AppConstants.Currency.VND);
             productList.add(item);
             countTest++;
             if(countTest>10)
@@ -127,13 +129,14 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
     @Override
     public List<ProductsLauncherGridItemData> searchProduct(String keyword) {
-
+        Random random = new Random();
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
         if(keyword.length() > 0) {
             for (ProductWSModel productModelItem : ITEMS) {
                 if (productModelItem.match(keyword)) {
+                    double price = random.nextInt(10000000)+100000;
                     ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
-                            productModelItem.getProductUrl(),getRandomHeightRatio());
+                            productModelItem.getProductUrl(),getRandomHeightRatio(),price, AppConstants.Currency.VND);
                     productList.add(item);
                 }
             }
@@ -260,10 +263,10 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
             String pictureName = "New picture " + mPictureCount;//((mRefreshCount - 1) * num  + index + 1);
             mPictureCount++;
             int indexRan = random.nextInt(ITEMS.length);
-
+            double price = random.nextInt(10000000)+100000;
             ProductWSModel productModelItem = ITEMS[indexRan];
             ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(pictureName, productModelItem.getProductDescription(),
-                    productModelItem.getProductUrl(),getRandomHeightRatio());
+                    productModelItem.getProductUrl(),getRandomHeightRatio(),price, AppConstants.Currency.VND);
             productList.add(0, item);
 
         }
@@ -289,10 +292,10 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
                 String pictureName = "Old Picture " + ((mCurrentPage - 1) * num  + index + 1);
                 Random random = new Random();
                 int indexRan = random.nextInt(ITEMS.length);
-
+                double price = random.nextInt(10000000)+100000;
                 ProductWSModel productModelItem = ITEMS[indexRan];
                 ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(pictureName, productModelItem.getProductDescription(),
-                        productModelItem.getProductUrl(),getRandomHeightRatio());
+                        productModelItem.getProductUrl(),getRandomHeightRatio(),price, AppConstants.Currency.VND);
                 productList.add(item);
             }
             return productList;

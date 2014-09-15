@@ -10,5 +10,23 @@ public class AppConstants {
     public static enum WSMethod {
         GET, POST, PUT, DELETE
     }
+
+    public static enum Currency{
+        VND("đ"),
+        USD("$");
+        private String value;
+
+        Currency(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+        @Override
+        public String toString() {
+            return this.getValue();
+        }
+    }
     public static final String DEFAULT_ENCODING = "UTF-8";
 }

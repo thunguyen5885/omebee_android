@@ -1,7 +1,4 @@
 <resources>
-
-
-
         <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
             <item name="android:actionBarStyle">@style/ActionBar</item>
             <item name="android:popupMenuStyle">@style/OverflowMenu</item>
@@ -55,5 +52,20 @@
             <item name="spb_colors">@array/gplus_colors</item>
             <item name="spb_progressiveStart_activated">true</item>
         </style>
-
+        <style name="ProductInfoText" parent="@android:style/TextAppearance.Holo.Widget.TextView">
+            <item name="android:textAppearance">@android:style/TextAppearance.Large.Inverse</item>
+            <item name="android:textStyle">bold</item>
+            <item name="android:textSize">@dimen/product_info_textsize</item>
+            <item name="android:textColor">#ff000000</item>
+            <item name="android:maxLines">2</item>
+            <item name="android:ellipsize">end</item>
+        </style>
+        <style name="ProductPriceText" parent="@android:style/TextAppearance.Holo.Widget.TextView">
+            <item name="android:textAppearance">@android:style/TextAppearance.Large.Inverse</item>
+            <item name="android:textStyle">bold</item>
+            <item name="android:textSize">@dimen/product_price_textsize</item>
+            <item name="android:textColor">#ffff0000</item>
+            <item name="android:maxLines">1</item>
+            <item name="android:ellipsize">end</item>
+        </style>
 </resources>

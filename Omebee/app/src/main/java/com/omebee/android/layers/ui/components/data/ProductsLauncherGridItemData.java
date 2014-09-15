@@ -1,5 +1,10 @@
 package com.omebee.android.layers.ui.components.data;
 
+import com.omebee.android.R;
+import com.omebee.android.utils.AppConstants;
+
+import static com.omebee.android.utils.AppFnUtils.priceToString;
+
 /**
  * Created by ThuNguyen on 8/9/2014.
  */
@@ -9,13 +14,21 @@ public class ProductsLauncherGridItemData {
     private String mProductName;
     private String mProductDescription;
     private String mProductUrl;
-    private double mImageHeightRatio;
+    private double mImageHeightRatio;//Product image
+    private double mProductPrice;
+    private AppConstants.Currency mCurrency;
+    private int mWishListResourceId;
 
-    public ProductsLauncherGridItemData(String mProductName, String mProductDescription, String mProductUrl,double mImageHeightRatio) {
+    public ProductsLauncherGridItemData(String mProductName, String mProductDescription, String mProductUrl
+            ,double mImageHeightRatio,double productPrice,AppConstants.Currency currency) {
         this.mProductName = mProductName;
         this.mProductDescription = mProductDescription;
         this.mProductUrl = mProductUrl;
         this.mImageHeightRatio = mImageHeightRatio;
+        this.mProductPrice = productPrice;
+        this.mCurrency = currency;
+        //wishlist icon constant
+        this.mWishListResourceId = R.drawable.icon_wishlist;
     }
 
     public String getProductName() {
@@ -58,5 +71,39 @@ public class ProductsLauncherGridItemData {
 
     public void setImageHeightRatio(double mImageHeightRatio) {
         this.mImageHeightRatio = mImageHeightRatio;
+    }
+
+    public double getProductPrice() {
+        return mProductPrice;
+    }
+
+    public void setProductPrice(double mProductPrice) {
+        this.mProductPrice = mProductPrice;
+    }
+
+    public String productPriceToString(){
+        return priceToString(mProductPrice);
+    }
+
+    public AppConstants.Currency getCurrency() {
+        return mCurrency;
+    }
+
+    public void setCurrency(AppConstants.Currency mCurrency) {
+        this.mCurrency = mCurrency;
+    }
+
+    public String currencyToString() {
+        return mCurrency.toString();
+    }
+    public String productPriceWithCurrencyToString(){
+        return productPriceToString() + currencyToString();
+    }
+    public int getWishListResourceId() {
+        return mWishListResourceId;
+    }
+
+    public void setWishListResourceId(int mWishListResourceId) {
+        this.mWishListResourceId = mWishListResourceId;
     }
 }
