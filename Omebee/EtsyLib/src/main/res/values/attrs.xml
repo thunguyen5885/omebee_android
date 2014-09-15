@@ -10,6 +10,7 @@
         <attr name="item_margin_right" format="dimension" />
         <attr name="item_margin_top" format="dimension" />
         <attr name="item_margin_bottom" format="dimension" />
+        <attr name="item_extra_spacing" format="dimension" />
         <attr name="grid_paddingLeft" format="dimension" />
         <attr name="grid_paddingRight" format="dimension" />
         <attr name="grid_paddingTop" format="dimension" />

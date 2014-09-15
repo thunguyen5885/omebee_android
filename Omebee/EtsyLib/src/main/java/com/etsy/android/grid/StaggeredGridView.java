@@ -68,6 +68,8 @@ public class StaggeredGridView extends ExtendableListView {
     private int mItemMarginRight;
     private int mItemMarginTop;
     private int mItemMarginBottom;
+    // The extra spacing between 2 horizontal items
+    private int mItemExtraSpacing;
     //Thu add end
     /***
      * Our grid item state record with {@link Parcelable} implementation
@@ -186,6 +188,8 @@ public class StaggeredGridView extends ExtendableListView {
                     R.styleable.StaggeredGridView_item_margin_top, 0);
             mItemMarginBottom = typedArray.getDimensionPixelSize(
                     R.styleable.StaggeredGridView_item_margin_bottom, 0);
+            mItemExtraSpacing = typedArray.getDimensionPixelSize(
+                    R.styleable.StaggeredGridView_item_extra_spacing, 0);
             //Thu add end
 
             mGridPaddingLeft = typedArray.getDimensionPixelSize(
@@ -631,6 +635,7 @@ public class StaggeredGridView extends ExtendableListView {
         }
     }
 
+
     @Override
     protected int getChildTop(final int position) {
         if (isHeaderOrFooter(position)) {
@@ -933,15 +938,17 @@ public class StaggeredGridView extends ExtendableListView {
         /*ThuNguyen Start*/
         final int listPadding = getRowPaddingLeft() + getRowPaddingRight();
         //return (gridWidth - listPadding - mItemMargin * (mColumnCount + 1)) / mColumnCount;
-        return (gridWidth - listPadding - mItemMarginLeft * (mColumnCount + 1)) / mColumnCount;
+        return (gridWidth - listPadding - mItemExtraSpacing - mItemMarginLeft * (mColumnCount + 1)) / mColumnCount;
         /*ThuNguyen Start*/
     }
 
     private int calculateColumnLeft(final int colIndex) {
         /*ThuNguyen Start*/
         //return getRowPaddingLeft() + mItemMargin + ((mItemMargin + mColumnWidth) * colIndex);
-
-        return getRowPaddingLeft() + mItemMarginLeft + ((mItemMarginLeft + mColumnWidth) * colIndex);
+        if(colIndex % 2 == 0) {
+            return getRowPaddingLeft() + mItemMarginLeft + ((mItemMarginLeft + mColumnWidth) * colIndex);
+        }
+        return getRowPaddingLeft() + mItemExtraSpacing + mItemMarginLeft + ((mItemMarginLeft + mColumnWidth) * colIndex);
         /*ThuNguyen End*/
     }
 
