@@ -14,13 +14,14 @@ import android.widget.ListView;
 
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.components.views.util.CustomStaggeredGridView;
+import com.omebee.android.layers.ui.components.views.util.CustomSwipeRefreshLayout;
 
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
 /**
  * Created by phannguyen on 9/2/14.
  */
-public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
+public class GridViewPullRefreshAndLoadMore extends CustomSwipeRefreshLayout {
     private static final String TAG = "GridViewPullRefreshAndLoadMore";
     protected LayoutInflater mInflater;
     private CustomStaggeredGridView mMainListView;
@@ -67,7 +68,12 @@ public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
 
     private void setupColorForProgressBar(Context context) {
 
-        this.setColorSchemeResources(
+       /* this.setColorSchemeResources(
+                R.color.holo_blue_light,
+                R.color.holo_orange_light,
+                R.color.holo_green_light,
+                R.color.holo_red_light);*/
+        this.setColorScheme(
                 R.color.holo_blue_light,
                 R.color.holo_orange_light,
                 R.color.holo_green_light,
@@ -139,7 +145,7 @@ public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
         super.setOnRefreshListener(onRefreshListener);
     }
 
-    public interface OnRefreshListener extends SwipeRefreshLayout.OnRefreshListener {
+    public interface OnRefreshListener extends CustomSwipeRefreshLayout.OnRefreshListener {
         public void onRefresh();
     }
 
