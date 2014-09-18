@@ -1,5 +1,6 @@
 package com.omebee.android.layers.ui.presenters;
 
+import com.omebee.android.layers.ui.components.data.ProductDetailItemData;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
 import com.omebee.android.layers.ui.models.ProductsLauncherModel;
 import com.omebee.android.layers.ui.models.base.IProductsLauncherModel;
@@ -14,7 +15,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Created by phan on 8/6/2014.
  */
-public class ProductsLauncherPresenterImpl implements IProductsLauncherPresenter, IProductsLauncherModel.IPullRefreshCallback, IProductsLauncherModel.ILoadMoreCallback {
+public class ProductsLauncherPresenterImpl implements IProductsLauncherPresenter, IProductsLauncherModel.IPullRefreshCallback, IProductsLauncherModel.ILoadMoreCallback{
     private IProductsLauncherView mView;
     private IProductsLauncherModel mModel;
     ReentrantLock pullRefreshLock = new ReentrantLock();
@@ -71,6 +72,11 @@ public class ProductsLauncherPresenterImpl implements IProductsLauncherPresenter
     }
 
     @Override
+    public void getProductFromId(String id) {
+        mModel.getProductFromId(id);
+    }
+
+    @Override
     public void loadMoreSuccess(List<ProductsLauncherGridItemData> productsList, boolean isEndOfList) {
         mView.loadMoreProductsComplete(productsList, isEndOfList);
         if(loadMoreLock.isLocked())
@@ -97,4 +103,5 @@ public class ProductsLauncherPresenterImpl implements IProductsLauncherPresenter
         if(pullRefreshLock.isLocked())
             pullRefreshLock.unlock();
     }
+
 }

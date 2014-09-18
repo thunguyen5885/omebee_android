@@ -3,15 +3,16 @@ package com.omebee.android.layers.ui.components.data;
 import com.omebee.android.R;
 import com.omebee.android.utils.AppConstants;
 
+import java.util.List;
+
 import static com.omebee.android.utils.AppFnUtils.priceToString;
 
 /**
  * Created by ThuNguyen on 8/9/2014.
  */
-public class ProductsLauncherGridItemData {
+public class ProductDetailItemData {
 
     private static final String TAG = "ProductsLauncherGridAdapter";
-    private String mProductId;
     private String mProductName;
     private String mProductDescription;
     private String mProductUrl;
@@ -19,10 +20,10 @@ public class ProductsLauncherGridItemData {
     private double mProductPrice;
     private AppConstants.Currency mCurrency;
     private int mWishListResourceId;
+    private List<String> mImageUrls;
 
-    public ProductsLauncherGridItemData(String mProductId, String mProductName, String mProductDescription, String mProductUrl
-            ,double mImageHeightRatio,double productPrice,AppConstants.Currency currency) {
-        this.mProductId = mProductId;
+    public ProductDetailItemData(String mProductName, String mProductDescription, String mProductUrl
+            , double mImageHeightRatio, double productPrice, AppConstants.Currency currency, List<String> imageUrls) {
         this.mProductName = mProductName;
         this.mProductDescription = mProductDescription;
         this.mProductUrl = mProductUrl;
@@ -31,14 +32,7 @@ public class ProductsLauncherGridItemData {
         this.mCurrency = currency;
         //wishlist icon constant
         this.mWishListResourceId = R.drawable.icon_wishlist;
-    }
-
-    public String getProductId() {
-        return mProductId;
-    }
-
-    public void setProductId(String mProductId) {
-        this.mProductId = mProductId;
+        mImageUrls = imageUrls;
     }
 
     public String getProductName() {
@@ -67,7 +61,7 @@ public class ProductsLauncherGridItemData {
 
     // Check name for duplication temporarily
     // Will check by product id later
-    public boolean duplicate(ProductsLauncherGridItemData item){
+    public boolean duplicate(ProductDetailItemData item){
         if(this.mProductName != null && item.getProductName() != null &&
                 this.mProductName.equals(item.getProductName())){
             return true;
@@ -117,4 +111,11 @@ public class ProductsLauncherGridItemData {
         this.mWishListResourceId = mWishListResourceId;
     }
 
+    public List<String> getImageUrls() {
+        return mImageUrls;
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+        this.mImageUrls = imageUrls;
+    }
 }

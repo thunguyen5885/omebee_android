@@ -11,13 +11,23 @@ import org.json.JSONObject;
  * Created by phan on 8/7/2014.
  */
 public class ProductWSModel extends AbstractWebServiceModel {
+    private String productId;
     private String productName;
     private String productDescription;
     private String productUrl;
-    public ProductWSModel(String productName, String productDescription, String productUrl) {
+    public ProductWSModel(String productId, String productName, String productDescription, String productUrl) {
+        this.productId = productId;
         this.productName = productName;
         this.productDescription = productDescription;
         this.productUrl = productUrl;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String getProductName() {

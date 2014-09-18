@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -128,6 +129,28 @@ public class GridViewPullRefreshAndLoadMore extends SwipeRefreshLayout{
      */
     public void keepCurrentPositionAsAddTop(int nAddTopItems){
         mMainListView.keepCurrentPositionAsAddTop(nAddTopItems);
+    }
+    public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener){
+        if(mMainListView != null){
+//            mMainListView.setOnItemClickListener(onItemClickListener);
+//            mMainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    Log.d("ThuNguyen", "Position = " + position);
+//                }
+//            });
+            mMainListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    Log.d("ThuNguyen", "Position = " + position);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        }
     }
     /**
      * Register a callback to be invoked when this list should be refreshed.

@@ -1,14 +1,18 @@
 package com.omebee.android.layers.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 
 import com.omebee.android.R;
+import com.omebee.android.layers.ui.ProductDetailActivity;
 import com.omebee.android.layers.ui.base.BaseFragment;
 import com.omebee.android.layers.ui.components.adapters.ProductsLauncherGridAdapter;
 import com.omebee.android.layers.ui.components.views.pullrefresh.GridViewPullRefreshAndLoadMore;
@@ -20,6 +24,7 @@ import com.omebee.android.layers.ui.components.views.util.CustomStaggeredGridVie
 import com.omebee.android.layers.ui.presenters.ProductsLauncherPresenterImpl;
 import com.omebee.android.layers.ui.presenters.base.IPresenter;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
+import com.omebee.android.utils.AppConstants;
 
 import java.util.List;
 
@@ -144,4 +149,7 @@ public class ProductsLauncherFragment extends BaseFragment{
         Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.view_fade_in);
         getView().startAnimation(animation);
     }
+
+
+
 }

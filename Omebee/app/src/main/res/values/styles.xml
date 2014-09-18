@@ -14,9 +14,11 @@
             <item name="android:backgroundSplit">@color/sa_green</item>
             <item name="android:backgroundStacked">@color/stacked_green</item>
             <item name="android:alpha">@dimen/action_bar_background_alpha</item>
-
+            <item name="android:titleTextStyle">@style/ActionBar.TitleColor</item>
         </style>
-
+        <style name="ActionBar.TitleColor" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
+            <item name="android:textColor">@color/black</item>
+        </style>
         <style name="OverflowMenu" parent="@android:style/Widget.Holo.ListPopupWindow">
             <item name="android:popupBackground">@color/sa_green</item>
         </style>
@@ -68,4 +70,5 @@
             <item name="android:maxLines">1</item>
             <item name="android:ellipsize">end</item>
         </style>
+
 </resources>

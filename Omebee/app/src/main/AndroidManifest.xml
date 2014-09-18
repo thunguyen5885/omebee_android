@@ -16,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".layers.ui.ProductDetailActivity"
+            android:label="@string/app_name"
+            >
+        </activity>
 
         <activity
             android:name=".layers.ui.MixDemoActivity"
@@ -27,6 +32,7 @@
             android:label="@string/app_name"
             >
         </activity>
+
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

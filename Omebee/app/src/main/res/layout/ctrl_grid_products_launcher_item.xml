@@ -2,6 +2,7 @@
 <com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/product_card_item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"

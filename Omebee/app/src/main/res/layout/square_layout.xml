@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/layout_item_bg_card"
-    android:descendantFocusability="blocksDescendants"
-    android:clickable="true"
+    android:focusable="false"
+    android:clickable="false"
     android:orientation="vertical"
     custom:foreground="@drawable/layout_item_selector"
     >
@@ -16,7 +16,8 @@
         android:id="@+id/imageview_product"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:focusable="false"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,7 +44,7 @@
             android:layout_width="@dimen/wishlist_icon_size"
             android:layout_height="@dimen/wishlist_icon_size"
             android:scaleType="centerCrop"
-            />
+            android:focusable="false"/>
     </LinearLayout>
 
 </com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout>

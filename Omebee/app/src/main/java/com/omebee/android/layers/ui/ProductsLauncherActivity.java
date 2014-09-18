@@ -60,7 +60,6 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
 
         // Initialize the product launcher fragment
         mProductsLauncherPresenter = new ProductsLauncherPresenterImpl(this);
-        mProductsLauncherFragment = new ProductsLauncherFragment();
         mProductsLauncherFragment = (ProductsLauncherFragment) getFragmentManager().findFragmentById(R.id.productsLauncherFragment);
         if(mProductsLauncherFragment != null) {
             mProductsLauncherFragment.setPresenter(mProductsLauncherPresenter);

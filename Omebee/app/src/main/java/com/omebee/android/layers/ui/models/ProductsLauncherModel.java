@@ -9,11 +9,15 @@ import com.omebee.android.layers.services.WSAccessFactory;
 import com.omebee.android.layers.services.WSResult;
 import com.omebee.android.layers.services.concretes.ProductWSAccess;
 import com.omebee.android.layers.services.models.ProductWSModel;
+import com.omebee.android.layers.ui.components.CarouselIndicatorLayout;
+import com.omebee.android.layers.ui.components.data.ProductDetailItemData;
 import com.omebee.android.layers.ui.models.base.IProductsLauncherModel;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
 import com.omebee.android.utils.AppConstants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -25,52 +29,58 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
     String LARGE_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/large/";
     //static final String THUMB_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/";
     private final Random mRandom = new Random();
+    private static List<ProductWSModel> mProductModelData = new ArrayList<ProductWSModel>();
     static ProductWSModel[] ITEMS = new ProductWSModel[] {
-            new ProductWSModel("Picture 123456789012345 ap67890123456 bk789 ak 01234567890", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/flamingo.jpg"),
-            new ProductWSModel("Picture 2", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/rainbow.jpg"),
-            new ProductWSModel("Picture 3", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/over_there.jpg"),
-            new ProductWSModel("Picture 4", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/jelly_fish_2.jpg"),
-            new ProductWSModel("Picture 5", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/lone_pine_sunset.jpg"),
-            new ProductWSModel("Picture 6", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/flying_in_the_light.jpg"),
-            new ProductWSModel("Picture 7", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/caterpillar.jpg"),
-            new ProductWSModel("Picture 8", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/look_me_in_the_eye.jpg"),
-            new ProductWSModel("Picture 9", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wcsa-black-wb-print-01_medium.jpeg?v=1407820974"),
-            new ProductWSModel("Picture 10", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wcsa-bluesteel-wb-print-01_medium.jpeg?v=1407820974"),
-            new ProductWSModel("Picture 11", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wcsa-cocoa-wb-print-01_medium.jpeg?v=1407820974"),
-            new ProductWSModel("Picture 12", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wcsa-cognac-wb-print-01_medium.jpeg?v=1407820974"),
-            new ProductWSModel("Picture 13", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-slate-wb-singapore-web_medium.jpeg?v=1407820965"),
-            new ProductWSModel("Picture 14", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-slate-wb-web-01_medium.jpeg?v=1407820965"),
-            new ProductWSModel("Picture 15", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-slate-wb-web-02_medium.jpeg?v=1407820965"),
-            new ProductWSModel("Picture 16", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-slate-wb-web-04_medium.jpeg?v=1407820965"),
-            new ProductWSModel("Picture 17", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-slate-wb-web-06_medium.jpeg?v=1407820965"),
-            new ProductWSModel("Picture 18", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-slate-wb-web-06_medium.jpeg?v=1407820965"),
-            new ProductWSModel("Picture 19", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-cognac-wb-singapore-web_medium.jpeg?v=1407820965"),
-            new ProductWSModel("Picture 20", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-cognac-wb-web-01_medium.jpeg?v=1407820965"),
-            new ProductWSModel("Picture 21", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-cognac-wb-web-02_medium.jpeg?v=1407820965"),
-            new ProductWSModel("Picture 22", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-cognac-wb-web-05_medium.jpeg?v=1407820965"),
-            new ProductWSModel("Picture 23", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-black-wb-singapore-web_medium.jpeg?v=1407820965"),
-            new ProductWSModel("Picture 24", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-black-wb-web-02_medium.jpeg?v=1407820965"),
-            new ProductWSModel("Picture 25", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-black-wb-web-05_9fc4dc5b-67ed-44e7-97a6-1977669442e9_medium.jpeg?v=1407820965"),
-            new ProductWSModel("Picture 26", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-black-wb-web-06_medium.jpeg?v=1407820965"),
-            new ProductWSModel("Picture 27", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-01_medium.jpeg?v=1407820934"),
-            new ProductWSModel("Picture 28", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-03.jpeg?v=1407820934"),
-            new ProductWSModel("Picture 29", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-09.jpeg?v=1407820934"),
-            new ProductWSModel("Picture 30", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-05.jpeg?v=1407820934"),
-            new ProductWSModel("Picture 31", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-06.jpeg?v=1407820934"),
-            new ProductWSModel("Picture 32", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-07.jpeg?v=1407820934"),
-            new ProductWSModel("Picture 33", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-09.jpeg?v=1407820934"),
-            new ProductWSModel("Picture 34", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-10.jpeg?v=1407820934"),
-            new ProductWSModel("Picture 35", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-03.jpeg?v=1407820934"),
-            new ProductWSModel("Picture 36", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-05.jpeg?v=1407820934"),
-            new ProductWSModel("Picture 37", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-06.jpeg?v=1407820934"),
-            new ProductWSModel("Picture 38", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-07.jpeg?v=1407820934")
+            new ProductWSModel("0001","Picture 123456789012345 ap67890123456 bk789 ak 01234567890", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/flamingo.jpg"),
+            new ProductWSModel("0002","Picture 2", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/rainbow.jpg"),
+            new ProductWSModel("0003","Picture 3", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/over_there.jpg"),
+            new ProductWSModel("0004","Picture 4", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/jelly_fish_2.jpg"),
+            new ProductWSModel("0005","Picture 5", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/lone_pine_sunset.jpg"),
+            new ProductWSModel("0006","Picture 6", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/flying_in_the_light.jpg"),
+            new ProductWSModel("0007","Picture 7", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/caterpillar.jpg"),
+            new ProductWSModel("0008","Picture 8", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/look_me_in_the_eye.jpg"),
+            new ProductWSModel("0009","Picture 9", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wcsa-black-wb-print-01_medium.jpeg?v=1407820974"),
+            new ProductWSModel("0010","Picture 10", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wcsa-bluesteel-wb-print-01_medium.jpeg?v=1407820974"),
+            new ProductWSModel("0011","Picture 11", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wcsa-cocoa-wb-print-01_medium.jpeg?v=1407820974"),
+            new ProductWSModel("0012","Picture 12", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wcsa-cognac-wb-print-01_medium.jpeg?v=1407820974"),
+            new ProductWSModel("0013","Picture 13", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-slate-wb-singapore-web_medium.jpeg?v=1407820965"),
+            new ProductWSModel("0014","Picture 14", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-slate-wb-web-01_medium.jpeg?v=1407820965"),
+            new ProductWSModel("0015","Picture 15", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-slate-wb-web-02_medium.jpeg?v=1407820965"),
+            new ProductWSModel("0016","Picture 16", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-slate-wb-web-04_medium.jpeg?v=1407820965"),
+            new ProductWSModel("0017","Picture 17", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-slate-wb-web-06_medium.jpeg?v=1407820965"),
+            new ProductWSModel("0018","Picture 18", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-slate-wb-web-06_medium.jpeg?v=1407820965"),
+            new ProductWSModel("0019","Picture 19", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-cognac-wb-singapore-web_medium.jpeg?v=1407820965"),
+            new ProductWSModel("0020","Picture 20", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-cognac-wb-web-01_medium.jpeg?v=1407820965"),
+            new ProductWSModel("0021","Picture 21", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-cognac-wb-web-02_medium.jpeg?v=1407820965"),
+            new ProductWSModel("0022","Picture 22", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-cognac-wb-web-05_medium.jpeg?v=1407820965"),
+            new ProductWSModel("0023","Picture 23", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-black-wb-singapore-web_medium.jpeg?v=1407820965"),
+            new ProductWSModel("0024","Picture 24", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-black-wb-web-02_medium.jpeg?v=1407820965"),
+            new ProductWSModel("0025","Picture 25", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-black-wb-web-05_9fc4dc5b-67ed-44e7-97a6-1977669442e9_medium.jpeg?v=1407820965"),
+            new ProductWSModel("0026","Picture 26", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wepa-black-wb-web-06_medium.jpeg?v=1407820965"),
+            new ProductWSModel("0027","Picture 27", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-01_medium.jpeg?v=1407820934"),
+            new ProductWSModel("0028","Picture 28", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-03.jpeg?v=1407820934"),
+            new ProductWSModel("0029","Picture 29", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-09.jpeg?v=1407820934"),
+            new ProductWSModel("0030","Picture 30", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-05.jpeg?v=1407820934"),
+            new ProductWSModel("0031","Picture 31", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-06.jpeg?v=1407820934"),
+            new ProductWSModel("0032","Picture 32", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-07.jpeg?v=1407820934"),
+            new ProductWSModel("0033","Picture 33", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-09.jpeg?v=1407820934"),
+            new ProductWSModel("0034","Picture 34", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-black-wb-web-10.jpeg?v=1407820934"),
+            new ProductWSModel("0035","Picture 35", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-03.jpeg?v=1407820934"),
+            new ProductWSModel("0036","Picture 36", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-05.jpeg?v=1407820934"),
+            new ProductWSModel("0037","Picture 37", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-06.jpeg?v=1407820934"),
+            new ProductWSModel("0038","Picture 38", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-07.jpeg?v=1407820934")
 //            new ProductWSModel("Picture 39", "Romain Guy", "https://cdn.shopify.com/s/files/1/0604/6201/products/bellroy-wesa-cognac-wb-web-09.jpeg?v=1407820934"),
 
     };
-
+    public ProductsLauncherModel(){
+        if(mProductModelData.size() == 0) {
+            mProductModelData = new ArrayList<ProductWSModel>(Arrays.asList(ITEMS));
+        }
+    }
     // Properties
     private IPullRefreshCallback mIPullRefreshCallback;
     private ILoadMoreCallback mILoadMoreRefreshCallback;
+    private IGetProductFromIdCallback mIGetProductFromIdCallback;
     // Temporary to limit the load more
     private static final int TIMES_TO_LOAD_MORE = 10;
     private static final int ITEMS_PER_PAGE_LOAD_MORE = 4;
@@ -91,6 +101,14 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
     public void setILoadMoreRefreshCallback(ILoadMoreCallback mILoadMoreRefreshCallback) {
         this.mILoadMoreRefreshCallback = mILoadMoreRefreshCallback;
+    }
+
+    public IGetProductFromIdCallback getIGetProductFromIdCallback() {
+        return mIGetProductFromIdCallback;
+    }
+
+    public void setIGetProductFromIdCallback(IGetProductFromIdCallback mIGetProductFromIdCallback) {
+        this.mIGetProductFromIdCallback = mIGetProductFromIdCallback;
     }
 
     @Override
@@ -116,7 +134,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
         int countTest = 0;
         for (ProductWSModel productModelItem : ITEMS) {
             double price = random.nextInt(10000000)+100000;
-            ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
+            ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductId(), productModelItem.getProductName(), productModelItem.getProductDescription(),
                     productModelItem.getProductUrl(),getRandomHeightRatio(),price, AppConstants.Currency.VND);
             productList.add(item);
             countTest++;
@@ -135,13 +153,46 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
             for (ProductWSModel productModelItem : ITEMS) {
                 if (productModelItem.match(keyword)) {
                     double price = random.nextInt(10000000)+100000;
-                    ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
+
+                    ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductId(), productModelItem.getProductName(), productModelItem.getProductDescription(),
                             productModelItem.getProductUrl(),getRandomHeightRatio(),price, AppConstants.Currency.VND);
                     productList.add(item);
                 }
             }
         }
         return  productList;
+    }
+    @Override
+    public void getProductFromId(String productId){
+        new GetProductDetailTask().execute(productId);
+    }
+    protected  List<String> createRandomImageUrlList(){
+        List<String> imageUrls = new ArrayList<String>();
+        Random random = new Random();
+        int randInt = random.nextInt(ITEMS.length);
+        randInt = Math.max(1, randInt);
+        randInt = Math.min(randInt, CarouselIndicatorLayout.NUM_OF_CHILD_MAXIMUM);
+        for(int index = 0; index < randInt; index ++){
+            ProductWSModel productModel = ITEMS[index];
+            imageUrls.add(productModel.getProductUrl());
+        }
+        return imageUrls;
+    }
+    public ProductDetailItemData findProductFromId(String productId) {
+        Iterator<ProductWSModel> iterator = mProductModelData.iterator();
+        while(iterator.hasNext()){
+            ProductWSModel productModelItem = iterator.next();
+            // Temporary compare with name, change later
+            if(productModelItem.getProductId().equals(productId)){
+                Random random = new Random();
+                double price = random.nextInt(10000000)+100000;
+                List<String> imageUrls = createRandomImageUrlList();
+                ProductDetailItemData item = new ProductDetailItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
+                        productModelItem.getProductUrl(),getRandomHeightRatio(),price, AppConstants.Currency.VND, imageUrls);
+                return item;
+            }
+        }
+        return null;
     }
 
 
@@ -228,6 +279,40 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
            }
         }
     }
+    private class GetProductDetailTask extends AsyncTask<String, Void, ProductDetailItemData> {
+
+        @Override
+        protected ProductDetailItemData doInBackground(String... params) {
+
+            if (isCancelled()) {
+                return null;
+            }
+
+            // Simulates a background task
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+            }
+
+            return findProductFromId(params[0].toString());
+        }
+
+
+        @Override
+        protected void onPostExecute(ProductDetailItemData result) {
+            super.onPostExecute(result);
+            if(mIGetProductFromIdCallback != null){
+                mIGetProductFromIdCallback.getProductFromIdSuccess(result);
+            }
+            // Reset the current page
+            //mCurrentPage = 0;
+        }
+
+        @Override
+        protected void onCancelled() {
+
+        }
+    }
     public static String getRandomUrl(){
         Random random = new Random();
         int index = random.nextInt(ITEMS.length);
@@ -260,15 +345,18 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
         }
 
         for(int index = 0; index < num; index ++) {
+            String productId = String.valueOf(System.currentTimeMillis() + index);
             String pictureName = "New picture " + mPictureCount;//((mRefreshCount - 1) * num  + index + 1);
             mPictureCount++;
             int indexRan = random.nextInt(ITEMS.length);
             double price = random.nextInt(10000000)+100000;
             ProductWSModel productModelItem = ITEMS[indexRan];
-            ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(pictureName, productModelItem.getProductDescription(),
+            ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productId, pictureName, productModelItem.getProductDescription(),
                     productModelItem.getProductUrl(),getRandomHeightRatio(),price, AppConstants.Currency.VND);
             productList.add(0, item);
-
+            // Add new item as test data
+            ProductWSModel wsModel = new ProductWSModel(productId, pictureName, productModelItem.getProductDescription(), productModelItem.getProductUrl());
+            mProductModelData.add(0, wsModel);
         }
         Log.d(TAG, "createDumpDataForPullRefresh "+mRefreshCount +" with Picture number = "+(mPictureCount-1));
         return productList;
@@ -289,14 +377,19 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
                 num = ITEMS_PER_PAGE_LOAD_MORE - 1;
             }
             for(int index = 0; index < num; index ++) {
+                String productId = String.valueOf(System.currentTimeMillis() + index);
                 String pictureName = "Old Picture " + ((mCurrentPage - 1) * num  + index + 1);
                 Random random = new Random();
                 int indexRan = random.nextInt(ITEMS.length);
                 double price = random.nextInt(10000000)+100000;
                 ProductWSModel productModelItem = ITEMS[indexRan];
-                ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(pictureName, productModelItem.getProductDescription(),
+                ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productId, pictureName, productModelItem.getProductDescription(),
                         productModelItem.getProductUrl(),getRandomHeightRatio(),price, AppConstants.Currency.VND);
                 productList.add(item);
+
+                // Add new item as test data
+                ProductWSModel wsModel = new ProductWSModel(productId, pictureName, productModelItem.getProductDescription(), productModelItem.getProductUrl());
+                mProductModelData.add(wsModel);
             }
             return productList;
         }

@@ -11,4 +11,5 @@ public interface IProductsLauncherPresenter extends IPresenter<IProductsLauncher
     void showProductList();
     void loadMore();
     void pullRefresh();
+    void getProductFromId(String id);
 }

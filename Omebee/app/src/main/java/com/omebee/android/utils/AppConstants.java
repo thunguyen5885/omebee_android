@@ -29,4 +29,10 @@ public class AppConstants {
         }
     }
     public static final String DEFAULT_ENCODING = "UTF-8";
+    /*Define all the keys for transmission between screens Start*/
+    public static final String KEY_PRODUCT_ID = "product_id";
+    /*Define all the keys for transmission between screens End*/
+
+    /*Define request code from this screen to that screen*/
+    public static final int REQUEST_CODE_HOME_TO_PRODUCT_DETAIL = 1001;
 }

@@ -10,6 +10,7 @@ import org.json.JSONObject;
  * This builder for ProductWSModel
  */
 public class ProductWSBuilder {
+    String productId = "";
     String productName = "";
     String productDescription = "";
     String productUrl = "";
@@ -19,7 +20,10 @@ public class ProductWSBuilder {
     public ProductWSBuilder(JSONObject productJson) throws JSONException {
         //parse json and set value for properties
     }
-
+    public ProductWSBuilder withProductId(String productId) {
+        this.productId = productId;
+        return this;
+    }
     public ProductWSBuilder withProductName(String productName) {
         this.productName = productName;
         return this;
@@ -32,6 +36,6 @@ public class ProductWSBuilder {
 
 
     public ProductWSModel build(){
-        return new ProductWSModel(productName, productDescription, productUrl);
+        return new ProductWSModel(productId, productName, productDescription, productUrl);
     }
 }
