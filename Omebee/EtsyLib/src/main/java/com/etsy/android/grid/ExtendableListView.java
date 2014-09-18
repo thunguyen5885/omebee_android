@@ -732,6 +732,117 @@ public abstract class ExtendableListView extends AbsListView {
         mWidthMeasureSpec = widthMeasureSpec;
     }
 
+    /////////////Phan add start
+    /*@Override
+    public boolean canScrollHorizontally(int direction) {
+        final int offset = computeHorizontalScrollOffset();
+        final int range = computeHorizontalScrollRange() - computeHorizontalScrollExtent();
+        if (range == 0) {
+            return false;
+        }
+        if (direction < 0) {
+            return offset > 0;
+        } else {
+            return offset < range - 1;
+        }
+    }*/
+    @Override
+    public boolean canScrollVertically(int direction) {
+        //Log.d(TAG_TEST, "----------------canScrollVertically");
+        final int offset = computeVerticalScrollOffset();
+        final int range = computeVerticalScrollRange() - computeVerticalScrollExtent();
+     //   Log.d(TAG_TEST, "-------------------canScrollVertically range="+range);
+        if (range == 0){
+            Log.d(TAG_TEST, "----------------canScrollVertically FALSE range == 0");
+            return false;
+        }
+        if (direction < 0) {
+            if(offset <= 0) {//test
+                Log.d(TAG_TEST, "----------------canScrollVertically FALSE offset=" + offset);
+                computeVerticalScrollOffset();
+            }
+            return offset > 0;
+        } else {
+            return offset < range - 1;
+        }
+    }
+
+    @Override
+    protected int computeVerticalScrollOffset() {
+       // Log.d(TAG_TEST, "----------------computeVerticalScrollOffset");
+        final int firstPosition = mFirstPosition;
+        final int childCount = getChildCount();
+        if (firstPosition >= 0 && childCount > 0) {
+            if (isSmoothScrollbarEnabled()) {
+                final View view = getChildAt(0);
+                final int top = view.getTop();
+                int height = view.getHeight();
+                if (height > 0) {
+                    return Math.max(firstPosition * 100 - (top * 100) / height +
+                            (int)((float)getScrollY() / getHeight() * mItemCount * 100), 0);
+                }
+            } else {
+                int index;
+                final int count = mItemCount;
+                if (firstPosition == 0) {
+                    index = 0;
+                } else if (firstPosition + childCount == count) {
+                    index = count;
+                } else {
+                    index = firstPosition + childCount / 2;
+                }
+                return (int) (firstPosition + childCount * (index / (float) count));
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    protected int computeVerticalScrollRange() {
+       // Log.d(TAG_TEST, "----------------computeVerticalScrollRange");
+        int result;
+        if (isSmoothScrollbarEnabled()) {
+            result = Math.max(mItemCount * 100, 0);
+            if (getScrollY() != 0) {
+                // Compensate for overscroll
+                result += Math.abs((int) ((float) getScrollY() / getHeight() * mItemCount * 100));
+            }
+        } else {
+            result = mItemCount;
+        }
+        return result;
+    }
+    @Override
+    protected int computeVerticalScrollExtent() {
+      //  Log.d(TAG_TEST, "----------------computeVerticalScrollExtent");
+        final int count = getChildCount();
+        if (count > 0) {
+            if (isSmoothScrollbarEnabled()) {
+                int extent = count * 100;
+
+                View view = getChildAt(0);
+                final int top = view.getTop();
+                int height = view.getHeight();
+                if (height > 0) {
+                    extent += (top * 100) / height;
+                }
+
+                view = getChildAt(count - 1);
+                final int bottom = view.getBottom();
+                height = view.getHeight();
+                if (height > 0) {
+                    extent -= ((bottom - getHeight()) * 100) / height;
+                }
+
+                return extent;
+            } else {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    ////////////Phan add end
     // //////////////////////////////////////////////////////////////////////////////////////////
     // ON TOUCH
     //
@@ -741,6 +852,7 @@ public abstract class ExtendableListView extends AbsListView {
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        Log.d(TAG_TEST, "onTouchEvent");
         // we're not passing this down as
         // all the touch handling is right here
         // super.onTouchEvent(event);
@@ -793,7 +905,7 @@ public abstract class ExtendableListView extends AbsListView {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int action = ev.getAction();
-
+        Log.d(TAG_TEST, "onInterceptTouchEvent");
         if (!mIsAttached) {
             // Something isn't right.
             // Since we rely on being attached to get data set change notifications,
@@ -914,6 +1026,7 @@ public abstract class ExtendableListView extends AbsListView {
     }
     
     private boolean onTouchDown(final MotionEvent event) {
+       // Log.d(TAG_TEST, "onTouchDown");
         final int x = (int) event.getX();
         final int y = (int) event.getY();
         int motionPosition = pointToPosition(x, y);
@@ -959,6 +1072,7 @@ public abstract class ExtendableListView extends AbsListView {
     }
 
     private boolean onTouchMove(final MotionEvent event) {
+       // Log.d(TAG_TEST, "onTouchMove");
         final int index = MotionEventCompat.findPointerIndex(event, mActivePointerId);
         if (index < 0) {
             Log.e(TAG, "onTouchMove could not find pointer with id " +
@@ -1032,6 +1146,7 @@ public abstract class ExtendableListView extends AbsListView {
     }
 
     private boolean onTouchUpScrolling(final MotionEvent event) {
+       // Log.d(TAG_TEST, "onTouchUpScrolling");
         if (hasChildren()) {
             // 2 - Are we at the top or bottom?
             int top = getFirstChildTop();
@@ -1062,6 +1177,7 @@ public abstract class ExtendableListView extends AbsListView {
     }
 
     private boolean onTouchUpTap(final MotionEvent event) {
+       // Log.d(TAG_TEST, "onTouchUpTap");
         final int motionPosition = mMotionPosition;
         if (motionPosition >= 0) {
             final View child = getChildAt(motionPosition);
@@ -1118,6 +1234,7 @@ public abstract class ExtendableListView extends AbsListView {
     }
 
     private boolean onTouchPointerUp(final MotionEvent event) {
+       // Log.d(TAG_TEST, "onTouchPointerUp");
         onSecondaryPointerUp(event);
         final int x = mMotionX;
         final int y = mMotionY;
