@@ -11,6 +11,7 @@ import com.omebee.android.layers.ui.base.BaseActivity;
 import com.omebee.android.layers.ui.components.data.ProductDetailItemData;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
 import com.omebee.android.layers.ui.fragments.ImageCarouselFragment;
+import com.omebee.android.layers.ui.fragments.ProductDetailFragment;
 import com.omebee.android.layers.ui.presenters.ProductDetailPresenterImpl;
 import com.omebee.android.layers.ui.presenters.base.IProductDetailPresenter;
 import com.omebee.android.layers.ui.views.IProductDetailView;
@@ -22,7 +23,7 @@ import com.omebee.android.utils.AppConstants;
 public class ProductDetailActivity extends BaseActivity implements IProductDetailView{
     private IProductDetailPresenter mProductDetailPresenter;
     private ImageCarouselFragment mImageCarouselFragment;
-
+    private ProductDetailFragment mProductDetailFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,14 +36,15 @@ public class ProductDetailActivity extends BaseActivity implements IProductDetai
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
         mImageCarouselFragment = (ImageCarouselFragment) getFragmentManager().findFragmentById(R.id.imageCarouselFragment);
+        mProductDetailFragment = (ProductDetailFragment) getFragmentManager().findFragmentById(R.id.productDetailFragment);
         mProductDetailPresenter = new ProductDetailPresenterImpl(this);
-        if(mImageCarouselFragment != null){
-            mImageCarouselFragment.setPresenter(mProductDetailPresenter);
+        if(mProductDetailFragment != null){
+            mProductDetailFragment.setPresenter(mProductDetailPresenter);
         }
         // Get product id from home page
         String productId = getIntent().getStringExtra(AppConstants.KEY_PRODUCT_ID);
         if(productId != null && productId.length() > 0){
-            mImageCarouselFragment.setProductId(productId);
+            mProductDetailFragment.setProductId(productId);
         }
     }
 
@@ -71,6 +73,8 @@ public class ProductDetailActivity extends BaseActivity implements IProductDetai
             getActionBar().setTitle(productData.getProductName());
             // Show list of image
             mImageCarouselFragment.showProductImageList(productData.getImageUrls());
+            // Also product detail info here
+            mProductDetailFragment.showProductDetail(productData);
         }
     }
 }

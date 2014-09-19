@@ -38,7 +38,6 @@ public class ImagePagerAdapter extends PagerAdapter {
         mViewPager = viewPager;
         mInflater = LayoutInflater.from(mViewPager.getContext());
         mImageLoader = new ImageLoader(Volley.newRequestQueue(mViewPager.getContext()), ImageMemoryCache.INSTANCE);
-
     }
 
     @Override

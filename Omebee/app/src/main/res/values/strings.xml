@@ -28,8 +28,9 @@
     <string name="pull_to_refresh_refreshing_label">Loading...</string>
     <string name="pull_to_refresh_tap_label">Tap to refresh...</string>
 
+    <!--For product detail-->
+    <string name="add_to_cart_text">Add to Cart</string>
     <!--For progress bar-->
-
     <string-array name="interpolators">
         <item>Accelerate</item>
         <item>Linear</item>

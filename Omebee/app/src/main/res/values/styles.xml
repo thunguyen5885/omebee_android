@@ -54,21 +54,50 @@
             <item name="spb_colors">@array/gplus_colors</item>
             <item name="spb_progressiveStart_activated">true</item>
         </style>
+        <style name="NormalText" parent="@android:style/TextAppearance.Holo.Widget.TextView">
+            <item name="android:textAppearance">@android:style/TextAppearance.Large.Inverse</item>
+            <item name="android:textSize">@dimen/normal_textsize</item>
+            <item name="android:textColor">#ff000000</item>
+            <item name="android:maxLines">2</item>
+            <item name="android:ellipsize">end</item>
+        </style>
         <style name="ProductInfoText" parent="@android:style/TextAppearance.Holo.Widget.TextView">
             <item name="android:textAppearance">@android:style/TextAppearance.Large.Inverse</item>
-            <item name="android:textStyle">bold</item>
             <item name="android:textSize">@dimen/product_info_textsize</item>
             <item name="android:textColor">#ff000000</item>
             <item name="android:maxLines">2</item>
             <item name="android:ellipsize">end</item>
         </style>
+        <style name="ProductInfoTextBold" parent="ProductInfoText">
+            <item name="android:textStyle">bold</item>
+        </style>
+        <style name="ProductInfoTextBig" parent="ProductInfoText">
+            <item name="android:textSize">@dimen/product_info_textsize_big</item>
+        </style>
+        <style name="ProductInfoTextBoldBig" parent="ProductInfoText">
+            <item name="android:textSize">@dimen/product_info_textsize_big</item>
+            <item name="android:textStyle">bold</item>
+        </style>
         <style name="ProductPriceText" parent="@android:style/TextAppearance.Holo.Widget.TextView">
             <item name="android:textAppearance">@android:style/TextAppearance.Large.Inverse</item>
-            <item name="android:textStyle">bold</item>
             <item name="android:textSize">@dimen/product_price_textsize</item>
             <item name="android:textColor">#ffff0000</item>
             <item name="android:maxLines">1</item>
             <item name="android:ellipsize">end</item>
         </style>
-
+        <style name="ProductPriceTextBold" parent="ProductPriceText">
+            <item name="android:textStyle">bold</item>
+        </style>
+        <style name="ProductPriceTextBig" parent="ProductPriceText">
+            <item name="android:textSize">@dimen/product_price_textsize_big</item>
+        </style>
+        <style name="ProductPriceTextBoldBig" parent="ProductPriceText">
+            <item name="android:textStyle">bold</item>
+            <item name="android:textSize">@dimen/product_price_textsize_big</item>
+        </style>
+        <style name="ProductReducedPriceText" parent="ProductPriceText">
+            <item name="android:textStyle">bold</item>
+            <item name="android:textColor">#ff000000</item>
+            <item name="android:textSize">@dimen/product_reduced_price_textsize_big</item>
+        </style>
 </resources>

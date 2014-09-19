@@ -30,13 +30,13 @@
             android:id="@+id/txt_productName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/ProductInfoText"
+            style="@style/ProductInfoTextBold"
             />
         <TextView
             android:id="@+id/txt_productPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/ProductPriceText"
+            style="@style/ProductPriceTextBold"
             android:maxLines="1"
             />
         <ImageView

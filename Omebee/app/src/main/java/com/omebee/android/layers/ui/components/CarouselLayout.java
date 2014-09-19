@@ -56,7 +56,7 @@ public class CarouselLayout extends LinearLayout{
      */
     private void setupJazzy(JazzyViewPager.TransitionEffect effect) {
         mViewPager.setTransitionEffect(effect);
-        mViewPager.setPageMargin(0);
+        //mViewPager.setPageMargin(0);
     }
     /**
      * Show a list of images
