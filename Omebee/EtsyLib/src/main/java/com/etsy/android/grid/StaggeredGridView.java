@@ -252,19 +252,19 @@ public class StaggeredGridView extends ExtendableListView {
         mGridPaddingRight = right;
         mGridPaddingBottom = bottom;
     }
-    
+
     public void setColumnCountPortrait(int columnCountPortrait) {
     	mColumnCountPortrait = columnCountPortrait;
     	onSizeChanged(getWidth(), getHeight());
     	requestLayoutChildren();
     }
-    
+
     public void setColumnCountLandscape(int columnCountLandscape) {
     	mColumnCountLandscape = columnCountLandscape;
     	onSizeChanged(getWidth(), getHeight());
     	requestLayoutChildren();
     }
-    
+
     public void setColumnCount(int columnCount) {
     	mColumnCountPortrait = columnCount;
     	mColumnCountLandscape = columnCount;
@@ -381,13 +381,14 @@ public class StaggeredGridView extends ExtendableListView {
             setPositionIsHeaderFooter(position);
         }
     }
-    
+
     private void requestLayoutChildren() {
         final int count = getChildCount();
         for (int i = 0; i < count; i++) {
             final View v = getChildAt(i);
             if (v != null) v.requestLayout();
         }
+
     }
 
     @Override
@@ -466,16 +467,19 @@ public class StaggeredGridView extends ExtendableListView {
         int childTopMargin = getChildTopMargin(position);
         int childBottomMargin = getChildBottomMargin();
         int verticalMargins = childTopMargin + childBottomMargin;
-
+        Log.d("ThuNguyen", "mDeltaYNeedAdjust = " + mDeltaYNeedAdjust);
         if (flowDown) {
+            Log.d("ThuNguyen", "Flow down++++");
             gridChildTop = mColumnBottoms[column]; // the next items top is the last items bottom
             gridChildBottom = gridChildTop + (getChildHeight(child) + verticalMargins);
+
         }
         else {
+            Log.d("ThuNguyen", "Flow up++++");
             gridChildBottom = mColumnTops[column]; // the bottom of the next column up is our top
             gridChildTop = gridChildBottom - (getChildHeight(child) + verticalMargins);
         }
-
+        Log.d("ThuNguyen", "position = " + position);
         if (DBG) Log.d(TAG, "onLayoutChild position:" + position +
                 " column:" + column +
                 " gridChildTop:" + gridChildTop +
@@ -1033,7 +1037,6 @@ public class StaggeredGridView extends ExtendableListView {
         int offset = -syncToBottom + mSpecificTop;
         // offset all columns by
         offsetAllColumnsTopAndBottom(offset);
-
         // sync the distance to top
         mDistanceToTop = -syncToBottom;
 

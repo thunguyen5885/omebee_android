@@ -31,7 +31,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
     private final Random mRandom = new Random();
     private static List<ProductWSModel> mProductModelData = new ArrayList<ProductWSModel>();
     static ProductWSModel[] ITEMS = new ProductWSModel[] {
-            new ProductWSModel("0001","Picture 123456789012345 ap67890123456 bk789 ak 01234567890", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/flamingo.jpg"),
+            new ProductWSModel("0001","Picture 1", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/flamingo.jpg"),
             new ProductWSModel("0002","Picture 2", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/rainbow.jpg"),
             new ProductWSModel("0003","Picture 3", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/over_there.jpg"),
             new ProductWSModel("0004","Picture 4", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/jelly_fish_2.jpg"),

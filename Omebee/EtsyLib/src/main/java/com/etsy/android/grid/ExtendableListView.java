@@ -17,7 +17,6 @@
 
 package com.etsy.android.grid;
 
-import android.animation.LayoutTransition;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Rect;
@@ -30,8 +29,6 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.*;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -148,11 +145,10 @@ public abstract class ExtendableListView extends AbsListView {
     private CheckForLongPress mPendingCheckForLongPress;
 
     //phan add start
-    private boolean mIsJustAddTop;
+    protected boolean mIsJustAddTop;
     //phan add end
     //ThuNguyen add start
-    private boolean mIsNeedAnimationForGap = false;
-    private boolean mIsAnimationForGapFirstTime = true;
+    protected int mDeltaYNeedAdjust = 0;
     //ThuNguyen add end
     private class CheckForLongPress extends WindowRunnnable implements Runnable {
         public void run() {
@@ -348,11 +344,7 @@ public abstract class ExtendableListView extends AbsListView {
                 mSyncPosition = position;
                 mSyncRowId = mAdapter.getItemId(position);
             }
-            //Thu edit start
-            if(position > 0){
-                mIsNeedAnimationForGap = true;
-            }
-            //Thu edit end
+
             requestLayout();
         }
     }
@@ -1024,7 +1016,7 @@ public abstract class ExtendableListView extends AbsListView {
             }
         }
     }
-    
+
     private boolean onTouchDown(final MotionEvent event) {
        // Log.d(TAG_TEST, "onTouchDown");
         final int x = (int) event.getX();
@@ -1086,7 +1078,7 @@ public abstract class ExtendableListView extends AbsListView {
         if (mDataChanged) {
             layoutChildren();
         }
-
+        Log.d("ThuNguyen", "visible item count = " + (getLastVisiblePosition() - getFirstVisiblePosition() + 1));
         switch (mTouchMode) {
             case TOUCH_MODE_DOWN:
             case TOUCH_MODE_TAP:
@@ -1110,11 +1102,11 @@ public abstract class ExtendableListView extends AbsListView {
         setPressed(false);
         invalidate(); // redraw selector
         final Handler handler = getHandler();
-        
+
         if (handler != null) {
             handler.removeCallbacks(mPendingCheckForLongPress);
         }
-        
+
         recycleVelocityTracker();
         mActivePointerId = INVALID_POINTER;
         return true;
@@ -1133,14 +1125,14 @@ public abstract class ExtendableListView extends AbsListView {
 
         setPressed(false);
         invalidate(); // redraw selector
-        
+
         final Handler handler = getHandler();
         if (handler != null) {
             handler.removeCallbacks(mPendingCheckForLongPress);
         }
-        
+
         recycleVelocityTracker();
-        
+
         mActivePointerId = INVALID_POINTER;
         return true;
     }
@@ -1185,18 +1177,18 @@ public abstract class ExtendableListView extends AbsListView {
                 if (mTouchMode != TOUCH_MODE_DOWN) {
                     child.setPressed(false);
                 }
-    
+
                 if (mPerformClick == null) {
                     invalidate();
                     mPerformClick = new PerformClick();
                 }
-    
+
                 final PerformClick performClick = mPerformClick;
                 performClick.mClickMotionPosition = motionPosition;
                 performClick.rememberWindowAttachCount();
-    
+
     //            mResurrectToPosition = motionPosition;
-    
+
                 if (mTouchMode == TOUCH_MODE_DOWN || mTouchMode == TOUCH_MODE_TAP) {
                     final Handler handler = getHandler();
                     if (handler != null) {
@@ -1566,12 +1558,20 @@ public abstract class ExtendableListView extends AbsListView {
         if (mClipToPadding) {
             end -= getListPaddingBottom();
         }
-
-        while ((nextTop < end || hasSpaceDown()) && pos < mItemCount) {
+        /*Thu Nguyen Add Start*/
+        end += mDeltaYNeedAdjust;
+        /*Thu Nguyen Add End*/
+        Log.d("ThuNguyen", "fillDown: mItemCount = " + mItemCount);
+        while ((nextTop <= end || hasSpaceDown()) && pos < mItemCount) {
             // TODO : add selection support
-            makeAndAddView(pos, nextTop, true, false);
+            View view = makeAndAddView(pos, nextTop, true, false);
+
             pos++;
-            nextTop = getNextChildDownsTop(pos); // = child.getBottom();
+            nextTop = Math.min(view.getBottom(), getNextChildDownsTop(pos)); // = child.getBottom();
+            Log.d("ThuNguyen", "fillDown: nextTop = " + nextTop);
+            Log.d("ThuNguyen", "fillDown: end = " + end);
+            Log.d("ThuNguyen", "fillDown: pos = " + pos);
+
         }
 
         return selectedView;
@@ -1589,13 +1589,15 @@ public abstract class ExtendableListView extends AbsListView {
         if (DBG) Log.d(TAG, "fillUp - position:" + pos + " nextBottom:" + nextBottom);
         View selectedView = null;
         int end = mClipToPadding ? getListPaddingTop() : 0;
-
         while ((nextBottom > end || hasSpaceUp() || mIsJustAddTop) && pos >= 0) {
             // TODO : add selection support
            // Log.d(TAG_TEST, "fillUp makeAndAddView - position:" + pos + " hasSpaceUp: "+hasSpaceUp() + " nextBottom " + nextBottom + " end "+end );
             makeAndAddView(pos, nextBottom, false, false);
             pos--;
             nextBottom = getNextChildUpsBottom(pos);
+            Log.d("ThuNguyen", "fillUp: nextBottom = " + nextBottom);
+            Log.d("ThuNguyen", "fillUp: end = " + end);
+            Log.d("ThuNguyen", "fillUp: pos = " + pos);
             if (DBG) Log.d(TAG, "fillUp next - position:" + pos + " nextBottom:" + nextBottom);
 
         }
@@ -1605,9 +1607,7 @@ public abstract class ExtendableListView extends AbsListView {
         else
             Log.d(TAG_TEST, "fillUp - position:" + pos + " ------ OK ------");*/
         //phan test end
-        if(mIsJustAddTop) {
-            mIsJustAddTop = false;
-        }
+
         mFirstPosition = pos + 1;
         return selectedView;
     }
@@ -1660,10 +1660,14 @@ public abstract class ExtendableListView extends AbsListView {
         if (childCount > 0) {
             correctTooHigh(childCount);
             //Thu Add start
-//            if(mLayoutMode == LAYOUT_SYNC) {
-//                offsetFirstOrSecondChildTopAndBottom();
-//            }
+            if(mIsJustAddTop) {
+                offsetFirstOrSecondChildTopAndBottom();
+                mIsJustAddTop = false;
+            }
             //Thu add end
+        }
+        if(mIsJustAddTop) {
+            mIsJustAddTop = false;
         }
         if (tempIsSelected) {
             return temp;
@@ -1937,6 +1941,7 @@ public abstract class ExtendableListView extends AbsListView {
      * @param childCount Number of children
      */
     private void correctTooLow(int childCount) {
+        Log.d("ThuNguyen", "correctTooLow()");
         // First see if the first item is visible. If it is not, it is OK for the
         // bottom of the list to be pushed down.
         if (mFirstPosition == 0 && childCount > 0) {
@@ -1956,7 +1961,7 @@ public abstract class ExtendableListView extends AbsListView {
             final int lastBottom = getLowestChildBottom();
 
             int lastPosition = mFirstPosition + childCount - 1;
-
+            Log.d("ThuNguyen", "correctTooLow with mFirstPosition = 0 and topOffset=" + topOffset + ",lastPosition=" + lastPosition + ",lastBottom=" + lastBottom + ",end=" + end);
             // Make sure we are 1) Too low, and 2) Either there are more rows below the
             // last row or the last row is scrolled off the bottom of the drawable area
             if (topOffset > 0) {
@@ -1968,6 +1973,7 @@ public abstract class ExtendableListView extends AbsListView {
                     // Move everything up
                     offsetChildrenTopAndBottom(-topOffset);
                     if (lastPosition < mItemCount - 1) {
+                        Log.d("ThuNguyen", "correctTooLow_fillDown");
                         // Fill the gap that was opened below the last position with more rows, if
                         // possible
                         int nextPosition = lastPosition + 1;
@@ -1980,6 +1986,16 @@ public abstract class ExtendableListView extends AbsListView {
                     adjustViewsUpOrDown();
                 }
             }
+            /*ThuNguyen Add Start*/
+            // Enforce fillDown again to ensure the children
+            // keep the right position
+            if(mDeltaYNeedAdjust > 0){
+                int nextPosition = lastPosition;
+                fillDown(nextPosition, getNextChildDownsTop(nextPosition));
+                // Close up the remaining gap
+                adjustViewsUpOrDown();
+            }
+            /*ThuNguyen Add End*/
         }
     }
 
@@ -2031,8 +2047,11 @@ public abstract class ExtendableListView extends AbsListView {
      */
     protected void onOffsetChild(final View child, final int position,
                                  final boolean flowDown, final int childrenLeft, final int childTop) {
+        int newPositionY = childTop - child.getTop();
+        int deltaY = child.getTop();
         child.offsetLeftAndRight(childrenLeft - child.getLeft());
         child.offsetTopAndBottom(childTop - child.getTop());
+
     }
 
     /**
@@ -2113,80 +2132,21 @@ public abstract class ExtendableListView extends AbsListView {
             v.offsetTopAndBottom(offset);
         }
     }
-
-    //Thu add start
-    /**
-     * Fill the gap by animation effect
-     */
     protected void offsetFirstOrSecondChildTopAndBottom() {
-        if(!mIsNeedAnimationForGap){
-            return;
-        }
-        mIsNeedAnimationForGap = false;
         View firstChild = getChildAt(0);
         View secondChild = getChildAt(1);
-        int offset = 0;
-        boolean isMakeOffsetOnLeft = true;
-        int delta = 0; // distance to offset
+
         if(firstChild != null && secondChild != null){
             int firstChildTop = firstChild.getTop();
             int secondChildTop = secondChild.getTop();
             Log.d(TAG_TEST, "firstChildTop =" + firstChildTop);
             Log.d(TAG_TEST, "secondChildTop=" + secondChildTop);
-            if(firstChildTop > secondChildTop){
-                offset = secondChildTop - getListPaddingTop();
-                delta = firstChildTop - secondChildTop;
-                isMakeOffsetOnLeft = true;
-                Log.d(TAG_TEST, "offset =" + offset);
-            }else{
-                offset = firstChildTop - getListPaddingTop();
-                delta = secondChildTop - firstChildTop;
-                isMakeOffsetOnLeft = false;
-                Log.d(TAG_TEST, "offset =" + offset);
-            }
-            final int deltaY = delta;
-            if(offset != 0 && delta != 0) {
-                for (int index = 0; index < getChildCount(); index++) {
-                    final View view = getChildAt(index);
-                    if ((isMakeOffsetOnLeft && index % 2 == 0) ||
-                            (!isMakeOffsetOnLeft && index % 2 != 0)) {
-                        Log.d(TAG_TEST, "Offset left = "+ isMakeOffsetOnLeft + ",index = " + index + ",delta="+delta);
-                        // Add animation here
-                        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0 , view.getTop(), view.getTop() - delta);
-                        translateAnimation.setDuration(1000);
-                        view.setAnimation(translateAnimation);
-                        if(mIsAnimationForGapFirstTime){
-                            mIsAnimationForGapFirstTime = false;
-                            view.offsetTopAndBottom(-deltaY);
-                            //view.invalidate();
-                        }else {
-                            translateAnimation.setFillEnabled(true);
-                            translateAnimation.setFillBefore(false);
-                            translateAnimation.setAnimationListener(new Animation.AnimationListener() {
-                                @Override
-                                public void onAnimationStart(Animation animation) {
-                                }
-
-                                @Override
-                                public void onAnimationEnd(Animation animation) {
-                                    view.offsetTopAndBottom(-deltaY);
-                                    view.invalidate();
-                                }
-
-                                @Override
-                                public void onAnimationRepeat(Animation animation) {
-
-                                }
-                            });
-                        }
-                    }
-                }
-            }
+            mDeltaYNeedAdjust = Math.abs(firstChildTop - secondChildTop);
+            // Multiply 2 for weight
+            mDeltaYNeedAdjust *= 2;
         }
-
     }
     //Thu add end
-
     @Override
     public int getFirstVisiblePosition() {
         return Math.max(0, mFirstPosition - getHeaderViewsCount());

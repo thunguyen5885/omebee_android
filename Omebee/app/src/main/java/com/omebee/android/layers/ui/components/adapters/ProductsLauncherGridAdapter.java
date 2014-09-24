@@ -130,7 +130,7 @@ public class ProductsLauncherGridAdapter extends BaseAdapter implements View.OnC
 
     }
 
-    private class ViewHolder {
+    public static class ViewHolder {
         int position;
         DynamicImageView productImage;
         TextView productName;
