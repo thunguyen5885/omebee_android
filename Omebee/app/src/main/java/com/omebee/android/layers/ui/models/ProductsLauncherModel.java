@@ -82,7 +82,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
     private ILoadMoreCallback mILoadMoreRefreshCallback;
     private IGetProductFromIdCallback mIGetProductFromIdCallback;
     // Temporary to limit the load more
-    private static final int TIMES_TO_LOAD_MORE = 10;
+    private static final int TIMES_TO_LOAD_MORE = 100;
     private static final int ITEMS_PER_PAGE_LOAD_MORE = 4;
     private int mCurrentPage = 0;
     private int mRefreshCount = 0;
@@ -333,7 +333,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
         mRefreshCount ++;
         Random random = new Random();
-        int num = random.nextInt(100)+50;
+        int num = random.nextInt(100)+100;
         Log.d(TAG, "createDumpDataForPullRefresh "+mRefreshCount +" with num = "+num);
 //        if(num%2==0) {
 //            num++;

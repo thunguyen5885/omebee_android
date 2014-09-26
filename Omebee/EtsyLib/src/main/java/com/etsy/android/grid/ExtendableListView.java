@@ -348,7 +348,6 @@ public abstract class ExtendableListView extends AbsListView {
             requestLayout();
         }
     }
-
     //Phan add start
     public void setJustAddTop(){
         mIsJustAddTop = true;
@@ -1565,13 +1564,11 @@ public abstract class ExtendableListView extends AbsListView {
         while ((nextTop <= end || hasSpaceDown()) && pos < mItemCount) {
             // TODO : add selection support
             View view = makeAndAddView(pos, nextTop, true, false);
-
             pos++;
             nextTop = Math.min(view.getBottom(), getNextChildDownsTop(pos)); // = child.getBottom();
             Log.d("ThuNguyen", "fillDown: nextTop = " + nextTop);
             Log.d("ThuNguyen", "fillDown: end = " + end);
             Log.d("ThuNguyen", "fillDown: pos = " + pos);
-
         }
 
         return selectedView;
@@ -1659,16 +1656,15 @@ public abstract class ExtendableListView extends AbsListView {
         int childCount = getChildCount();
         if (childCount > 0) {
             correctTooHigh(childCount);
-            //Thu Add start
-            if(mIsJustAddTop) {
-                offsetFirstOrSecondChildTopAndBottom();
-                mIsJustAddTop = false;
-            }
-            //Thu add end
         }
+        //Thu Add start
         if(mIsJustAddTop) {
+            offsetFirstOrSecondChildTopAndBottom();
+            // Move down children to ensure that their layouts fetch properly
+            moveTheChildren(-5, -5);
             mIsJustAddTop = false;
         }
+        //Thu add end
         if (tempIsSelected) {
             return temp;
         }
@@ -1973,7 +1969,6 @@ public abstract class ExtendableListView extends AbsListView {
                     // Move everything up
                     offsetChildrenTopAndBottom(-topOffset);
                     if (lastPosition < mItemCount - 1) {
-                        Log.d("ThuNguyen", "correctTooLow_fillDown");
                         // Fill the gap that was opened below the last position with more rows, if
                         // possible
                         int nextPosition = lastPosition + 1;
@@ -1986,16 +1981,6 @@ public abstract class ExtendableListView extends AbsListView {
                     adjustViewsUpOrDown();
                 }
             }
-            /*ThuNguyen Add Start*/
-            // Enforce fillDown again to ensure the children
-            // keep the right position
-            if(mDeltaYNeedAdjust > 0){
-                int nextPosition = lastPosition;
-                fillDown(nextPosition, getNextChildDownsTop(nextPosition));
-                // Close up the remaining gap
-                adjustViewsUpOrDown();
-            }
-            /*ThuNguyen Add End*/
         }
     }
 
@@ -2132,6 +2117,7 @@ public abstract class ExtendableListView extends AbsListView {
             v.offsetTopAndBottom(offset);
         }
     }
+    /*ThuNguyen ADD 2014/09/26 Start*/
     protected void offsetFirstOrSecondChildTopAndBottom() {
         View firstChild = getChildAt(0);
         View secondChild = getChildAt(1);
@@ -2142,11 +2128,12 @@ public abstract class ExtendableListView extends AbsListView {
             Log.d(TAG_TEST, "firstChildTop =" + firstChildTop);
             Log.d(TAG_TEST, "secondChildTop=" + secondChildTop);
             mDeltaYNeedAdjust = Math.abs(firstChildTop - secondChildTop);
-            // Multiply 2 for weight
+
+            // Weight 2 unit for delta
             mDeltaYNeedAdjust *= 2;
         }
     }
-    //Thu add end
+    /*ThuNguyen ADD 2014/09/26 End*/
     @Override
     public int getFirstVisiblePosition() {
         return Math.max(0, mFirstPosition - getHeaderViewsCount());
@@ -2238,6 +2225,7 @@ public abstract class ExtendableListView extends AbsListView {
         }
 
         private void endFling() {
+            Log.d("ThuNguyen", "Fling: endFling()");
             mLastFlingY = 0;
             mTouchMode = TOUCH_MODE_IDLE;
 
@@ -2265,7 +2253,7 @@ public abstract class ExtendableListView extends AbsListView {
                     // Flip sign to convert finger direction to list items direction
                     // (e.g. finger moving down means list is moving towards the top)
                     int delta = mLastFlingY - y;
-
+                    Log.d("ThuNguyen", "Fling: mLastFlingY = " + mLastFlingY + ", y=" + y);
                     // Pretend that each frame of a fling scroll is a touch scroll
                     if (delta > 0) {
                         // List is moving towards the top. Use first view as mMotionPosition
@@ -2281,11 +2269,12 @@ public abstract class ExtendableListView extends AbsListView {
                         // Don't fling more than 1 screen
                         delta = Math.max(-(getHeight() - getPaddingBottom() - getPaddingTop() - 1), delta);
                     }
-
+                    Log.d("ThuNguyen", "Fling: delta = " + delta);
                     final boolean atEnd = moveTheChildren(delta, delta);
 
                     if (more && !atEnd) {
                         invalidate();
+                        Log.d("ThuNguyen", "Fling: update mLastFlingY = y = " + y);
                         mLastFlingY = y;
                         postOnAnimate(this);
                     }
