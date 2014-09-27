@@ -333,7 +333,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
         mRefreshCount ++;
         Random random = new Random();
-        int num = random.nextInt(100)+100;
+        int num = random.nextInt(500)+500;
         Log.d(TAG, "createDumpDataForPullRefresh "+mRefreshCount +" with num = "+num);
 //        if(num%2==0) {
 //            num++;
@@ -371,7 +371,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
         mCurrentPage ++;
         int num = ITEMS_PER_PAGE_LOAD_MORE;
 
-        if(mCurrentPage <= TIMES_TO_LOAD_MORE){ // Load more 10 items
+        if(mCurrentPage <= TIMES_TO_LOAD_MORE/10){ // Load more 10 items
             List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
             if(mCurrentPage == TIMES_TO_LOAD_MORE - 1){
                 num = ITEMS_PER_PAGE_LOAD_MORE - 1;

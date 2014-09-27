@@ -744,12 +744,12 @@ public abstract class ExtendableListView extends AbsListView {
         final int range = computeVerticalScrollRange() - computeVerticalScrollExtent();
      //   Log.d(TAG_TEST, "-------------------canScrollVertically range="+range);
         if (range == 0){
-            Log.d(TAG_TEST, "----------------canScrollVertically FALSE range == 0");
+            //Log.d(TAG_TEST, "----------------canScrollVertically FALSE range == 0");
             return false;
         }
         if (direction < 0) {
             if(offset <= 0) {//test
-                Log.d(TAG_TEST, "----------------canScrollVertically FALSE offset=" + offset);
+                //Log.d(TAG_TEST, "----------------canScrollVertically FALSE offset=" + offset);
                 computeVerticalScrollOffset();
             }
             return offset > 0;
@@ -843,7 +843,7 @@ public abstract class ExtendableListView extends AbsListView {
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.d(TAG_TEST, "onTouchEvent");
+        //Log.d(TAG_TEST, "onTouchEvent");
         // we're not passing this down as
         // all the touch handling is right here
         // super.onTouchEvent(event);
@@ -896,7 +896,7 @@ public abstract class ExtendableListView extends AbsListView {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int action = ev.getAction();
-        Log.d(TAG_TEST, "onInterceptTouchEvent");
+        //Log.d(TAG_TEST, "onInterceptTouchEvent");
         if (!mIsAttached) {
             // Something isn't right.
             // Since we rely on being attached to get data set change notifications,
@@ -1077,7 +1077,7 @@ public abstract class ExtendableListView extends AbsListView {
         if (mDataChanged) {
             layoutChildren();
         }
-        Log.d("ThuNguyen", "visible item count = " + (getLastVisiblePosition() - getFirstVisiblePosition() + 1));
+       // Log.d("ThuNguyen", "visible item count = " + (getLastVisiblePosition() - getFirstVisiblePosition() + 1));
         switch (mTouchMode) {
             case TOUCH_MODE_DOWN:
             case TOUCH_MODE_TAP:
@@ -1422,11 +1422,13 @@ public abstract class ExtendableListView extends AbsListView {
 
         if (cannotScrollDown) {
             if (DBG) Log.d(TAG, "moveTheChildren cannotScrollDown " + cannotScrollDown);
+            Log.d("------PhanNguyen", "moveTheChildren cannotScrollDown " + cannotScrollDown);
             return incrementalDeltaY != 0;
         }
 
         if (cannotScrollUp) {
             if (DBG) Log.d(TAG, "moveTheChildren cannotScrollUp " + cannotScrollUp);
+            Log.d("-----PhanNguyen", "moveTheChildren cannotScrollUp " + cannotScrollUp);
             return incrementalDeltaY != 0;
         }
 
@@ -1501,7 +1503,10 @@ public abstract class ExtendableListView extends AbsListView {
 
         final int absIncrementalDeltaY = Math.abs(incrementalDeltaY);
         if (spaceAbove < absIncrementalDeltaY || spaceBelow < absIncrementalDeltaY) {
+            Log.d("------PhanNguyen", "moveTheChildren OK Fill Gap %%%%%%%%%%%%%");
             fillGap(isDown);
+        }else{
+            Log.d("------PhanNguyen", "moveTheChildren cannot Fill Gap *************");
         }
 
         // TODO : touch mode selector handling
@@ -1527,6 +1532,7 @@ public abstract class ExtendableListView extends AbsListView {
         if (down) {
             // fill down from the top of the position below our last
             int position = mFirstPosition + count;
+            Log.d(">>>>>PhanNguyen", "fillGap --> fillDown: mFirstPosition = " + mFirstPosition + " --position ="+position);
             final int startOffset = getChildTop(position);
             fillDown(position, startOffset);
         }
@@ -1560,15 +1566,17 @@ public abstract class ExtendableListView extends AbsListView {
         /*Thu Nguyen Add Start*/
         end += mDeltaYNeedAdjust;
         /*Thu Nguyen Add End*/
-        Log.d("ThuNguyen", "fillDown: mItemCount = " + mItemCount);
+       // Log.d("ThuNguyen", "fillDown: mItemCount = " + mItemCount);
+        Log.d(">>>>ThuNguyen", "fillDown - pos:" + pos + " nextTop:" + nextTop + " end:"+end + " hasSpaceDown():"+hasSpaceDown()+" mItemCount:"+mItemCount);
         while ((nextTop <= end || hasSpaceDown()) && pos < mItemCount) {
             // TODO : add selection support
+            Log.d(">>>>ThuNguyen", "fillDown: makeAndAddView pos = " + pos);
             View view = makeAndAddView(pos, nextTop, true, false);
             pos++;
             nextTop = Math.min(view.getBottom(), getNextChildDownsTop(pos)); // = child.getBottom();
-            Log.d("ThuNguyen", "fillDown: nextTop = " + nextTop);
-            Log.d("ThuNguyen", "fillDown: end = " + end);
-            Log.d("ThuNguyen", "fillDown: pos = " + pos);
+           // Log.d("ThuNguyen", "fillDown: nextTop = " + nextTop);
+           // Log.d("ThuNguyen", "fillDown: end = " + end);
+           // Log.d("ThuNguyen", "fillDown: pos = " + pos);
         }
 
         return selectedView;
@@ -1592,18 +1600,12 @@ public abstract class ExtendableListView extends AbsListView {
             makeAndAddView(pos, nextBottom, false, false);
             pos--;
             nextBottom = getNextChildUpsBottom(pos);
-            Log.d("ThuNguyen", "fillUp: nextBottom = " + nextBottom);
-            Log.d("ThuNguyen", "fillUp: end = " + end);
-            Log.d("ThuNguyen", "fillUp: pos = " + pos);
+           // Log.d("ThuNguyen", "fillUp: nextBottom = " + nextBottom);
+          //  Log.d("ThuNguyen", "fillUp: end = " + end);
+          //  Log.d("ThuNguyen", "fillUp: pos = " + pos);
             if (DBG) Log.d(TAG, "fillUp next - position:" + pos + " nextBottom:" + nextBottom);
 
         }
-        //phan test start
-        /*if(pos>=0)
-            Log.d(TAG_TEST, "fillUp - position:" + pos + " ------ FAIL ------");
-        else
-            Log.d(TAG_TEST, "fillUp - position:" + pos + " ------ OK ------");*/
-        //phan test end
 
         mFirstPosition = pos + 1;
         return selectedView;
@@ -2127,10 +2129,13 @@ public abstract class ExtendableListView extends AbsListView {
             int secondChildTop = secondChild.getTop();
             Log.d(TAG_TEST, "firstChildTop =" + firstChildTop);
             Log.d(TAG_TEST, "secondChildTop=" + secondChildTop);
-            mDeltaYNeedAdjust = Math.abs(firstChildTop - secondChildTop);
+            int deltaY = Math.abs(firstChildTop - secondChildTop);
 
             // Weight 2 unit for delta
-            mDeltaYNeedAdjust *= 2;
+            deltaY *= 2;
+            if(deltaY > mDeltaYNeedAdjust){
+                mDeltaYNeedAdjust = deltaY;
+            }
         }
     }
     /*ThuNguyen ADD 2014/09/26 End*/
@@ -2253,7 +2258,7 @@ public abstract class ExtendableListView extends AbsListView {
                     // Flip sign to convert finger direction to list items direction
                     // (e.g. finger moving down means list is moving towards the top)
                     int delta = mLastFlingY - y;
-                    Log.d("ThuNguyen", "Fling: mLastFlingY = " + mLastFlingY + ", y=" + y);
+                   // Log.d("ThuNguyen", "Fling: mLastFlingY = " + mLastFlingY + ", y=" + y);
                     // Pretend that each frame of a fling scroll is a touch scroll
                     if (delta > 0) {
                         // List is moving towards the top. Use first view as mMotionPosition
@@ -2269,12 +2274,12 @@ public abstract class ExtendableListView extends AbsListView {
                         // Don't fling more than 1 screen
                         delta = Math.max(-(getHeight() - getPaddingBottom() - getPaddingTop() - 1), delta);
                     }
-                    Log.d("ThuNguyen", "Fling: delta = " + delta);
+                  //  Log.d("ThuNguyen", "Fling: delta = " + delta);
                     final boolean atEnd = moveTheChildren(delta, delta);
 
                     if (more && !atEnd) {
                         invalidate();
-                        Log.d("ThuNguyen", "Fling: update mLastFlingY = y = " + y);
+                      //  Log.d("ThuNguyen", "Fling: update mLastFlingY = y = " + y);
                         mLastFlingY = y;
                         postOnAnimate(this);
                     }

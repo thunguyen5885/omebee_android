@@ -467,19 +467,19 @@ public class StaggeredGridView extends ExtendableListView {
         int childTopMargin = getChildTopMargin(position);
         int childBottomMargin = getChildBottomMargin();
         int verticalMargins = childTopMargin + childBottomMargin;
-        Log.d("ThuNguyen", "mDeltaYNeedAdjust = " + mDeltaYNeedAdjust);
+      //  Log.d("ThuNguyen", "mDeltaYNeedAdjust = " + mDeltaYNeedAdjust);
         if (flowDown) {
-            Log.d("ThuNguyen", "Flow down++++");
+           // Log.d("ThuNguyen", "Flow down++++");
             gridChildTop = mColumnBottoms[column]; // the next items top is the last items bottom
             gridChildBottom = gridChildTop + (getChildHeight(child) + verticalMargins);
 
         }
         else {
-            Log.d("ThuNguyen", "Flow up++++");
+           // Log.d("ThuNguyen", "Flow up++++");
             gridChildBottom = mColumnTops[column]; // the bottom of the next column up is our top
             gridChildTop = gridChildBottom - (getChildHeight(child) + verticalMargins);
         }
-        Log.d("ThuNguyen", "position = " + position);
+     //   Log.d("ThuNguyen", "position = " + position);
         if (DBG) Log.d(TAG, "onLayoutChild position:" + position +
                 " column:" + column +
                 " gridChildTop:" + gridChildTop +

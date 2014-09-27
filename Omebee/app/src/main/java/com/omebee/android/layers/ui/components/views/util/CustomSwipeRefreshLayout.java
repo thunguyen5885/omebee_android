@@ -366,7 +366,7 @@ public class CustomSwipeRefreshLayout extends ViewGroup {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        Log.d(TAG_TEST, "onInterceptTouchEvent canChildScrollUp:" + canChildScrollUp());
+       // Log.d(TAG_TEST, "onInterceptTouchEvent canChildScrollUp:" + canChildScrollUp());
         ensureTarget();
         boolean handled = false;
         if (mReturningToStart && ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -385,7 +385,7 @@ public class CustomSwipeRefreshLayout extends ViewGroup {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.d(TAG_TEST, "onTouchEvent");
+     //   Log.d(TAG_TEST, "onTouchEvent");
         final int action = event.getAction();
         boolean handled = false;
         switch (action) {
@@ -399,7 +399,7 @@ public class CustomSwipeRefreshLayout extends ViewGroup {
                     final float eventY = event.getY();
                     float yDiff = eventY - mDownEvent.getY();
                     //Phan add
-                    Log.d(TAG_TEST, "onTouchEvent yDiff:" + yDiff + " ------mTouchSlop: "+mTouchSlop);
+                   // Log.d(TAG_TEST, "onTouchEvent yDiff:" + yDiff + " ------mTouchSlop: "+mTouchSlop);
                     //Phan add end
                     if (yDiff > mTouchSlop) {
                         // User velocity passed min velocity; trigger a refresh
