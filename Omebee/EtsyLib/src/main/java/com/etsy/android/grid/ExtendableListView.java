@@ -149,6 +149,9 @@ public abstract class ExtendableListView extends AbsListView {
     //phan add end
     //ThuNguyen add start
     protected int mDeltaYNeedAdjust = 0;
+    /*ThuNguyen Add Start 20140929*/
+    protected boolean mIsEnforceFillDown = false;
+    /*ThuNguyen Add End 20140929*/
     //ThuNguyen add end
     private class CheckForLongPress extends WindowRunnnable implements Runnable {
         public void run() {
@@ -348,12 +351,20 @@ public abstract class ExtendableListView extends AbsListView {
             requestLayout();
         }
     }
+    /*ThuNguyen Add Start 20140929*/
+    public void setEnforceFillDown(){
+        mIsEnforceFillDown = true;
+    }
+    /*ThuNguyen Add End 20140929*/
     //Phan add start
     public void setJustAddTop(){
         mIsJustAddTop = true;
     }
     public void keepCurrentPositionAsAddTop(int nAddTopItems){
         setJustAddTop();
+        /*ThuNguyen Add Start 20140929*/
+        setEnforceFillDown();
+        /*ThuNguyen Add End 20140929*/
         int newCurrentPosition = nAddTopItems+mFirstPosition;
         setSelection(newCurrentPosition);
 
@@ -1581,7 +1592,38 @@ public abstract class ExtendableListView extends AbsListView {
 
         return selectedView;
     }
+    /*ThuNguyen Add Start 20140929*/
 
+    /**
+     * Make the gridview enforce to fill down
+     * @param pos
+     * @param nextTop
+     * @return
+     */
+    private boolean enforceFillDown(int pos, int nextTop) {
+        boolean isNextEnforceFillDown = true;
+        if (DBG) Log.d(TAG, "enforceFillDown - pos:" + pos + " nextTop:" + nextTop);
+
+        int end = getHeight();
+        if (mClipToPadding) {
+            end -= getListPaddingBottom();
+        }
+        /*Thu Nguyen Add Start*/
+        end += mDeltaYNeedAdjust;
+        /*Thu Nguyen Add End*/
+        // Log.d("ThuNguyen", "fillDown: mItemCount = " + mItemCount);
+        Log.d(">>>>ThuNguyen", "enforceFillDown - pos:" + pos + " nextTop:" + nextTop + " end:"+end + " hasSpaceDown():"+hasSpaceDown()+" mItemCount:"+mItemCount);
+        while ((nextTop <= end || hasSpaceDown()) && pos < mItemCount) {
+            // TODO : add selection support
+            isNextEnforceFillDown = false;
+            Log.d(">>>>ThuNguyen", "enforceFillDown: makeAndAddView pos = " + pos);
+            View view = makeAndAddView(pos, nextTop, true, false);
+            pos++;
+            nextTop = Math.min(view.getBottom(), getNextChildDownsTop(pos)); // = child.getBottom();
+        }
+        return isNextEnforceFillDown;
+    }
+    /*ThuNguyen Add Start 20140929*/
     /***
      * Override to tell filling flow to continue to fill up as we have space.
      */
@@ -1662,8 +1704,6 @@ public abstract class ExtendableListView extends AbsListView {
         //Thu Add start
         if(mIsJustAddTop) {
             offsetFirstOrSecondChildTopAndBottom();
-            // Move down children to ensure that their layouts fetch properly
-            moveTheChildren(-5, -5);
             mIsJustAddTop = false;
         }
         //Thu add end
@@ -1983,6 +2023,14 @@ public abstract class ExtendableListView extends AbsListView {
                     adjustViewsUpOrDown();
                 }
             }
+            /*ThuNguyen Add Start 20140929*/
+            if(mIsEnforceFillDown){
+                int nextPosition = lastPosition + 1;
+                mIsEnforceFillDown = enforceFillDown(nextPosition, getNextChildDownsTop(nextPosition));
+                // Close up the remaining gap
+                adjustViewsUpOrDown();
+            }
+            /*ThuNguyen Add End 20140929*/
         }
     }
 
