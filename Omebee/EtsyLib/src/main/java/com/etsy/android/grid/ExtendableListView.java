@@ -140,7 +140,7 @@ public abstract class ExtendableListView extends AbsListView {
 
     protected boolean mClipToPadding;
     private PerformClick mPerformClick;
-    
+
     private Runnable mPendingCheckForTap;
     private CheckForLongPress mPendingCheckForLongPress;
 
@@ -149,6 +149,9 @@ public abstract class ExtendableListView extends AbsListView {
     //phan add end
     //ThuNguyen add start
     protected int mDeltaYNeedAdjust = 0;
+    /*ThuNguyen Add Start 20140929*/
+    protected boolean mIsEnforceFillDown = false;
+    /*ThuNguyen Add End 20140929*/
     //ThuNguyen add end
     private class CheckForLongPress extends WindowRunnnable implements Runnable {
         public void run() {
@@ -272,7 +275,7 @@ public abstract class ExtendableListView extends AbsListView {
     }
 
     protected void onSizeChanged(int w, int h) {
-    	if (getChildCount() > 0) {
+        if (getChildCount() > 0) {
             stopFlingRunnable();
             mRecycleBin.clear();
             mDataChanged = true;
@@ -348,12 +351,20 @@ public abstract class ExtendableListView extends AbsListView {
             requestLayout();
         }
     }
+    /*ThuNguyen Add Start 20140929*/
+    public void setEnforceFillDown(){
+        mIsEnforceFillDown = true;
+    }
+    /*ThuNguyen Add End 20140929*/
     //Phan add start
     public void setJustAddTop(){
         mIsJustAddTop = true;
     }
     public void keepCurrentPositionAsAddTop(int nAddTopItems){
         setJustAddTop();
+        /*ThuNguyen Add Start 20140929*/
+        setEnforceFillDown();
+        /*ThuNguyen Add End 20140929*/
         int newCurrentPosition = nAddTopItems+mFirstPosition;
         setSelection(newCurrentPosition);
 
@@ -594,7 +605,7 @@ public abstract class ExtendableListView extends AbsListView {
             // our last state so we keep our position
             if (mLayoutMode == LAYOUT_NORMAL) {
                 oldFirst = getChildAt(0);
-           }
+            }
 
             boolean dataChanged = mDataChanged;
             if (dataChanged) {
@@ -655,7 +666,7 @@ public abstract class ExtendableListView extends AbsListView {
                         fillFromTop(childrenTop);
                     }
                     else if (mFirstPosition < mItemCount) {
-                       // Log.e(TAG_TEST, "fillSpecific mFirstPosition="+mFirstPosition);
+                        // Log.e(TAG_TEST, "fillSpecific mFirstPosition="+mFirstPosition);
                         fillSpecific(mFirstPosition,
                                 oldFirst == null ? childrenTop : oldFirst.getTop());
                     }
@@ -742,7 +753,7 @@ public abstract class ExtendableListView extends AbsListView {
         //Log.d(TAG_TEST, "----------------canScrollVertically");
         final int offset = computeVerticalScrollOffset();
         final int range = computeVerticalScrollRange() - computeVerticalScrollExtent();
-     //   Log.d(TAG_TEST, "-------------------canScrollVertically range="+range);
+        //   Log.d(TAG_TEST, "-------------------canScrollVertically range="+range);
         if (range == 0){
             //Log.d(TAG_TEST, "----------------canScrollVertically FALSE range == 0");
             return false;
@@ -760,7 +771,7 @@ public abstract class ExtendableListView extends AbsListView {
 
     @Override
     protected int computeVerticalScrollOffset() {
-       // Log.d(TAG_TEST, "----------------computeVerticalScrollOffset");
+        // Log.d(TAG_TEST, "----------------computeVerticalScrollOffset");
         final int firstPosition = mFirstPosition;
         final int childCount = getChildCount();
         if (firstPosition >= 0 && childCount > 0) {
@@ -790,7 +801,7 @@ public abstract class ExtendableListView extends AbsListView {
 
     @Override
     protected int computeVerticalScrollRange() {
-       // Log.d(TAG_TEST, "----------------computeVerticalScrollRange");
+        // Log.d(TAG_TEST, "----------------computeVerticalScrollRange");
         int result;
         if (isSmoothScrollbarEnabled()) {
             result = Math.max(mItemCount * 100, 0);
@@ -805,7 +816,7 @@ public abstract class ExtendableListView extends AbsListView {
     }
     @Override
     protected int computeVerticalScrollExtent() {
-      //  Log.d(TAG_TEST, "----------------computeVerticalScrollExtent");
+        //  Log.d(TAG_TEST, "----------------computeVerticalScrollExtent");
         final int count = getChildCount();
         if (count > 0) {
             if (isSmoothScrollbarEnabled()) {
@@ -1017,7 +1028,7 @@ public abstract class ExtendableListView extends AbsListView {
     }
 
     private boolean onTouchDown(final MotionEvent event) {
-       // Log.d(TAG_TEST, "onTouchDown");
+        // Log.d(TAG_TEST, "onTouchDown");
         final int x = (int) event.getX();
         final int y = (int) event.getY();
         int motionPosition = pointToPosition(x, y);
@@ -1063,7 +1074,7 @@ public abstract class ExtendableListView extends AbsListView {
     }
 
     private boolean onTouchMove(final MotionEvent event) {
-       // Log.d(TAG_TEST, "onTouchMove");
+        // Log.d(TAG_TEST, "onTouchMove");
         final int index = MotionEventCompat.findPointerIndex(event, mActivePointerId);
         if (index < 0) {
             Log.e(TAG, "onTouchMove could not find pointer with id " +
@@ -1077,7 +1088,7 @@ public abstract class ExtendableListView extends AbsListView {
         if (mDataChanged) {
             layoutChildren();
         }
-       // Log.d("ThuNguyen", "visible item count = " + (getLastVisiblePosition() - getFirstVisiblePosition() + 1));
+        // Log.d("ThuNguyen", "visible item count = " + (getLastVisiblePosition() - getFirstVisiblePosition() + 1));
         switch (mTouchMode) {
             case TOUCH_MODE_DOWN:
             case TOUCH_MODE_TAP:
@@ -1137,7 +1148,7 @@ public abstract class ExtendableListView extends AbsListView {
     }
 
     private boolean onTouchUpScrolling(final MotionEvent event) {
-       // Log.d(TAG_TEST, "onTouchUpScrolling");
+        // Log.d(TAG_TEST, "onTouchUpScrolling");
         if (hasChildren()) {
             // 2 - Are we at the top or bottom?
             int top = getFirstChildTop();
@@ -1168,7 +1179,7 @@ public abstract class ExtendableListView extends AbsListView {
     }
 
     private boolean onTouchUpTap(final MotionEvent event) {
-       // Log.d(TAG_TEST, "onTouchUpTap");
+        // Log.d(TAG_TEST, "onTouchUpTap");
         final int motionPosition = mMotionPosition;
         if (motionPosition >= 0) {
             final View child = getChildAt(motionPosition);
@@ -1186,7 +1197,7 @@ public abstract class ExtendableListView extends AbsListView {
                 performClick.mClickMotionPosition = motionPosition;
                 performClick.rememberWindowAttachCount();
 
-    //            mResurrectToPosition = motionPosition;
+                //            mResurrectToPosition = motionPosition;
 
                 if (mTouchMode == TOUCH_MODE_DOWN || mTouchMode == TOUCH_MODE_TAP) {
                     final Handler handler = getHandler();
@@ -1225,7 +1236,7 @@ public abstract class ExtendableListView extends AbsListView {
     }
 
     private boolean onTouchPointerUp(final MotionEvent event) {
-       // Log.d(TAG_TEST, "onTouchPointerUp");
+        // Log.d(TAG_TEST, "onTouchPointerUp");
         onSecondaryPointerUp(event);
         final int x = mMotionX;
         final int y = mMotionY;
@@ -1566,7 +1577,7 @@ public abstract class ExtendableListView extends AbsListView {
         /*Thu Nguyen Add Start*/
         end += mDeltaYNeedAdjust;
         /*Thu Nguyen Add End*/
-       // Log.d("ThuNguyen", "fillDown: mItemCount = " + mItemCount);
+        // Log.d("ThuNguyen", "fillDown: mItemCount = " + mItemCount);
         Log.d(">>>>ThuNguyen", "fillDown - pos:" + pos + " nextTop:" + nextTop + " end:"+end + " hasSpaceDown():"+hasSpaceDown()+" mItemCount:"+mItemCount);
         while ((nextTop <= end || hasSpaceDown()) && pos < mItemCount) {
             // TODO : add selection support
@@ -1574,14 +1585,45 @@ public abstract class ExtendableListView extends AbsListView {
             View view = makeAndAddView(pos, nextTop, true, false);
             pos++;
             nextTop = Math.min(view.getBottom(), getNextChildDownsTop(pos)); // = child.getBottom();
-           // Log.d("ThuNguyen", "fillDown: nextTop = " + nextTop);
-           // Log.d("ThuNguyen", "fillDown: end = " + end);
-           // Log.d("ThuNguyen", "fillDown: pos = " + pos);
+            // Log.d("ThuNguyen", "fillDown: nextTop = " + nextTop);
+            // Log.d("ThuNguyen", "fillDown: end = " + end);
+            // Log.d("ThuNguyen", "fillDown: pos = " + pos);
         }
 
         return selectedView;
     }
+    /*ThuNguyen Add Start 20140929*/
 
+    /**
+     * Make the gridview enforce to fill down
+     * @param pos
+     * @param nextTop
+     * @return
+     */
+    private boolean enforceFillDown(int pos, int nextTop) {
+        boolean isNextEnforceFillDown = true;
+        if (DBG) Log.d(TAG, "enforceFillDown - pos:" + pos + " nextTop:" + nextTop);
+
+        int end = getHeight();
+        if (mClipToPadding) {
+            end -= getListPaddingBottom();
+        }
+        /*Thu Nguyen Add Start*/
+        end += mDeltaYNeedAdjust;
+        /*Thu Nguyen Add End*/
+        // Log.d("ThuNguyen", "fillDown: mItemCount = " + mItemCount);
+        Log.d(">>>>ThuNguyen", "enforceFillDown - pos:" + pos + " nextTop:" + nextTop + " end:"+end + " hasSpaceDown():"+hasSpaceDown()+" mItemCount:"+mItemCount);
+        while ((nextTop <= end || hasSpaceDown()) && pos < mItemCount) {
+            // TODO : add selection support
+            isNextEnforceFillDown = false;
+            Log.d(">>>>ThuNguyen", "enforceFillDown: makeAndAddView pos = " + pos);
+            View view = makeAndAddView(pos, nextTop, true, false);
+            pos++;
+            nextTop = Math.min(view.getBottom(), getNextChildDownsTop(pos)); // = child.getBottom();
+        }
+        return isNextEnforceFillDown;
+    }
+    /*ThuNguyen Add Start 20140929*/
     /***
      * Override to tell filling flow to continue to fill up as we have space.
      */
@@ -1590,19 +1632,19 @@ public abstract class ExtendableListView extends AbsListView {
     }
 
     private View fillUp(int pos, int nextBottom) {
-       // Log.d(TAG_TEST, "fillUp - position:" + pos + " nextBottom:" + nextBottom);
+        // Log.d(TAG_TEST, "fillUp - position:" + pos + " nextBottom:" + nextBottom);
         if (DBG) Log.d(TAG, "fillUp - position:" + pos + " nextBottom:" + nextBottom);
         View selectedView = null;
         int end = mClipToPadding ? getListPaddingTop() : 0;
         while ((nextBottom > end || hasSpaceUp() || mIsJustAddTop) && pos >= 0) {
             // TODO : add selection support
-           // Log.d(TAG_TEST, "fillUp makeAndAddView - position:" + pos + " hasSpaceUp: "+hasSpaceUp() + " nextBottom " + nextBottom + " end "+end );
+            // Log.d(TAG_TEST, "fillUp makeAndAddView - position:" + pos + " hasSpaceUp: "+hasSpaceUp() + " nextBottom " + nextBottom + " end "+end );
             makeAndAddView(pos, nextBottom, false, false);
             pos--;
             nextBottom = getNextChildUpsBottom(pos);
-           // Log.d("ThuNguyen", "fillUp: nextBottom = " + nextBottom);
-          //  Log.d("ThuNguyen", "fillUp: end = " + end);
-          //  Log.d("ThuNguyen", "fillUp: pos = " + pos);
+            // Log.d("ThuNguyen", "fillUp: nextBottom = " + nextBottom);
+            //  Log.d("ThuNguyen", "fillUp: end = " + end);
+            //  Log.d("ThuNguyen", "fillUp: pos = " + pos);
             if (DBG) Log.d(TAG, "fillUp next - position:" + pos + " nextBottom:" + nextBottom);
 
         }
@@ -1662,8 +1704,6 @@ public abstract class ExtendableListView extends AbsListView {
         //Thu Add start
         if(mIsJustAddTop) {
             offsetFirstOrSecondChildTopAndBottom();
-            // Move down children to ensure that their layouts fetch properly
-            moveTheChildren(-5, -5);
             mIsJustAddTop = false;
         }
         //Thu add end
@@ -1863,7 +1903,7 @@ public abstract class ExtendableListView extends AbsListView {
 
         View child;
         if (scrapView != null) {
-           // Log.d(TAG_TEST, "getView from scrap position:" + position);
+            // Log.d(TAG_TEST, "getView from scrap position:" + position);
             if (DBG) Log.d(TAG, "getView from scrap position:" + position);
             child = mAdapter.getView(position, scrapView, this);
 
@@ -1983,6 +2023,14 @@ public abstract class ExtendableListView extends AbsListView {
                     adjustViewsUpOrDown();
                 }
             }
+            /*ThuNguyen Add Start 20140929*/
+            if(mIsEnforceFillDown){
+                int nextPosition = lastPosition + 1;
+                mIsEnforceFillDown = enforceFillDown(nextPosition, getNextChildDownsTop(nextPosition));
+                // Close up the remaining gap
+                adjustViewsUpOrDown();
+            }
+            /*ThuNguyen Add End 20140929*/
         }
     }
 
@@ -2258,7 +2306,7 @@ public abstract class ExtendableListView extends AbsListView {
                     // Flip sign to convert finger direction to list items direction
                     // (e.g. finger moving down means list is moving towards the top)
                     int delta = mLastFlingY - y;
-                   // Log.d("ThuNguyen", "Fling: mLastFlingY = " + mLastFlingY + ", y=" + y);
+                    // Log.d("ThuNguyen", "Fling: mLastFlingY = " + mLastFlingY + ", y=" + y);
                     // Pretend that each frame of a fling scroll is a touch scroll
                     if (delta > 0) {
                         // List is moving towards the top. Use first view as mMotionPosition
@@ -2274,12 +2322,12 @@ public abstract class ExtendableListView extends AbsListView {
                         // Don't fling more than 1 screen
                         delta = Math.max(-(getHeight() - getPaddingBottom() - getPaddingTop() - 1), delta);
                     }
-                  //  Log.d("ThuNguyen", "Fling: delta = " + delta);
+                    //  Log.d("ThuNguyen", "Fling: delta = " + delta);
                     final boolean atEnd = moveTheChildren(delta, delta);
 
                     if (more && !atEnd) {
                         invalidate();
-                      //  Log.d("ThuNguyen", "Fling: update mLastFlingY = y = " + y);
+                        //  Log.d("ThuNguyen", "Fling: update mLastFlingY = y = " + y);
                         mLastFlingY = y;
                         postOnAnimate(this);
                     }
@@ -3074,9 +3122,9 @@ public abstract class ExtendableListView extends AbsListView {
             }
         }
     }
-    
+
     private boolean performLongPress(final View child,
-            final int longPressPosition, final long longPressId) {
+                                     final int longPressPosition, final long longPressId) {
         boolean handled = false;
 
         OnItemLongClickListener onItemLongClickListener = getOnItemLongClickListener();
@@ -3092,7 +3140,7 @@ public abstract class ExtendableListView extends AbsListView {
             performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         }
         return handled;
-    }    
+    }
 
     /**
      * A base class for Runnables that will check that their view is still attached to
