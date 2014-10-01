@@ -3,6 +3,7 @@ package com.omebee.android.layers.ui.models;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.omebee.android.global.AppPresenter;
 import com.omebee.android.layers.services.IWebServiceAccess;
 
 import com.omebee.android.layers.services.WSAccessFactory;
@@ -29,7 +30,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
     String LARGE_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/large/";
     //static final String THUMB_BASE_URL = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/";
     private final Random mRandom = new Random();
-    private static List<ProductWSModel> mProductModelData = new ArrayList<ProductWSModel>();
+    //private static List<ProductWSModel> mProductModelData = new ArrayList<ProductWSModel>();
     static ProductWSModel[] ITEMS = new ProductWSModel[] {
             new ProductWSModel("0001","Picture 1", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/flamingo.jpg"),
             new ProductWSModel("0002","Picture 2", "Romain Guy", "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/rainbow.jpg"),
@@ -73,9 +74,9 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
     };
     public ProductsLauncherModel(){
-        if(mProductModelData.size() == 0) {
+        /*if(mProductModelData.size() == 0) {
             mProductModelData = new ArrayList<ProductWSModel>(Arrays.asList(ITEMS));
-        }
+        }*/
     }
     // Properties
     private IPullRefreshCallback mIPullRefreshCallback;
@@ -179,18 +180,14 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
         return imageUrls;
     }
     public ProductDetailItemData findProductFromId(String productId) {
-        Iterator<ProductWSModel> iterator = mProductModelData.iterator();
-        while(iterator.hasNext()){
-            ProductWSModel productModelItem = iterator.next();
-            // Temporary compare with name, change later
-            if(productModelItem.getProductId().equals(productId)){
-                Random random = new Random();
-                double price = random.nextInt(10000000)+100000;
-                List<String> imageUrls = createRandomImageUrlList();
-                ProductDetailItemData item = new ProductDetailItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
-                        productModelItem.getProductUrl(),getRandomHeightRatio(),price, AppConstants.Currency.VND, imageUrls);
-                return item;
-            }
+        ProductWSModel productModelItem = AppPresenter.getInstance().findProductInWarehouse(productId);
+        if(productModelItem!=null){
+            Random random = new Random();
+            double price = random.nextInt(10000000)+100000;
+            List<String> imageUrls = createRandomImageUrlList();
+            ProductDetailItemData item = new ProductDetailItemData(productModelItem.getProductName(), productModelItem.getProductDescription(),
+                    productModelItem.getProductUrl(),getRandomHeightRatio(),price, AppConstants.Currency.VND, imageUrls);
+            return item;
         }
         return null;
     }
@@ -356,7 +353,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
             productList.add(0, item);
             // Add new item as test data
             ProductWSModel wsModel = new ProductWSModel(productId, pictureName, productModelItem.getProductDescription(), productModelItem.getProductUrl());
-            mProductModelData.add(0, wsModel);
+            AppPresenter.getInstance().pushProductIntoWarehouse(wsModel,0);
         }
         Log.d(TAG, "createDumpDataForPullRefresh "+mRefreshCount +" with Picture number = "+(mPictureCount-1));
         return productList;
@@ -389,7 +386,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
                 // Add new item as test data
                 ProductWSModel wsModel = new ProductWSModel(productId, pictureName, productModelItem.getProductDescription(), productModelItem.getProductUrl());
-                mProductModelData.add(wsModel);
+                AppPresenter.getInstance().pushProductIntoWarehouse(wsModel);
             }
             return productList;
         }

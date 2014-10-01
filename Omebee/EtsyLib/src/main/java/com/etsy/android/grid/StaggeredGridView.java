@@ -647,7 +647,7 @@ public class StaggeredGridView extends ExtendableListView {
         }
         else {
             //Phan edit start 20140929
-            /*final int column = getPositionColumn(position);
+           /* final int column = getPositionColumn(position);
             if (column == -1) {
                 return getHighestPositionedBottom();
             }
@@ -677,11 +677,12 @@ public class StaggeredGridView extends ExtendableListView {
             return super.getChildBottom(position);
         }
         else {
-            final int column = getPositionColumn(position);
+          /*  final int column = getPositionColumn(position);
             if (column == -1) {
                 return getLowestPositionedTop();
             }
-            return mColumnTops[column];
+            return mColumnTops[column];*/
+            return getLowestPositionedTop();
         }
     }
 
