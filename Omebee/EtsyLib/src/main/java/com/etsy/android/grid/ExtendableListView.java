@@ -1704,6 +1704,13 @@ public abstract class ExtendableListView extends AbsListView {
         //Thu Add start
         if(mIsJustAddTop) {
             offsetFirstOrSecondChildTopAndBottom();
+             /*ThuNguyen Add Start 20141001*/
+            int itemHeight = Math.min(getChildAt(0).getHeight(), getChildAt(1).getHeight());
+            int deltaY = itemHeight / 8;
+            // Move down then up to refresh grid view
+            moveTheChildren(-deltaY, -deltaY);
+            moveTheChildren(deltaY, deltaY);
+            /*ThuNguyen Add End 20141001*/
             mIsJustAddTop = false;
         }
         //Thu add end
