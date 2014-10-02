@@ -11,7 +11,7 @@ import com.omebee.android.global.data.ProductWarehouse;
  */
 public class OmebeeApplication extends Application{
     private static final String TAG = "OmebeeApplication";
-    private ProductWarehouse mProductWarehouse;
+    private ProductWarehouse mProductWarehouse = new ProductWarehouse();
 
     /*****************************Main events *****************************************************/
 
