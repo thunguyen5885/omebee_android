@@ -2262,14 +2262,22 @@ public abstract class ExtendableListView extends AbsListView {
          * Y value reported by mScroller on the previous fling
          */
         private int mLastFlingY;
-
+        /*ThuNguyen Add Start 20141002*/
+        private int mLastDeltaY;
+        private boolean mIsStartToCheckAbnormal; // >=2: found
+        /*ThuNguyen Add End 20141002*/
         FlingRunnable() {
             mScroller = new Scroller(getContext());
         }
 
         void start(int initialVelocity) {
+            Log.d("ThuNguyen", "Fling: start()");
             int initialY = initialVelocity < 0 ? Integer.MAX_VALUE : 0;
             mLastFlingY = initialY;
+            /*ThuNguyen Add Start 20141002*/
+            mLastDeltaY = Integer.MAX_VALUE;
+            mIsStartToCheckAbnormal = false;
+            /*ThuNguyen Add End 20141002*/
             mScroller.forceFinished(true);
             mScroller.fling(0, initialY, 0, initialVelocity, 0, Integer.MAX_VALUE, 0, Integer.MAX_VALUE);
             mTouchMode = TOUCH_MODE_FLINGING;
@@ -2277,8 +2285,13 @@ public abstract class ExtendableListView extends AbsListView {
         }
 
         void startScroll(int distance, int duration) {
+            Log.d("ThuNguyen", "Fling: startScroll()");
             int initialY = distance < 0 ? Integer.MAX_VALUE : 0;
             mLastFlingY = initialY;
+            /*ThuNguyen Add Start 20141002*/
+            mLastDeltaY = Integer.MAX_VALUE;
+            mIsStartToCheckAbnormal = false;
+            /*ThuNguyen Add End 20141002*/
             mScroller.startScroll(0, initialY, 0, distance, duration);
             mTouchMode = TOUCH_MODE_FLINGING;
             postOnAnimate(this);
@@ -2287,6 +2300,11 @@ public abstract class ExtendableListView extends AbsListView {
         private void endFling() {
             Log.d("ThuNguyen", "Fling: endFling()");
             mLastFlingY = 0;
+            /*ThuNguyen Add Start 20141002*/
+            mLastDeltaY = Integer.MAX_VALUE;
+            mIsStartToCheckAbnormal = false;
+            /*ThuNguyen Add End 20141002*/
+
             mTouchMode = TOUCH_MODE_IDLE;
 
             reportScrollStateChange(OnScrollListener.SCROLL_STATE_IDLE);
@@ -2329,12 +2347,35 @@ public abstract class ExtendableListView extends AbsListView {
                         // Don't fling more than 1 screen
                         delta = Math.max(-(getHeight() - getPaddingBottom() - getPaddingTop() - 1), delta);
                     }
-                    //  Log.d("ThuNguyen", "Fling: delta = " + delta);
+                    /*ThuNguyen Add Start 20141002*/
+                    if(mLastDeltaY == Integer.MAX_VALUE){
+                        mLastDeltaY = delta;
+                        mIsStartToCheckAbnormal = false;
+                    }else {
+                        Log.d("ThuNguyen", "Fling: deltaY = " + delta + ",mLastDeltaY = " + mLastDeltaY);
+                        if (Math.abs(delta) > Math.abs(mLastDeltaY) + 100) {
+                            if (mIsStartToCheckAbnormal) {
+                                Log.d("ThuNguyen", "Fling: abnormal found at delta = " + delta + ",mLastDeltaY =" + mLastDeltaY);
+                                delta = mLastDeltaY;
+                                // Reset
+                                mLastDeltaY = Integer.MAX_VALUE;
+                                mIsStartToCheckAbnormal = false;
+
+                            } else {
+                                mLastDeltaY = delta;
+                            }
+                        } else {
+                            mLastDeltaY = delta;
+                        }
+                        mIsStartToCheckAbnormal = true;
+                    }
+                    /*ThuNguyen Add End 20141002*/
+                    Log.d("ThuNguyen", "Fling: delta = " + delta);
                     final boolean atEnd = moveTheChildren(delta, delta);
 
                     if (more && !atEnd) {
                         invalidate();
-                        //  Log.d("ThuNguyen", "Fling: update mLastFlingY = y = " + y);
+                        //Log.d("ThuNguyen", "Fling: update mLastFlingY = y = " + y);
                         mLastFlingY = y;
                         postOnAnimate(this);
                     }
