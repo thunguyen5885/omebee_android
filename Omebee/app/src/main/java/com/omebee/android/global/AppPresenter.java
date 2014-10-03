@@ -53,4 +53,7 @@ public class AppPresenter {
     public ProductWSModel findProductInWarehouse(String productId){
         return mAppObj.getProductWarehouse().findItemInWarehouse(productId);
     }
+    public boolean isWarehouseEmpty(){
+        return mAppObj.getProductWarehouse().isEmpty();
+    }
 }

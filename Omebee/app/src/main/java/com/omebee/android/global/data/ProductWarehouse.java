@@ -55,6 +55,8 @@ public class ProductWarehouse {
         }
         return null;
     }
-
+    public boolean isEmpty(){
+        return mProductListWarehouse.size() <= 0;
+    }
 
 }

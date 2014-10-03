@@ -77,6 +77,13 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
         /*if(mProductModelData.size() == 0) {
             mProductModelData = new ArrayList<ProductWSModel>(Arrays.asList(ITEMS));
         }*/
+        // Push the initial data for the first time
+        if(AppPresenter.getInstance().isWarehouseEmpty()) {
+            List<ProductWSModel> mProductModelData = new ArrayList<ProductWSModel>(Arrays.asList(ITEMS));
+            AppPresenter.getInstance().pushProductListIntoWarehouse(mProductModelData);
+            // Clear the temp list
+            mProductModelData.clear();
+        }
     }
     // Properties
     private IPullRefreshCallback mIPullRefreshCallback;
