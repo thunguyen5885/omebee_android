@@ -19,6 +19,7 @@ import java.util.List;
 public class CarouselLayout extends LinearLayout{
     private JazzyViewPager mViewPager;
     private CarouselIndicatorLayout mIndicatorLayout;
+    private int mImageListSize = 0;
     public CarouselLayout(Context context) {
         super(context);
     }
@@ -44,10 +45,12 @@ public class CarouselLayout extends LinearLayout{
 
     public void init(){
         mViewPager = (JazzyViewPager) findViewById(R.id.jazzy_pager);
+        mViewPager.setPageMargin(10);
         mViewPager.setOnPageChangeListener(onPageChangeListener);
         mIndicatorLayout = (CarouselIndicatorLayout) findViewById(R.id.carouselIndicatorLayout);
         // Setup jazzy viewpager
-        setupJazzy(JazzyViewPager.TransitionEffect.Tablet);
+        //setupJazzy(JazzyViewPager.TransitionEffect.Tablet);
+        setupJazzy(JazzyViewPager.TransitionEffect.Standard);
     }
 
     /**
@@ -67,9 +70,12 @@ public class CarouselLayout extends LinearLayout{
             ImagePagerAdapter pagerAdapter = new ImagePagerAdapter(mViewPager);
             pagerAdapter.setImageUrls(mImageList);
             mViewPager.setAdapter(pagerAdapter);
-
+            pagerAdapter.initPositionToShow();
             // Also create carousel indicator
-            mIndicatorLayout.createChildLayout(mImageList.size());
+            mImageListSize = mImageList.size();
+            if(mImageListSize > 0) {
+                mIndicatorLayout.createChildLayout(mImageListSize);
+            }
         }
     }
     // For page change listener
@@ -80,8 +86,11 @@ public class CarouselLayout extends LinearLayout{
         }
 
         @Override
-        public void onPageSelected(int i) {
-            mIndicatorLayout.setSelection(i);
+        public void onPageSelected(int position) {
+            if(mImageListSize > 0) {
+                position = position % mImageListSize;
+                mIndicatorLayout.setSelection(position);
+            }
         }
 
         @Override

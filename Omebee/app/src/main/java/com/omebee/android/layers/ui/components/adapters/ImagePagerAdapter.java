@@ -30,6 +30,7 @@ import java.util.List;
  * Created by Thu Nguyen on 9/17/2014.
  */
 public class ImagePagerAdapter extends PagerAdapter {
+    private static final int PAGES_INFINITIVE = 1000;
     private JazzyViewPager mViewPager;
     private LayoutInflater mInflater;
     private ImageLoader mImageLoader;
@@ -38,10 +39,12 @@ public class ImagePagerAdapter extends PagerAdapter {
         mViewPager = viewPager;
         mInflater = LayoutInflater.from(mViewPager.getContext());
         mImageLoader = new ImageLoader(Volley.newRequestQueue(mViewPager.getContext()), ImageMemoryCache.INSTANCE);
+
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, final int position) {
+    public Object instantiateItem(ViewGroup container, int position) {
+        int positionInList = position % mImageUrls.size();
         View view = mInflater.inflate(R.layout.ctrl_image_pager_item, null);
         // Initialize the networkimageview
         NetworkImageView ivProduct = (NetworkImageView) view.findViewById(R.id.ivProduct);
@@ -49,8 +52,8 @@ public class ImagePagerAdapter extends PagerAdapter {
         int imageHeight = AppFnUtils.getScreenHeight((Activity)mViewPager.getContext()) / 2;
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(imageWidth, imageHeight);
         ivProduct.setLayoutParams(params);
-        if(mImageUrls != null && position < mImageUrls.size()) {
-            ivProduct.setImageUrl(mImageUrls.get(position), mImageLoader);
+        if(mImageUrls != null && positionInList < mImageUrls.size()) {
+            ivProduct.setImageUrl(mImageUrls.get(positionInList), mImageLoader);
         }
         container.addView(view, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         mViewPager.setObjectForPosition(view, position);
@@ -63,7 +66,7 @@ public class ImagePagerAdapter extends PagerAdapter {
     }
     @Override
     public int getCount() {
-        return mImageUrls.size();
+        return mImageUrls.size() * PAGES_INFINITIVE;
     }
     @Override
     public boolean isViewFromObject(View view, Object obj) {
@@ -82,6 +85,7 @@ public class ImagePagerAdapter extends PagerAdapter {
         this.mImageUrls = imageUrls;
     }
 
-
-
+    public void initPositionToShow(){
+        mViewPager.setCurrentItem(getCount() / 2);
+    }
 }
