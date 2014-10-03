@@ -2,16 +2,19 @@ package com.omebee.android.global;
 
 import com.omebee.android.layers.services.models.ProductWSModel;
 
+import org.json.JSONArray;
+
 import java.util.List;
 
 /**
  * Created by phan on 9/30/2014.
  */
 public class AppPresenter {
+    private static final String TAG = "AppPresenter";
     private static AppPresenter instance;
     private static Object lock = new Object();
     private OmebeeApplication mAppObj;
-
+    private AppModel mModel;
     public static AppPresenter getInstance() {
         synchronized (lock) {
             if (instance == null) {
@@ -22,7 +25,7 @@ public class AppPresenter {
     }
 
     public  AppPresenter(){
-
+        mModel = new AppModel();
     }
 
     public OmebeeApplication getAppObj() {
@@ -52,6 +55,13 @@ public class AppPresenter {
 
     public ProductWSModel findProductInWarehouse(String productId){
         return mAppObj.getProductWarehouse().findItemInWarehouse(productId);
+    }
+
+    public  void updateCategoryStore(JSONArray categoryArrObj){
+        mAppObj.getCategoryStore().updateCategoryStore(categoryArrObj);
+    }
+    public  void updateCategoryStore(){
+        mAppObj.getCategoryStore().updateCategoryStore(mModel.getUpdateCategoryTree());
     }
     public boolean isWarehouseEmpty(){
         return mAppObj.getProductWarehouse().isEmpty();

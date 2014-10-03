@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.res.Configuration;
 import android.util.Log;
 
+import com.omebee.android.global.data.CategoryStore;
 import com.omebee.android.global.data.ProductWarehouse;
 
 /**
@@ -12,7 +13,7 @@ import com.omebee.android.global.data.ProductWarehouse;
 public class OmebeeApplication extends Application{
     private static final String TAG = "OmebeeApplication";
     private ProductWarehouse mProductWarehouse = new ProductWarehouse();
-
+    private CategoryStore mCategoryStore = new CategoryStore();
     /*****************************Main events *****************************************************/
 
     @Override
@@ -58,4 +59,13 @@ public class OmebeeApplication extends Application{
     public void setProductWarehouse(ProductWarehouse productWarehouse) {
         this.mProductWarehouse = productWarehouse;
     }
+
+    public CategoryStore getCategoryStore() {
+        return mCategoryStore;
+    }
+
+    public void setCategoryStore(CategoryStore mCategoryStore) {
+        this.mCategoryStore = mCategoryStore;
+    }
+
 }
