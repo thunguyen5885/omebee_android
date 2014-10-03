@@ -2264,7 +2264,9 @@ public abstract class ExtendableListView extends AbsListView {
         private int mLastFlingY;
         /*ThuNguyen Add Start 20141002*/
         private int mLastDeltaY;
+        private int mDeltaIncrementY;
         private boolean mIsStartToCheckAbnormal; // >=2: found
+
         /*ThuNguyen Add End 20141002*/
         FlingRunnable() {
             mScroller = new Scroller(getContext());
@@ -2276,6 +2278,7 @@ public abstract class ExtendableListView extends AbsListView {
             mLastFlingY = initialY;
             /*ThuNguyen Add Start 20141002*/
             mLastDeltaY = Integer.MAX_VALUE;
+            mDeltaIncrementY = 0;
             mIsStartToCheckAbnormal = false;
             /*ThuNguyen Add End 20141002*/
             mScroller.forceFinished(true);
@@ -2290,6 +2293,7 @@ public abstract class ExtendableListView extends AbsListView {
             mLastFlingY = initialY;
             /*ThuNguyen Add Start 20141002*/
             mLastDeltaY = Integer.MAX_VALUE;
+            mDeltaIncrementY = 0;
             mIsStartToCheckAbnormal = false;
             /*ThuNguyen Add End 20141002*/
             mScroller.startScroll(0, initialY, 0, distance, duration);
@@ -2302,6 +2306,7 @@ public abstract class ExtendableListView extends AbsListView {
             mLastFlingY = 0;
             /*ThuNguyen Add Start 20141002*/
             mLastDeltaY = Integer.MAX_VALUE;
+            mDeltaIncrementY = 0;
             mIsStartToCheckAbnormal = false;
             /*ThuNguyen Add End 20141002*/
 
@@ -2352,24 +2357,26 @@ public abstract class ExtendableListView extends AbsListView {
                         mLastDeltaY = delta;
                         mIsStartToCheckAbnormal = false;
                     }else {
-                        Log.d("ThuNguyen", "Fling: deltaY = " + delta + ",mLastDeltaY = " + mLastDeltaY);
-                        if (Math.abs(delta) > Math.abs(mLastDeltaY) + 100) {
+                        Log.d("ThuNguyen", "Fling: deltaY = " + delta + ",mLastDeltaY = " + mLastDeltaY  + ",mDeltaIncrementY=" + mDeltaIncrementY);
+                        if (Math.abs(delta) > Math.abs(mLastDeltaY) + 50) {
                             if (mIsStartToCheckAbnormal) {
-                                Log.d("ThuNguyen", "Fling: abnormal found at delta = " + delta + ",mLastDeltaY =" + mLastDeltaY);
-                                delta = mLastDeltaY;
+                                Log.d("ThuNguyen", "Fling: abnormal found at delta = " + delta + ",mLastDeltaY =" + mLastDeltaY + ",mDeltaIncrementY=" + mDeltaIncrementY);
+                                delta = mLastDeltaY + mDeltaIncrementY;
+                                mDeltaIncrementY *=2;
                                 // Reset
                                 mLastDeltaY = Integer.MAX_VALUE;
-                                mIsStartToCheckAbnormal = false;
 
                             } else {
                                 mLastDeltaY = delta;
                             }
                         } else {
+                            mDeltaIncrementY = delta - mLastDeltaY;
                             mLastDeltaY = delta;
                         }
                         mIsStartToCheckAbnormal = true;
                     }
                     /*ThuNguyen Add End 20141002*/
+
                     Log.d("ThuNguyen", "Fling: delta = " + delta);
                     final boolean atEnd = moveTheChildren(delta, delta);
 
