@@ -19,6 +19,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 import com.omebee.android.R;
+import com.omebee.android.global.DataSingleton;
 import com.omebee.android.layers.ui.components.OutlineContainer;
 import com.omebee.android.layers.ui.components.viewpager.JazzyViewPager;
 import com.omebee.android.utils.AppFnUtils;
@@ -33,13 +34,10 @@ public class ImagePagerAdapter extends PagerAdapter {
     private static final int PAGES_INFINITIVE = 1000;
     private JazzyViewPager mViewPager;
     private LayoutInflater mInflater;
-    private ImageLoader mImageLoader;
     private List<String> mImageUrls;
     public ImagePagerAdapter(JazzyViewPager viewPager){
         mViewPager = viewPager;
         mInflater = LayoutInflater.from(mViewPager.getContext());
-        mImageLoader = new ImageLoader(Volley.newRequestQueue(mViewPager.getContext()), ImageMemoryCache.INSTANCE);
-
     }
 
     @Override
@@ -53,7 +51,7 @@ public class ImagePagerAdapter extends PagerAdapter {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(imageWidth, imageHeight);
         ivProduct.setLayoutParams(params);
         if(mImageUrls != null && positionInList < mImageUrls.size()) {
-            ivProduct.setImageUrl(mImageUrls.get(positionInList), mImageLoader);
+            ivProduct.setImageUrl(mImageUrls.get(positionInList), DataSingleton.getInstance(mViewPager.getContext()).getImageLoader());
         }
         container.addView(view, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         mViewPager.setObjectForPosition(view, position);

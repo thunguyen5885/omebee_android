@@ -151,14 +151,14 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
     }
 
 
-    /* The click listner for ListView in the navigation drawer */
+    /* The click listener for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-            if(position == mMenuTitles.length - 1){ // The last item
-                // Go to mix layout
-                Intent intent = new Intent(ProductsLauncherActivity.this, MixDemoActivity.class);
+            //selectItem(position);
+            if(position == 0){ // The category item
+                // Go to categories screen
+                Intent intent = new Intent(ProductsLauncherActivity.this, CategoriesActivity.class);
                 startActivity(intent);
             }
         }

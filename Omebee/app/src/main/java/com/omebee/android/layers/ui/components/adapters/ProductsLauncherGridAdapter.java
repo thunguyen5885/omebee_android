@@ -23,6 +23,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 import com.etsy.android.grid.util.DynamicHeightTextView;
 import com.omebee.android.R;
+import com.omebee.android.global.DataSingleton;
 import com.omebee.android.layers.ui.ProductDetailActivity;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
 import com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout;
@@ -40,7 +41,6 @@ import java.util.Random;
 public class ProductsLauncherGridAdapter extends BaseAdapter implements View.OnClickListener{
     private static final String TAG = "ProductsLauncherGridAdapter";
     private Context mContext;
-    private ImageLoader mImageLoader;
     private List<ProductsLauncherGridItemData> mProductsList = new ArrayList<ProductsLauncherGridItemData>();
 
     private Drawable mDrawable;
@@ -48,7 +48,6 @@ public class ProductsLauncherGridAdapter extends BaseAdapter implements View.OnC
     public ProductsLauncherGridAdapter(Context context){
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
-        mImageLoader = new ImageLoader(Volley.newRequestQueue(context), ImageMemoryCache.INSTANCE);
         mDrawable = mContext.getResources().getDrawable(R.drawable.layout_item_selector);
 
     }
@@ -87,7 +86,7 @@ public class ProductsLauncherGridAdapter extends BaseAdapter implements View.OnC
 
         holder.productImage.setHeightRatio(productItemData.getImageHeightRatio());
         // Load the thumbnail image
-        holder.productImage.setImageUrl(productItemData.getProductUrl(), mImageLoader);
+        holder.productImage.setImageUrl(productItemData.getProductUrl(), DataSingleton.getInstance(mContext).getImageLoader());
         // Set the TextView's contents
         holder.productName.setText(productItemData.getProductName());
         holder.productPrice.setText(productItemData.productPriceWithCurrencyToString());

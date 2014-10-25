@@ -2,11 +2,7 @@
 <resources>
     <!--For the menu title-->
     <string-array name="product_menu_array">
-        <item>New</item>
-        <item>Sale</item>
-        <item>My lykelist1</item>
-        <item>Most Favorite</item>
-        <item>Mix Layout</item>
+        <item>Categories</item>
     </string-array>
     <string name="app_name">Omebee</string>
     <string name="hello_world">Hello world!</string>
@@ -30,6 +26,9 @@
 
     <!--For product detail-->
     <string name="add_to_cart_text">Add to Cart</string>
+    <!--For categories-->
+    <string name="categories_text">Categories</string>
+
     <!--For progress bar-->
     <string-array name="interpolators">
         <item>Accelerate</item>

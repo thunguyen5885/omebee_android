@@ -22,7 +22,11 @@
             android:label="@string/app_name"
             >
         </activity>
-
+        <activity
+            android:name=".layers.ui.CategoriesActivity"
+            android:label="@string/app_name"
+            >
+        </activity>
         <activity
             android:name=".layers.ui.MixDemoActivity"
             android:label="@string/app_name"
