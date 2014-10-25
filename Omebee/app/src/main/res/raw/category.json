@@ -1,0 +1,162 @@
+{
+  "categories": [
+    {
+      "CategoryName": "Shoes",
+      "CategoryId": 1,
+      "CategoryParentId": -1,
+      "CategoryParentName": "",
+      "CategoryLevel": 1,
+      "CategoryPriority": 1,
+      "BrandsSet": null
+    },
+    {
+      "CategoryName": "Clothing",
+      "CategoryId": 2,
+      "CategoryParentId": -1,
+      "CategoryParentName": "",
+      "CategoryLevel": 1,
+      "CategoryPriority": 2,
+      "BrandsSet": null
+    },
+    {
+      "CategoryName": "Bags",
+      "CategoryId": 3,
+      "CategoryParentId": -1,
+      "CategoryParentName": "",
+      "CategoryLevel": 1,
+      "CategoryPriority": 3,
+      "BrandsSet": null
+    },
+    {
+      "CategoryName": "Sporting",
+      "CategoryId": 4,
+      "CategoryParentId": -1,
+      "CategoryParentName": "",
+      "CategoryLevel": 1,
+      "CategoryPriority": 4,
+      "BrandsSet": null
+    },
+    {
+      "CategoryName": "Men Shoes",
+      "CategoryId": 5,
+      "CategoryParentId": 1,
+      "CategoryParentName": "Shoes",
+      "CategoryLevel": 2,
+      "CategoryPriority": 1,
+      "BrandsSet": null
+    },
+    {
+      "CategoryName": "Women Shoes",
+      "CategoryId": 6,
+      "CategoryParentId": 1,
+      "CategoryParentName": "Shoes",
+      "CategoryLevel": 2,
+      "CategoryPriority": 2,
+      "BrandsSet": null
+    },
+    {
+      "CategoryName": "Tshirt",
+      "CategoryId": 7,
+      "CategoryParentId": 2,
+      "CategoryParentName": "Clothing",
+      "CategoryLevel": 2,
+      "CategoryPriority": 1,
+      "BrandsSet": null
+    },
+    {
+      "CategoryName": "Trousers",
+      "CategoryId": 8,
+      "CategoryParentId": 2,
+      "CategoryParentName": "Clothing",
+      "CategoryLevel": 2,
+      "CategoryPriority": 2,
+      "BrandsSet": null
+    },
+    {
+      "CategoryName": "Hand bags",
+      "CategoryId": 9,
+      "CategoryParentId": 3,
+      "CategoryParentName": "Bags",
+      "CategoryLevel": 2,
+      "CategoryPriority": 1,
+      "BrandsSet": null
+    },
+    {
+      "CategoryName": "Backpack",
+      "CategoryId": 10,
+      "CategoryParentId": 3,
+      "CategoryParentName": "Bags",
+      "CategoryLevel": 2,
+      "CategoryPriority": 2,
+      "BrandsSet": null
+    },
+    {
+      "CategoryName": "Bicycle",
+      "CategoryId": 11,
+      "CategoryParentId": 4,
+      "CategoryParentName": "Sporting",
+      "CategoryLevel": 2,
+      "CategoryPriority": 1,
+      "BrandsSet": null
+    },
+    {
+      "CategoryName": "Tenis golf",
+      "CategoryId": 12,
+      "CategoryParentId": 4,
+      "CategoryParentName": "Sporting",
+      "CategoryLevel": 2,
+      "CategoryPriority": 2,
+      "BrandsSet": null
+    },
+    {
+      "CategoryName": "Walking Shoes",
+      "CategoryId": 13,
+      "CategoryParentId": 5,
+      "CategoryParentName": "Men Shoes",
+      "CategoryLevel": 3,
+      "CategoryPriority": 1,
+      "BrandsSet": [2,3]
+    },
+    {
+      "CategoryName": "Running Shoes",
+      "CategoryId": 14,
+      "CategoryParentId": 5,
+      "CategoryParentName": "Men Shoes",
+      "CategoryLevel": 3,
+      "CategoryPriority": 2,
+      "BrandsSet": [1,2,3]
+    },
+    {
+      "CategoryName": "Walking Shoes",
+      "CategoryId": 15,
+      "CategoryParentId": 6,
+      "CategoryParentName": "Women Shoes",
+      "CategoryLevel": 3,
+      "CategoryPriority": 1,
+      "BrandsSet": [1,2,3]
+    },
+    {
+      "CategoryName": "Running Shoes",
+      "CategoryId": 16,
+      "CategoryParentId": 6,
+      "CategoryParentName": "Women Shoes",
+      "CategoryLevel": 3,
+      "CategoryPriority": 2,
+      "BrandsSet": [1,2]
+    }
+  ],
+  "brands": [
+    {
+      "BrandName": "Adidas",
+      "BrandId": 1
+    },
+    {
+      "BrandName": "Kappa",
+      "BrandId": 2
+    },
+    {
+      "BrandName": "Puma",
+      "BrandId": 3
+    }
+  ]
+}
