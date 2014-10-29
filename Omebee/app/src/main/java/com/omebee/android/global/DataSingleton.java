@@ -7,7 +7,7 @@ import com.android.volley.toolbox.Volley;
 import com.omebee.android.utils.ImageMemoryCache;
 
 /**
- * Created by Guest on 10/25/2014.
+ * Created by Thu on 10/25/2014.
  */
 public class DataSingleton {
     private static DataSingleton mInstance;

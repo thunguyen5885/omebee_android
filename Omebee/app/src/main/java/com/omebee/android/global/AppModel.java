@@ -1,10 +1,23 @@
 package com.omebee.android.global;
 
+import android.content.Context;
+
+import com.omebee.android.R;
 import com.omebee.android.layers.services.models.BrandWSModel;
 import com.omebee.android.layers.services.models.CategoryWSModel;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,27 +26,49 @@ import java.util.List;
  */
 public class AppModel {
     private static final String TAG = "AppModel";
-    public JSONArray getUpdateCategoryTree(){
+    private Context mContext;
 
-        return null;
+    public AppModel(Context context){
+        mContext = context;
     }
-    private void createDumpDataForCategory(){
 
-        List<CategoryWSModel> cateList = new ArrayList<CategoryWSModel>();
-        List<BrandWSModel> brandList = new ArrayList<BrandWSModel>();
-        String json = "";
 
-       /* ArrayList<LinkPojo> arrLinks = linksDAOObj.GetLinksHistoryFromDateToDate(strStartDate, strEndDate,categoryId,sortby);
+    public JSONObject getUpdatedCategoryTree(){
 
-        //convert from list to json array object
-        Gson GsonMapper = new Gson();
-        JsonElement element = GsonMapper.toJsonTree(arrLinks, new TypeToken<List<LinkPojo>>() {}.getType());
+        return createDumpDataForCategory();
+    }
+    private JSONObject createDumpDataForCategory(){
 
-        if (! element.isJsonArray()) {
-            // fail appropriately
-            throw new Exception("Cannot convert history data to json");
+        InputStream is = mContext.getResources().openRawResource(R.raw.category);
+        Writer writer = new StringWriter();
+        char[] buffer = new char[1024];
+        try {
+            Reader reader = null;
+            reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            int n;
+            while ((n = reader.read(buffer)) != -1) {
+                writer.write(buffer, 0, n);
+            }
+        }catch (UnsupportedEncodingException e) {
+        }
+        catch (IOException e) {
+        }
+        finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        JsonArray jsonLinksArr = element.getAsJsonArray();*/
+        String jsonString = writer.toString();
+        try {
+            JSONObject jsonObj = new JSONObject(jsonString);
+            return jsonObj;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 }

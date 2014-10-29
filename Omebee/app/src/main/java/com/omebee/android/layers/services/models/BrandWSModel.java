@@ -8,4 +8,20 @@ import com.omebee.android.layers.services.AbstractWebServiceModel;
 public class BrandWSModel extends AbstractWebServiceModel {
     private String BrandName;
     private String BrandId;
+
+    public String getBrandName() {
+        return BrandName;
+    }
+
+    public void setBrandName(String brandName) {
+        BrandName = brandName;
+    }
+
+    public String getBrandId() {
+        return BrandId;
+    }
+
+    public void setBrandId(String brandId) {
+        BrandId = brandId;
+    }
 }

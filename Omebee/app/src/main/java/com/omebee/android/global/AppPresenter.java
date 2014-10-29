@@ -3,6 +3,7 @@ package com.omebee.android.global;
 import com.omebee.android.layers.services.models.ProductWSModel;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -25,7 +26,6 @@ public class AppPresenter {
     }
 
     public  AppPresenter(){
-        mModel = new AppModel();
     }
 
     public OmebeeApplication getAppObj() {
@@ -34,6 +34,7 @@ public class AppPresenter {
 
     public void setAppObj(OmebeeApplication _appObj) {
         this.mAppObj = _appObj;
+        mModel = new AppModel(mAppObj.getApplicationContext());
     }
 
     public void pushProductIntoWarehouse(ProductWSModel productItem){
@@ -48,7 +49,6 @@ public class AppPresenter {
         mAppObj.getProductWarehouse().pushItemIntoWarehouse(productItem,pos);
     }
 
-
     public void pushProductIntoWarehouse(List<ProductWSModel> productItems,int pos){
         mAppObj.getProductWarehouse().pushItemIntoWarehouse(productItems,pos);
     }
@@ -57,12 +57,14 @@ public class AppPresenter {
         return mAppObj.getProductWarehouse().findItemInWarehouse(productId);
     }
 
-    public  void updateCategoryStore(JSONArray categoryArrObj){
+    public  void updateCategoryStore(JSONObject categoryArrObj){
         mAppObj.getCategoryStore().updateCategoryStore(categoryArrObj);
     }
+
     public  void updateCategoryStore(){
-        mAppObj.getCategoryStore().updateCategoryStore(mModel.getUpdateCategoryTree());
+        mAppObj.getCategoryStore().updateCategoryStore(mModel.getUpdatedCategoryTree());
     }
+
     public boolean isWarehouseEmpty(){
         return mAppObj.getProductWarehouse().isEmpty();
     }
