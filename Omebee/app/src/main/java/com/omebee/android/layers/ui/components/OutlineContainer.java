@@ -12,7 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 
-import com.omebee.android.layers.ui.components.viewpager.JazzyViewPager;
+import com.omebee.android.layers.ui.components.views.viewpager.JazzyViewPager;
 import com.omebee.android.utils.AppFnUtils;
 
 public class OutlineContainer extends FrameLayout implements Animatable {

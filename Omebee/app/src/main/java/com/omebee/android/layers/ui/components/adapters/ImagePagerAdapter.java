@@ -1,29 +1,19 @@
 package com.omebee.android.layers.ui.components.adapters;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.android.volley.toolbox.Volley;
 import com.omebee.android.R;
 import com.omebee.android.global.DataSingleton;
 import com.omebee.android.layers.ui.components.OutlineContainer;
-import com.omebee.android.layers.ui.components.viewpager.JazzyViewPager;
+import com.omebee.android.layers.ui.components.views.viewpager.JazzyViewPager;
 import com.omebee.android.utils.AppFnUtils;
-import com.omebee.android.utils.ImageMemoryCache;
 
 import java.util.List;
 
