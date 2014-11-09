@@ -99,7 +99,7 @@ public class CategoryStore {
         return null;
     }
 
-    public List<CategoryWSModel> getBranchesOfAtomicCategory(int CategoryParentId){
+    public List<BrandWSModel> getBranchesOfAtomicCategory(int CategoryParentId){
         if(mBrandsMap.containsKey(CategoryParentId))
             return mBrandsMap.get(CategoryParentId);
         return null;

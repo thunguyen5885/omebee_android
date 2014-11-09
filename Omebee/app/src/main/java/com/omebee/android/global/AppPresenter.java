@@ -1,10 +1,13 @@
 package com.omebee.android.global;
 
+import com.omebee.android.layers.services.models.BrandWSModel;
+import com.omebee.android.layers.services.models.CategoryWSModel;
 import com.omebee.android.layers.services.models.ProductWSModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,4 +71,21 @@ public class AppPresenter {
     public boolean isWarehouseEmpty(){
         return mAppObj.getProductWarehouse().isEmpty();
     }
+
+    public List<CategoryWSModel> getCategoryLevel1List(){
+       return mAppObj.getCategoryStore().getCategoryLevel1();
+    }
+
+    public List<CategoryWSModel> getCategoryLevel2List(int CategoryParentL1Id){
+        return mAppObj.getCategoryStore().getCategoryLevel2ByParentId(CategoryParentL1Id);
+    }
+
+    public List<CategoryWSModel> getCategoryLevel3List(int CategoryParentL2Id){
+        return mAppObj.getCategoryStore().getCategoryLevel3ByParentId(CategoryParentL2Id);
+    }
+
+    public List<BrandWSModel> getBranchesListOfAtomicCategory(int  AtomicCategoryId){
+        return mAppObj.getCategoryStore().getBranchesOfAtomicCategory(AtomicCategoryId);
+    }
+
 }

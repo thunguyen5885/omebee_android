@@ -1,4 +1,4 @@
-package com.omebee.android.layers.ui.components.viewpager;
+package com.omebee.android.layers.ui.components.views.viewpager;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

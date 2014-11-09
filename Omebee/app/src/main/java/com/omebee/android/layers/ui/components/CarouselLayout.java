@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.components.adapters.ImagePagerAdapter;
-import com.omebee.android.layers.ui.components.viewpager.JazzyViewPager;
+import com.omebee.android.layers.ui.components.views.viewpager.JazzyViewPager;
 import com.omebee.android.utils.AppFnUtils;
 
 import java.util.List;
