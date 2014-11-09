@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import com.omebee.android.layers.ui.components.data.CategoryItemData;
 import com.omebee.android.layers.ui.models.base.ICategoriesModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +32,14 @@ public class CategoriesModel implements ICategoriesModel{
 
         @Override
         protected List<CategoryItemData> doInBackground(Void... params) {
-            return null;
+            List<CategoryItemData> categoryItemDataList = new ArrayList<CategoryItemData>();
+            for(int index = 0; index < 10; index++){
+                CategoryItemData item = new CategoryItemData();
+                item.setName("Sport");
+                item.setPosterUrl("http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/flamingo.jpg");
+                categoryItemDataList.add(item);
+            }
+            return categoryItemDataList;
         }
 
         @Override

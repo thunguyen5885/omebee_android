@@ -14,7 +14,7 @@ public class DataSingleton {
     private ImageLoader mImageLoader;
 
     private DataSingleton(Context context){
-        mImageLoader = new ImageLoader(Volley.newRequestQueue(context), ImageMemoryCache.INSTANCE);
+        mImageLoader = new ImageLoader(Volley.newRequestQueue(context.getApplicationContext()), ImageMemoryCache.INSTANCE);
     }
     public static DataSingleton getInstance(Context context){
         if(mInstance == null){

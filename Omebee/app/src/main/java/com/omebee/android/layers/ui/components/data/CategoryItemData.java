@@ -7,7 +7,7 @@ public class CategoryItemData {
     private String mId;
     private String mName;
     private String mPosterUrl;
-
+    public CategoryItemData(){}
     public CategoryItemData(String id, String name, String posterUrl){
         mId = id;
         mName = name;

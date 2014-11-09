@@ -10,6 +10,7 @@ import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseFragment;
 import com.omebee.android.layers.ui.components.adapters.CategoriesAdapter;
 import com.omebee.android.layers.ui.components.data.CategoryItemData;
+import com.omebee.android.layers.ui.components.views.util.ExpandableHeightGridView;
 import com.omebee.android.layers.ui.presenters.base.ICategoriesPresenter;
 import com.omebee.android.layers.ui.presenters.base.IPresenter;
 
@@ -19,7 +20,7 @@ import java.util.List;
  * Created by ThuNguyen on 10/25/2014.
  */
 public class CategoriesFragment extends BaseFragment{
-    private GridView mCategoriesGridView;
+    private ExpandableHeightGridView mCategoriesGridView;
     private ICategoriesPresenter mCategoriesPresenter;
     @Override
     public void setPresenter(IPresenter presenter) {
@@ -29,7 +30,7 @@ public class CategoriesFragment extends BaseFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_categories, container, false);
-        mCategoriesGridView = (GridView) view.findViewById(R.id.gvCategories);
+        mCategoriesGridView = (ExpandableHeightGridView) view.findViewById(R.id.gvCategories);
         return view;
     }
 
