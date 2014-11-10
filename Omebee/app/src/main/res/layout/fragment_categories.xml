@@ -8,7 +8,9 @@
         android:id="@+id/gvCategories"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="4"
-        android:horizontalSpacing="1dp"
-        android:verticalSpacing="1dp"/>
+        android:numColumns="3"
+        android:background="@color/staggered_grid_bg"
+        android:padding="@dimen/gridview_item_spacing"
+        android:horizontalSpacing="@dimen/gridview_item_spacing"
+        android:verticalSpacing="@dimen/gridview_item_spacing"/>
 </LinearLayout>

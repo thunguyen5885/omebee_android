@@ -61,6 +61,13 @@
             <item name="android:maxLines">2</item>
             <item name="android:ellipsize">end</item>
         </style>
+        <style name="LargeText" parent="@android:style/TextAppearance.Holo.Widget.TextView">
+            <item name="android:textAppearance">@android:style/TextAppearance.Large.Inverse</item>
+            <item name="android:textSize">@dimen/large_textsize</item>
+            <item name="android:textColor">#ff000000</item>
+            <item name="android:maxLines">2</item>
+            <item name="android:ellipsize">end</item>
+        </style>
         <style name="ProductInfoText" parent="@android:style/TextAppearance.Holo.Widget.TextView">
             <item name="android:textAppearance">@android:style/TextAppearance.Large.Inverse</item>
             <item name="android:textSize">@dimen/product_info_textsize</item>

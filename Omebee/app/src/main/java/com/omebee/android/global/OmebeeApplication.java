@@ -27,6 +27,7 @@ public class OmebeeApplication extends Application{
         Log.i(TAG, "onCreate");
         //init app presenter for using cross app
         AppPresenter.getInstance().setAppObj(this);
+        AppPresenter.getInstance().updateCategoryStore();
     }
 
     @Override

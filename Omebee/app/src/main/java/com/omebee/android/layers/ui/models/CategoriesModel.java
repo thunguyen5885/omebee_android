@@ -2,6 +2,8 @@ package com.omebee.android.layers.ui.models;
 
 import android.os.AsyncTask;
 
+import com.omebee.android.global.AppPresenter;
+import com.omebee.android.layers.services.models.CategoryWSModel;
 import com.omebee.android.layers.ui.components.data.CategoryItemData;
 import com.omebee.android.layers.ui.models.base.ICategoriesModel;
 
@@ -32,12 +34,18 @@ public class CategoriesModel implements ICategoriesModel{
 
         @Override
         protected List<CategoryItemData> doInBackground(Void... params) {
+            // Get from app presenter
+            List<CategoryWSModel> categoryWSList = AppPresenter.getInstance().getCategoryLevel1List();
             List<CategoryItemData> categoryItemDataList = new ArrayList<CategoryItemData>();
-            for(int index = 0; index < 10; index++){
-                CategoryItemData item = new CategoryItemData();
-                item.setName("Sport");
-                item.setPosterUrl("http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/flamingo.jpg");
-                categoryItemDataList.add(item);
+            if(categoryWSList != null && categoryWSList.size() > 0) {
+                for (int index = 0; index < categoryWSList.size(); index++) {
+                    CategoryWSModel dataItem = categoryWSList.get(index);
+                    CategoryItemData item = new CategoryItemData();
+                    item.setName(dataItem.getCategoryName());
+                    //item.setPosterUrl(dataItem.);
+                    item.setPosterUrl("http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/flamingo.jpg");
+                    categoryItemDataList.add(item);
+                }
             }
             return categoryItemDataList;
         }

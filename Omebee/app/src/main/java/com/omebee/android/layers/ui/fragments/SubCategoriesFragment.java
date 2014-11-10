@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
+import android.widget.ExpandableListView;
 
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseFragment;
@@ -17,10 +17,10 @@ import com.omebee.android.layers.ui.presenters.base.IPresenter;
 import java.util.List;
 
 /**
- * Created by ThuNguyen on 10/25/2014.
+ * Created by ThuNguyen on 11/10/2014.
  */
-public class CategoriesFragment extends BaseFragment{
-    private ExpandableHeightGridView mCategoriesGridView;
+public class SubCategoriesFragment extends BaseFragment{
+    private ExpandableListView mSubCategoriesListView;
     private ICategoriesPresenter mCategoriesPresenter;
     @Override
     public void setPresenter(IPresenter presenter) {
@@ -29,8 +29,8 @@ public class CategoriesFragment extends BaseFragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_categories, container, false);
-        mCategoriesGridView = (ExpandableHeightGridView) view.findViewById(R.id.gvCategories);
+        View view = inflater.inflate(R.layout.fragment_sub_categories, container, false);
+        mSubCategoriesListView = (ExpandableListView) view.findViewById(R.id.gvCategories);
         return view;
     }
 
@@ -48,8 +48,6 @@ public class CategoriesFragment extends BaseFragment{
     }
 
     public void showCategories(List<CategoryItemData> categoriesList){
-        CategoriesAdapter categoriesAdapter = new CategoriesAdapter(getActivity(), mCategoriesGridView);
-        categoriesAdapter.setCategoriesList(categoriesList);
-        mCategoriesGridView.setAdapter(categoriesAdapter);
+
     }
 }
