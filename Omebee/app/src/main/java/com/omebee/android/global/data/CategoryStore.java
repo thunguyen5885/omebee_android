@@ -87,25 +87,25 @@ public class CategoryStore {
         return res;
     }
 
-    public List<CategoryWSModel> getCategoryLevel2ByParentId(int CategoryParentId){
+    public List<CategoryWSModel> getCategoryLevel2ByParentId(String CategoryParentId){
         if(mCategoryLevel2Map.containsKey(CategoryParentId))
             return mCategoryLevel2Map.get(CategoryParentId);
         return null;
     }
 
-    public List<CategoryWSModel> getCategoryLevel3ByParentId(int CategoryParentId){
+    public List<CategoryWSModel> getCategoryLevel3ByParentId(String CategoryParentId){
         if(mCategoryLevel3Map.containsKey(CategoryParentId))
             return mCategoryLevel3Map.get(CategoryParentId);
         return null;
     }
 
-    public List<BrandWSModel> getBranchesOfAtomicCategory(int CategoryParentId){
+    public List<BrandWSModel> getBranchesOfAtomicCategory(String CategoryParentId){
         if(mBrandsMap.containsKey(CategoryParentId))
             return mBrandsMap.get(CategoryParentId);
         return null;
     }
 
-    public List<CategoryWSModel> GetAllChildrenCategoryIds(int CategoryParentId){
+    public List<CategoryWSModel> GetAllChildrenCategoryIds(String CategoryParentId){
         List<CategoryWSModel> res = new ArrayList<CategoryWSModel>();
         if(mCategoryLevel2Map.containsKey(CategoryParentId)){//level 1
             res.addAll( mCategoryLevel2Map.get(CategoryParentId));

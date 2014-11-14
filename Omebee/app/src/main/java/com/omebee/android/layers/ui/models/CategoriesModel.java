@@ -8,6 +8,7 @@ import com.omebee.android.layers.ui.components.data.CategoryItemData;
 import com.omebee.android.layers.ui.models.base.ICategoriesModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ import java.util.List;
  */
 public class CategoriesModel implements ICategoriesModel{
     private ILoadCategoriesCallback mILoadCategoriesCallback;
+    private ILoadSubCategoriesCallback mILoadSubCategoriesCallback;
     @Override
     public void setILoadCategoriesCallback(ILoadCategoriesCallback callBack) {
         mILoadCategoriesCallback = callBack;
@@ -29,9 +31,23 @@ public class CategoriesModel implements ICategoriesModel{
     public void loadCategories() {
         new LoadCategoriesAsynTask().execute();
     }
+
+    @Override
+    public void setILoadSubCategoriesCallback(ILoadSubCategoriesCallback callBack) {
+        mILoadSubCategoriesCallback = callBack;
+    }
+
+    @Override
+    public ILoadSubCategoriesCallback getILoadSubCategoriesCallback() {
+        return mILoadSubCategoriesCallback;
+    }
+
+    @Override
+    public void loadSubCategories(String parentCategoryId) {
+        new LoadSubCategoriesAsynTask().execute(parentCategoryId);
+    }
+
     private class LoadCategoriesAsynTask extends AsyncTask<Void, Void, List<CategoryItemData>>{
-
-
         @Override
         protected List<CategoryItemData> doInBackground(Void... params) {
             // Get from app presenter
@@ -40,10 +56,7 @@ public class CategoriesModel implements ICategoriesModel{
             if(categoryWSList != null && categoryWSList.size() > 0) {
                 for (int index = 0; index < categoryWSList.size(); index++) {
                     CategoryWSModel dataItem = categoryWSList.get(index);
-                    CategoryItemData item = new CategoryItemData();
-                    item.setName(dataItem.getCategoryName());
-                    //item.setPosterUrl(dataItem.);
-                    item.setPosterUrl("http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/flamingo.jpg");
+                    CategoryItemData item = new CategoryItemData(dataItem);
                     categoryItemDataList.add(item);
                 }
             }
@@ -71,6 +84,51 @@ public class CategoriesModel implements ICategoriesModel{
             super.onPostExecute(categoryList);
             if(mILoadCategoriesCallback != null){
                 mILoadCategoriesCallback.loadCategoriesSuccess(categoryList);
+            }
+        }
+    }
+    private class LoadSubCategoriesAsynTask extends AsyncTask<String, Void, Void>{
+        private HashMap<Integer, CategoryItemData> mCategoryItemDataMap = new HashMap<Integer, CategoryItemData>();
+        private HashMap<Integer, List<CategoryItemData>> mSubCategoryItemDataMap = new HashMap<Integer, List<CategoryItemData>>();
+
+        @Override
+        protected Void doInBackground(String... params) {
+            List<CategoryWSModel> categoryWSList = AppPresenter.getInstance().getCategoryLevel2List(params[0].toString());
+            if(categoryWSList != null && categoryWSList.size() > 0){
+                for(int index = 0; index < categoryWSList.size(); index ++){
+                    CategoryWSModel dataModel = categoryWSList.get(index);
+                    CategoryItemData item = new CategoryItemData(dataModel);
+                    mCategoryItemDataMap.put(index, item);
+
+                    // For sub category
+                    List<CategoryWSModel> subDataModelList = AppPresenter.getInstance().getCategoryLevel3List(dataModel.getCategoryId());
+                    if(subDataModelList != null && subDataModelList.size() > 0){
+                        List<CategoryItemData> subItemList = new ArrayList<CategoryItemData>();
+                        for(CategoryWSModel subDataModel: subDataModelList){
+                            CategoryItemData subItem = new CategoryItemData(subDataModel);
+                            subItemList.add(subItem);
+                        }
+
+                        mSubCategoryItemDataMap.put(index, subItemList);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if(mILoadSubCategoriesCallback != null){
+                mILoadSubCategoriesCallback.loadSubCategoriesSuccess(mCategoryItemDataMap, mSubCategoryItemDataMap);
+            }
+        }
+
+        @Override
+        protected void onCancelled(Void aVoid) {
+            super.onCancelled(aVoid);
+            if(mILoadSubCategoriesCallback != null){
+                mILoadSubCategoriesCallback.loadSubCategoriesFailed();
             }
         }
     }

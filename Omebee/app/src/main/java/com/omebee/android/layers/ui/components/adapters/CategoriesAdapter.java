@@ -2,6 +2,8 @@ package com.omebee.android.layers.ui.components.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,9 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.omebee.android.R;
 import com.omebee.android.global.DataSingleton;
+import com.omebee.android.layers.ui.SubCategoriesActivity;
 import com.omebee.android.layers.ui.components.data.CategoryItemData;
+import com.omebee.android.utils.AppConstants;
 import com.omebee.android.utils.AppFnUtils;
 
 import java.util.List;
@@ -25,7 +29,7 @@ public class CategoriesAdapter extends BaseAdapter {
     private GridView mGridView;
     private LayoutInflater inflater;
     private List<CategoryItemData> mCategoriesList;
-
+    private boolean mIsClicked = false;
     public CategoriesAdapter(Context context, GridView gridView){
         mContext = context;
         inflater = LayoutInflater.from(context);
@@ -71,16 +75,20 @@ public class CategoriesAdapter extends BaseAdapter {
         }
         // Enforce width and height for image view
         int screenWidth = AppFnUtils.getScreenWidth((Activity) mContext);
-        viewHolder.ivCategoryPoster.getLayoutParams().width = screenWidth / mGridView.getNumColumns();
-        viewHolder.ivCategoryPoster.getLayoutParams().height = screenWidth / mGridView.getNumColumns();
+        int itemWidth = screenWidth / mGridView.getNumColumns() - 2 * (int)mContext.getResources().getDimension(R.dimen.category_item_padding);
+        viewHolder.ivCategoryPoster.getLayoutParams().width = itemWidth;
+        viewHolder.ivCategoryPoster.getLayoutParams().height = itemWidth;
         // Set data
         if(position < mCategoriesList.size()) {
             CategoryItemData categoryData = mCategoriesList.get(position);
             if (categoryData != null) {
                 viewHolder.ivCategoryPoster.setImageUrl(categoryData.getPosterUrl(), DataSingleton.getInstance(mContext).getImageLoader());
                 viewHolder.tvCategoryName.setText(categoryData.getName());
+                viewHolder.data = categoryData;
             }
+
         }
+        convertView.setOnClickListener(onCategoryItemClickListener);
         return convertView;
     }
 
@@ -94,8 +102,28 @@ public class CategoriesAdapter extends BaseAdapter {
         }
         mCategoriesList = categoriesList;
     }
-
+    private View.OnClickListener onCategoryItemClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(!mIsClicked){
+                mIsClicked = true;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mIsClicked = false;
+                    }
+                }, 1000);
+                ViewHolder holder = (ViewHolder) v.getTag();
+                CategoryItemData dataItem = holder.data;
+                // Go to Sub Category screen
+                Intent intent = new Intent(mContext, SubCategoriesActivity.class);
+                intent.putExtra(AppConstants.KEY_CATEGORY_ID, dataItem.getId());
+                mContext.startActivity(intent);
+            }
+        }
+    };
     private class ViewHolder{
+        CategoryItemData data;
         private NetworkImageView ivCategoryPoster;
         private TextView tvCategoryName;
     }

@@ -8,6 +8,7 @@ import android.widget.GridView;
 
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseFragment;
+import com.omebee.android.layers.ui.components.LoadAndRefreshLayout;
 import com.omebee.android.layers.ui.components.adapters.CategoriesAdapter;
 import com.omebee.android.layers.ui.components.data.CategoryItemData;
 import com.omebee.android.layers.ui.components.views.util.ExpandableHeightGridView;
@@ -19,8 +20,9 @@ import java.util.List;
 /**
  * Created by ThuNguyen on 10/25/2014.
  */
-public class CategoriesFragment extends BaseFragment{
+public class CategoriesFragment extends BaseFragment implements LoadAndRefreshLayout.ILoadAndRefreshCallback{
     private ExpandableHeightGridView mCategoriesGridView;
+    private LoadAndRefreshLayout mLoadAndRefreshLayout;
     private ICategoriesPresenter mCategoriesPresenter;
     @Override
     public void setPresenter(IPresenter presenter) {
@@ -31,6 +33,8 @@ public class CategoriesFragment extends BaseFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_categories, container, false);
         mCategoriesGridView = (ExpandableHeightGridView) view.findViewById(R.id.gvCategories);
+        mLoadAndRefreshLayout = (LoadAndRefreshLayout) view.findViewById(R.id.loadAndRefreshLayout);
+        mLoadAndRefreshLayout.setILoadAndRefreshCallback(this);
         return view;
     }
 
@@ -42,14 +46,50 @@ public class CategoriesFragment extends BaseFragment{
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(mCategoriesPresenter != null){
-            mCategoriesPresenter.getTopCategories();
+        // Load data right now
+        onRefreshData();
+    }
+    private void beginLoadingData(){
+        if(mLoadAndRefreshLayout != null){
+            mLoadAndRefreshLayout.beginLoading();
+        }
+        if(mCategoriesGridView != null){
+            mCategoriesGridView.setVisibility(View.GONE);
+        }
+    }
+    private void completeLoadingData(){
+        if(mLoadAndRefreshLayout != null){
+            mLoadAndRefreshLayout.onComplete();
+        }
+        if(mCategoriesGridView != null){
+            mCategoriesGridView.setVisibility(View.VISIBLE);
+        }
+    }
+    private void enforceReloadData(){
+        if(mLoadAndRefreshLayout != null){
+            mLoadAndRefreshLayout.enforceShowRefreshButton();
+        }
+    }
+    public void showCategories(List<CategoryItemData> categoriesList){
+        if(categoriesList == null || categoriesList.size() == 0){
+            // Show refresh button to reload data
+            enforceReloadData();
+        }else {
+            // Loading data done
+            completeLoadingData();
+
+            CategoriesAdapter categoriesAdapter = new CategoriesAdapter(getActivity(), mCategoriesGridView);
+            categoriesAdapter.setCategoriesList(categoriesList);
+            mCategoriesGridView.setAdapter(categoriesAdapter);
         }
     }
 
-    public void showCategories(List<CategoryItemData> categoriesList){
-        CategoriesAdapter categoriesAdapter = new CategoriesAdapter(getActivity(), mCategoriesGridView);
-        categoriesAdapter.setCategoriesList(categoriesList);
-        mCategoriesGridView.setAdapter(categoriesAdapter);
+    @Override
+    public void onRefreshData() {
+        if(mCategoriesPresenter != null){
+            // Show dialog to user
+            beginLoadingData();
+            mCategoriesPresenter.getTopCategories();
+        }
     }
 }

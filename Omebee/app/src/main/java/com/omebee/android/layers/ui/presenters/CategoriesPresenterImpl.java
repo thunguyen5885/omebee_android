@@ -42,6 +42,6 @@ public class CategoriesPresenterImpl implements ICategoriesPresenter, ICategorie
 
     @Override
     public void loadCategoriesFailed() {
-
+        mView.showCategories(null);
     }
 }

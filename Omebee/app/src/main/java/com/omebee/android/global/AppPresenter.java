@@ -76,15 +76,15 @@ public class AppPresenter {
        return mAppObj.getCategoryStore().getCategoryLevel1();
     }
 
-    public List<CategoryWSModel> getCategoryLevel2List(int CategoryParentL1Id){
+    public List<CategoryWSModel> getCategoryLevel2List(String CategoryParentL1Id){
         return mAppObj.getCategoryStore().getCategoryLevel2ByParentId(CategoryParentL1Id);
     }
 
-    public List<CategoryWSModel> getCategoryLevel3List(int CategoryParentL2Id){
+    public List<CategoryWSModel> getCategoryLevel3List(String CategoryParentL2Id){
         return mAppObj.getCategoryStore().getCategoryLevel3ByParentId(CategoryParentL2Id);
     }
 
-    public List<BrandWSModel> getBranchesListOfAtomicCategory(int  AtomicCategoryId){
+    public List<BrandWSModel> getBranchesListOfAtomicCategory(String  AtomicCategoryId){
         return mAppObj.getCategoryStore().getBranchesOfAtomicCategory(AtomicCategoryId);
     }
 

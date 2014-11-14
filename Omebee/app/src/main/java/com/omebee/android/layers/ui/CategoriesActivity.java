@@ -36,6 +36,12 @@ public class CategoriesActivity extends BaseActivity implements ICategoriesView{
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right);
+    }
+
+    @Override
     public void showCategories(List<CategoryItemData> categoriesList) {
         mCategoriesFragment.showCategories(categoriesList);
     }

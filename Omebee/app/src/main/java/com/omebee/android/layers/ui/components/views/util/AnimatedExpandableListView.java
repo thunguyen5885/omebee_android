@@ -3,8 +3,13 @@ package com.omebee.android.layers.ui.components.views.util;
 /**
  * Created by ThuNguyen on 11/10/2014.
  */
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -21,6 +26,7 @@ import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+
 /**
  * This class defines an ExpandableListView which supports animations for
  * collapsing and expanding groups.
@@ -99,30 +105,36 @@ public class AnimatedExpandableListView extends ExpandableListView {
      */
     private static final int ANIMATION_DURATION = 300;
     private AnimatedExpandableListAdapter adapter;
+
     public AnimatedExpandableListView(Context context) {
         super(context);
     }
+
     public AnimatedExpandableListView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
     public AnimatedExpandableListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
+
     /**
      * @see ExpandableListView#setAdapter(ExpandableListAdapter)
      */
     public void setAdapter(ExpandableListAdapter adapter) {
         super.setAdapter(adapter);
         // Make sure that the adapter extends AnimatedExpandableListAdapter
-        if(adapter instanceof AnimatedExpandableListAdapter) {
+        if (adapter instanceof AnimatedExpandableListAdapter) {
             this.adapter = (AnimatedExpandableListAdapter) adapter;
             this.adapter.setParent(this);
         } else {
             throw new ClassCastException(adapter.toString() + " must implement AnimatedExpandableListAdapter");
         }
     }
+
     /**
      * Expands the given group with an animation.
+     *
      * @param groupPos The position of the group to expand
      * @return Returns true if the group was expanded. False if the group was
      * already expanded.
@@ -130,9 +142,12 @@ public class AnimatedExpandableListView extends ExpandableListView {
     @SuppressLint("NewApi")
     public boolean expandGroupWithAnimation(int groupPos) {
         boolean lastGroup = groupPos == adapter.getGroupCount() - 1;
-        if (lastGroup && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+        /*ThuNguyen Add Start 20141113*/
+        // Not distinguish the last group, so comment this code line
+        /*if (lastGroup && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             return expandGroup(groupPos, true);
-        }
+        }*/
+        /*ThuNguyen Add End 20141113*/
         int groupFlatPos = getFlatListPosition(getPackedPositionForGroup(groupPos));
         if (groupFlatPos != -1) {
             int childIndex = groupFlatPos - getFirstVisiblePosition();
@@ -157,8 +172,10 @@ public class AnimatedExpandableListView extends ExpandableListView {
 // notifyDataSetChanged so we don't need to)
         return expandGroup(groupPos);
     }
+
     /**
      * Collapses the given group with an animation.
+     *
      * @param groupPos The position of the group to collapse
      * @return Returns true if the group was collapsed. False if the group was
      * already collapsed.
@@ -199,9 +216,11 @@ public class AnimatedExpandableListView extends ExpandableListView {
         adapter.notifyDataSetChanged();
         return isGroupExpanded(groupPos);
     }
+
     private int getAnimationDuration() {
         return ANIMATION_DURATION;
     }
+
     /**
      * Used for holding information regarding the group.
      */
@@ -218,6 +237,7 @@ public class AnimatedExpandableListView extends ExpandableListView {
          */
         int dummyHeight = -1;
     }
+
     /**
      * A specialized adapter for use with the AnimatedExpandableListView. All
      * adapters used with AnimatedExpandableListView MUST extend this class.
@@ -228,17 +248,23 @@ public class AnimatedExpandableListView extends ExpandableListView {
         private static final int STATE_IDLE = 0;
         private static final int STATE_EXPANDING = 1;
         private static final int STATE_COLLAPSING = 2;
+
         private void setParent(AnimatedExpandableListView parent) {
             this.parent = parent;
         }
+
         public int getRealChildType(int groupPosition, int childPosition) {
             return 0;
         }
+
         public int getRealChildTypeCount() {
             return 1;
         }
+
         public abstract View getRealChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent);
+
         public abstract int getRealChildrenCount(int groupPosition);
+
         private GroupInfo getGroupInfo(int groupPosition) {
             GroupInfo info = groupInfo.get(groupPosition);
             if (info == null) {
@@ -247,26 +273,31 @@ public class AnimatedExpandableListView extends ExpandableListView {
             }
             return info;
         }
+
         public void notifyGroupExpanded(int groupPosition) {
             GroupInfo info = getGroupInfo(groupPosition);
             info.dummyHeight = -1;
         }
+
         private void startExpandAnimation(int groupPosition, int firstChildPosition) {
             GroupInfo info = getGroupInfo(groupPosition);
             info.animating = true;
             info.firstChildPosition = firstChildPosition;
             info.expanding = true;
         }
+
         private void startCollapseAnimation(int groupPosition, int firstChildPosition) {
             GroupInfo info = getGroupInfo(groupPosition);
             info.animating = true;
             info.firstChildPosition = firstChildPosition;
             info.expanding = false;
         }
+
         private void stopAnimation(int groupPosition) {
             GroupInfo info = getGroupInfo(groupPosition);
             info.animating = false;
         }
+
         /**
          * Override {@link #getRealChildType(int, int)} instead.
          */
@@ -284,6 +315,7 @@ public class AnimatedExpandableListView extends ExpandableListView {
                 return getRealChildType(groupPosition, childPosition) + 1;
             }
         }
+
         /**
          * Override {@link #getRealChildTypeCount()} instead.
          */
@@ -292,10 +324,12 @@ public class AnimatedExpandableListView extends ExpandableListView {
 // Return 1 more than the childTypeCount to account for DummyView
             return getRealChildTypeCount() + 1;
         }
+
         protected ViewGroup.LayoutParams generateDefaultLayoutParams() {
             return new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT, 0);
         }
+
         /**
          * Override {@link #getChildView(int, int, boolean, View, ViewGroup)} instead.
          */
@@ -384,10 +418,14 @@ public class AnimatedExpandableListView extends ExpandableListView {
                             notifyDataSetChanged();
                             dummyView.setTag(STATE_IDLE);
                         }
+
                         @Override
-                        public void onAnimationRepeat(Animation animation) {}
+                        public void onAnimationRepeat(Animation animation) {
+                        }
+
                         @Override
-                        public void onAnimationStart(Animation animation) {}
+                        public void onAnimationStart(Animation animation) {
+                        }
                     });
                     dummyView.startAnimation(ani);
                     dummyView.setTag(STATE_EXPANDING);
@@ -406,10 +444,14 @@ public class AnimatedExpandableListView extends ExpandableListView {
                             info.dummyHeight = -1;
                             dummyView.setTag(STATE_IDLE);
                         }
+
                         @Override
-                        public void onAnimationRepeat(Animation animation) {}
+                        public void onAnimationRepeat(Animation animation) {
+                        }
+
                         @Override
-                        public void onAnimationStart(Animation animation) {}
+                        public void onAnimationStart(Animation animation) {
+                        }
                     });
                     dummyView.startAnimation(ani);
                     dummyView.setTag(STATE_COLLAPSING);
@@ -419,6 +461,7 @@ public class AnimatedExpandableListView extends ExpandableListView {
                 return getRealChildView(groupPosition, childPosition, isLastChild, convertView, parent);
             }
         }
+
         @Override
         public final int getChildrenCount(int groupPosition) {
             GroupInfo info = getGroupInfo(groupPosition);
@@ -429,56 +472,64 @@ public class AnimatedExpandableListView extends ExpandableListView {
             }
         }
     }
+
     private static class DummyView extends View {
         private List<View> views = new ArrayList<View>();
         private Drawable divider;
         private int dividerWidth;
         private int dividerHeight;
+
         public DummyView(Context context) {
             super(context);
         }
+
         public void setDivider(Drawable divider, int dividerWidth, int dividerHeight) {
-            if(divider != null) {
+            if (divider != null) {
                 this.divider = divider;
                 this.dividerWidth = dividerWidth;
                 this.dividerHeight = dividerHeight;
                 divider.setBounds(0, 0, dividerWidth, dividerHeight);
             }
         }
+
         /**
          * Add a view for the DummyView to draw.
+         *
          * @param childView View to draw
          */
         public void addFakeView(View childView) {
             childView.layout(0, 0, getWidth(), childView.getMeasuredHeight());
             views.add(childView);
         }
+
         @Override
         protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
             super.onLayout(changed, left, top, right, bottom);
             final int len = views.size();
-            for(int i = 0; i < len; i++) {
+            for (int i = 0; i < len; i++) {
                 View v = views.get(i);
                 v.layout(left, top, left + v.getMeasuredWidth(), top + v.getMeasuredHeight());
             }
         }
+
         public void clearViews() {
             views.clear();
         }
+
         @Override
         public void dispatchDraw(Canvas canvas) {
             canvas.save();
-            if(divider != null) {
+            if (divider != null) {
                 divider.setBounds(0, 0, dividerWidth, dividerHeight);
             }
             final int len = views.size();
-            for(int i = 0; i < len; i++) {
+            for (int i = 0; i < len; i++) {
                 View v = views.get(i);
                 canvas.save();
                 canvas.clipRect(0, 0, getWidth(), v.getMeasuredHeight());
                 v.draw(canvas);
                 canvas.restore();
-                if(divider != null) {
+                if (divider != null) {
                     divider.draw(canvas);
                     canvas.translate(0, dividerHeight);
                 }
@@ -487,6 +538,7 @@ public class AnimatedExpandableListView extends ExpandableListView {
             canvas.restore();
         }
     }
+
     private static class ExpandAnimation extends Animation {
         private int baseHeight;
         private int delta;
@@ -499,7 +551,9 @@ public class AnimatedExpandableListView extends ExpandableListView {
             groupInfo = info;
             view.getLayoutParams().height = startHeight;
             view.requestLayout();
+
         }
+
         @Override
         protected void applyTransformation(float interpolatedTime, Transformation t) {
             super.applyTransformation(interpolatedTime, t);
@@ -514,6 +568,7 @@ public class AnimatedExpandableListView extends ExpandableListView {
                 groupInfo.dummyHeight = val;
                 view.requestLayout();
             }
+
         }
     }
 }

@@ -18,6 +18,7 @@ import com.omebee.android.layers.ui.components.data.CategoryItemData;
 import com.omebee.android.layers.ui.components.views.util.AnimatedExpandableListView;
 import com.omebee.android.utils.AppFnUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,12 +27,29 @@ import java.util.List;
  */
 public class SubCategoriesAdapter extends AnimatedExpandableListView.AnimatedExpandableListAdapter {
     private LayoutInflater inflater;
-    private List<CategoryItemData> mParentCategoryData;
+    private HashMap<Integer, CategoryItemData> mParentCategoryDataMap;
     private HashMap<Integer, List<CategoryItemData>> mChildCategoryDataMap;
 
     public SubCategoriesAdapter(Context context){
         inflater = LayoutInflater.from(context);
     }
+    public void setCategoryItemDataList(HashMap<Integer, CategoryItemData> categoryDataMap){
+        if(mParentCategoryDataMap != null && mParentCategoryDataMap.size() > 0){
+            mParentCategoryDataMap.clear();
+        }else{
+            mParentCategoryDataMap = new HashMap<Integer, CategoryItemData>();
+        }
+        mParentCategoryDataMap.putAll(categoryDataMap);
+    }
+    public void setChildCategoryDataMap(HashMap<Integer, List<CategoryItemData>> childCategoryDataMap){
+        if(mChildCategoryDataMap != null && mChildCategoryDataMap.size() > 0){
+            mChildCategoryDataMap.clear();
+        }else{
+            mChildCategoryDataMap = new HashMap<Integer, List<CategoryItemData>>();
+        }
+        mChildCategoryDataMap.putAll(childCategoryDataMap);
+    }
+
     @Override
     public View getRealChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         ChildHolder holder = null;
@@ -42,6 +60,11 @@ public class SubCategoriesAdapter extends AnimatedExpandableListView.AnimatedExp
             convertView.setTag(holder);
         }else{
             holder = (ChildHolder) convertView.getTag();
+        }
+        Object childObj = getChild(groupPosition, childPosition);
+        if(childObj != null && childObj instanceof CategoryItemData){
+            CategoryItemData childItemData = (CategoryItemData) childObj;
+            holder.tvSubCategory.setText(childItemData.getName());
         }
         return convertView;
     }
@@ -57,57 +80,74 @@ public class SubCategoriesAdapter extends AnimatedExpandableListView.AnimatedExp
 
     @Override
     public int getGroupCount() {
-        return mParentCategoryData != null ? mParentCategoryData.size() : 0;
+        return mParentCategoryDataMap != null ? mParentCategoryDataMap.size() : 0;
     }
 
     @Override
     public Object getGroup(int groupPosition) {
+        if(mParentCategoryDataMap != null && groupPosition < mParentCategoryDataMap.size()){
+            return mParentCategoryDataMap.get(groupPosition);
+        }
         return null;
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
+        if(mChildCategoryDataMap != null){
+            List<CategoryItemData> childItemDataList = mChildCategoryDataMap.get(groupPosition);
+            if(childItemDataList != null && childPosition < childItemDataList.size()){
+                return childItemDataList.get(childPosition);
+            }
+        }
         return null;
     }
 
     @Override
     public long getGroupId(int groupPosition) {
-        return 0;
+        return groupPosition;
     }
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return 0;
+        return childPosition;
     }
 
     @Override
     public boolean hasStableIds() {
-        return false;
+        return true;
     }
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         GroupHolder holder = null;
         if(convertView == null){
+            holder = new GroupHolder();
             convertView = inflater.inflate(R.layout.ctr_group_category_item, parent, false);
             holder.tvParentCategory = (TextView) convertView.findViewById(R.id.tvGroupCategory);
             convertView.setTag(holder);
         }else{
             holder = (GroupHolder) convertView.getTag();
         }
+        // Set name for group
+        Object groupObj = getGroup(groupPosition);
+        if(groupObj != null && groupObj instanceof CategoryItemData){
+            CategoryItemData groupCategoryItemData = (CategoryItemData) groupObj;
+            holder.tvParentCategory.setText(groupCategoryItemData.getName());
+        }
+
         return convertView;
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return false;
+        return true;
     }
 
 
-    private class GroupHolder{
+    private static class GroupHolder{
         private TextView tvParentCategory;
     }
-    private class ChildHolder{
+    private static class ChildHolder{
         private TextView tvSubCategory;
     }
 }

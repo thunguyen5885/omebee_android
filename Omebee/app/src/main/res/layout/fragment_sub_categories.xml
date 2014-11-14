@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/staggered_grid_bg">
-    <ExpandableListView
+    <com.omebee.android.layers.ui.components.views.util.AnimatedExpandableListView
         android:id="@+id/elvSubCategories"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/common_padding"
+        android:background="@drawable/layout_item_bg_card"/>
+    <com.omebee.android.layers.ui.components.LoadAndRefreshLayout
+        android:id="@+id/loadAndRefreshLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+</FrameLayout>

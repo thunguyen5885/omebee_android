@@ -1,162 +1,1771 @@
 {
-  "categories": [
-    {
-      "CategoryName": "Shoes",
-      "CategoryId": 1,
-      "CategoryParentId": -1,
-      "CategoryParentName": "",
-      "CategoryLevel": 1,
-      "CategoryPriority": 1,
-      "BrandsSet": null
-    },
-    {
-      "CategoryName": "Clothing",
-      "CategoryId": 2,
-      "CategoryParentId": -1,
-      "CategoryParentName": "",
-      "CategoryLevel": 1,
-      "CategoryPriority": 2,
-      "BrandsSet": null
-    },
-    {
-      "CategoryName": "Bags",
-      "CategoryId": 3,
-      "CategoryParentId": -1,
-      "CategoryParentName": "",
-      "CategoryLevel": 1,
-      "CategoryPriority": 3,
-      "BrandsSet": null
-    },
-    {
-      "CategoryName": "Sporting",
-      "CategoryId": 4,
-      "CategoryParentId": -1,
-      "CategoryParentName": "",
-      "CategoryLevel": 1,
-      "CategoryPriority": 4,
-      "BrandsSet": null
-    },
-    {
-      "CategoryName": "Men Shoes",
-      "CategoryId": 5,
-      "CategoryParentId": 1,
-      "CategoryParentName": "Shoes",
-      "CategoryLevel": 2,
-      "CategoryPriority": 1,
-      "BrandsSet": null
-    },
-    {
-      "CategoryName": "Women Shoes",
-      "CategoryId": 6,
-      "CategoryParentId": 1,
-      "CategoryParentName": "Shoes",
-      "CategoryLevel": 2,
-      "CategoryPriority": 2,
-      "BrandsSet": null
-    },
-    {
-      "CategoryName": "Tshirt",
-      "CategoryId": 7,
-      "CategoryParentId": 2,
-      "CategoryParentName": "Clothing",
-      "CategoryLevel": 2,
-      "CategoryPriority": 1,
-      "BrandsSet": null
-    },
-    {
-      "CategoryName": "Trousers",
-      "CategoryId": 8,
-      "CategoryParentId": 2,
-      "CategoryParentName": "Clothing",
-      "CategoryLevel": 2,
-      "CategoryPriority": 2,
-      "BrandsSet": null
-    },
-    {
-      "CategoryName": "Hand bags",
-      "CategoryId": 9,
-      "CategoryParentId": 3,
-      "CategoryParentName": "Bags",
-      "CategoryLevel": 2,
-      "CategoryPriority": 1,
-      "BrandsSet": null
-    },
-    {
-      "CategoryName": "Backpack",
-      "CategoryId": 10,
-      "CategoryParentId": 3,
-      "CategoryParentName": "Bags",
-      "CategoryLevel": 2,
-      "CategoryPriority": 2,
-      "BrandsSet": null
-    },
-    {
-      "CategoryName": "Bicycle",
-      "CategoryId": 11,
-      "CategoryParentId": 4,
-      "CategoryParentName": "Sporting",
-      "CategoryLevel": 2,
-      "CategoryPriority": 1,
-      "BrandsSet": null
-    },
-    {
-      "CategoryName": "Tenis golf",
-      "CategoryId": 12,
-      "CategoryParentId": 4,
-      "CategoryParentName": "Sporting",
-      "CategoryLevel": 2,
-      "CategoryPriority": 2,
-      "BrandsSet": null
-    },
-    {
-      "CategoryName": "Walking Shoes",
-      "CategoryId": 13,
-      "CategoryParentId": 5,
-      "CategoryParentName": "Men Shoes",
-      "CategoryLevel": 3,
-      "CategoryPriority": 1,
-      "BrandsSet": [2,3]
-    },
-    {
-      "CategoryName": "Running Shoes",
-      "CategoryId": 14,
-      "CategoryParentId": 5,
-      "CategoryParentName": "Men Shoes",
-      "CategoryLevel": 3,
-      "CategoryPriority": 2,
-      "BrandsSet": [1,2,3]
-    },
-    {
-      "CategoryName": "Walking Shoes",
-      "CategoryId": 15,
-      "CategoryParentId": 6,
-      "CategoryParentName": "Women Shoes",
-      "CategoryLevel": 3,
-      "CategoryPriority": 1,
-      "BrandsSet": [1,2,3]
-    },
-    {
-      "CategoryName": "Running Shoes",
-      "CategoryId": 16,
-      "CategoryParentId": 6,
-      "CategoryParentName": "Women Shoes",
-      "CategoryLevel": 3,
-      "CategoryPriority": 2,
-      "BrandsSet": [1,2]
-    }
-  ],
-  "brands": [
-    {
-      "BrandName": "Adidas",
-      "BrandId": 1
-    },
-    {
-      "BrandName": "Kappa",
-      "BrandId": 2
-    },
-    {
-      "BrandName": "Puma",
-      "BrandId": 3
-    }
-  ]
+    "categories": [
+        {
+            "CategoryName": "Shoes",
+            "CategoryId": 1,
+            "CategoryParentId": -1,
+            "CategoryParentName": "",
+            "CategoryLevel": 1,
+            "CategoryPriority": 1,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Clothing",
+            "CategoryId": 2,
+            "CategoryParentId": -1,
+            "CategoryParentName": "",
+            "CategoryLevel": 1,
+            "CategoryPriority": 2,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Bags",
+            "CategoryId": 3,
+            "CategoryParentId": -1,
+            "CategoryParentName": "",
+            "CategoryLevel": 1,
+            "CategoryPriority": 3,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Accessories",
+            "CategoryId": 4,
+            "CategoryParentId": -1,
+            "CategoryParentName": "",
+            "CategoryLevel": 1,
+            "CategoryPriority": 4,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Eyewear",
+            "CategoryId": 5,
+            "CategoryParentId": -1,
+            "CategoryParentName": "",
+            "CategoryLevel": 1,
+            "CategoryPriority": 5,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "At home",
+            "CategoryId": 6,
+            "CategoryParentId": -1,
+            "CategoryParentName": "",
+            "CategoryLevel": 1,
+            "CategoryPriority": 6,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "New arrival",
+            "CategoryId": 7,
+            "CategoryParentId": -1,
+            "CategoryParentName": "",
+            "CategoryLevel": 1,
+            "CategoryPriority": 7,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Beauty",
+            "CategoryId": 8,
+            "CategoryParentId": -1,
+            "CategoryParentName": "",
+            "CategoryLevel": 1,
+            "CategoryPriority": 8,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Jewelry",
+            "CategoryId": 9,
+            "CategoryParentId": -1,
+            "CategoryParentName": "",
+            "CategoryLevel": 1,
+            "CategoryPriority": 9,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Watches",
+            "CategoryId": 10,
+            "CategoryParentId": -1,
+            "CategoryParentName": "",
+            "CategoryLevel": 1,
+            "CategoryPriority": 10,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Sporting goods",
+            "CategoryId": 11,
+            "CategoryParentId": -1,
+            "CategoryParentName": "",
+            "CategoryLevel": 1,
+            "CategoryPriority": 11,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Baby shop",
+            "CategoryId": 12,
+            "CategoryParentId": -1,
+            "CategoryParentName": "",
+            "CategoryLevel": 1,
+            "CategoryPriority": 12,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Computer&Electronics",
+            "CategoryId": 13,
+            "CategoryParentId": -1,
+            "CategoryParentName": "",
+            "CategoryLevel": 1,
+            "CategoryPriority": 13,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Shoes level2.1",
+            "CategoryId": 14,
+            "CategoryParentId": 1,
+            "CategoryParentName": "Shoes",
+            "CategoryLevel": 2,
+            "CategoryPriority": 1,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Shoes level2.2",
+            "CategoryId": 15,
+            "CategoryParentId": 1,
+            "CategoryParentName": "Shoes",
+            "CategoryLevel": 2,
+            "CategoryPriority": 2,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Shoes level2.3",
+            "CategoryId": 16,
+            "CategoryParentId": 1,
+            "CategoryParentName": "Shoes",
+            "CategoryLevel": 2,
+            "CategoryPriority": 3,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Clothing level2.1",
+            "CategoryId": 17,
+            "CategoryParentId": 2,
+            "CategoryParentName": "Clothing",
+            "CategoryLevel": 2,
+            "CategoryPriority": 1,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Clothing level2.2",
+            "CategoryId": 18,
+            "CategoryParentId": 2,
+            "CategoryParentName": "Clothing",
+            "CategoryLevel": 2,
+            "CategoryPriority": 2,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Clothing level2.3",
+            "CategoryId": 19,
+            "CategoryParentId": 2,
+            "CategoryParentName": "Clothing",
+            "CategoryLevel": 2,
+            "CategoryPriority": 3,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Bags level2.1",
+            "CategoryId": 20,
+            "CategoryParentId": 3,
+            "CategoryParentName": "Bags",
+            "CategoryLevel": 2,
+            "CategoryPriority": 1,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Bags level2.2",
+            "CategoryId": 21,
+            "CategoryParentId": 3,
+            "CategoryParentName": "Bags",
+            "CategoryLevel": 2,
+            "CategoryPriority": 2,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Bags level2.3",
+            "CategoryId": 22,
+            "CategoryParentId": 3,
+            "CategoryParentName": "Bags",
+            "CategoryLevel": 2,
+            "CategoryPriority": 3,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Bags level2.4",
+            "CategoryId": 23,
+            "CategoryParentId": 3,
+            "CategoryParentName": "Bags",
+            "CategoryLevel": 2,
+            "CategoryPriority": 4,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Accessories level2.1",
+            "CategoryId": 24,
+            "CategoryParentId": 4,
+            "CategoryParentName": "Accessories",
+            "CategoryLevel": 2,
+            "CategoryPriority": 1,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Accessories level2.2",
+            "CategoryId": 25,
+            "CategoryParentId": 4,
+            "CategoryParentName": "Accessories",
+            "CategoryLevel": 2,
+            "CategoryPriority": 2,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Eyewear level2.1",
+            "CategoryId": 26,
+            "CategoryParentId": 5,
+            "CategoryParentName": "Eyewear",
+            "CategoryLevel": 2,
+            "CategoryPriority": 1,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Eyewear level2.2",
+            "CategoryId": 27,
+            "CategoryParentId": 5,
+            "CategoryParentName": "Eyewear",
+            "CategoryLevel": 2,
+            "CategoryPriority": 2,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Eyewear level2.3",
+            "CategoryId": 28,
+            "CategoryParentId": 5,
+            "CategoryParentName": "Eyewear",
+            "CategoryLevel": 2,
+            "CategoryPriority": 3,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "At home level2.1",
+            "CategoryId": 29,
+            "CategoryParentId": 6,
+            "CategoryParentName": "At home",
+            "CategoryLevel": 2,
+            "CategoryPriority": 1,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "At home level2.2",
+            "CategoryId": 30,
+            "CategoryParentId": 6,
+            "CategoryParentName": "At home",
+            "CategoryLevel": 2,
+            "CategoryPriority": 2,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "New arrival level2.1",
+            "CategoryId": 31,
+            "CategoryParentId": 7,
+            "CategoryParentName": "New arrival",
+            "CategoryLevel": 2,
+            "CategoryPriority": 1,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Beauty level2.1",
+            "CategoryId": 32,
+            "CategoryParentId": 8,
+            "CategoryParentName": "Beauty",
+            "CategoryLevel": 2,
+            "CategoryPriority": 1,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Beauty level2.2",
+            "CategoryId": 33,
+            "CategoryParentId": 8,
+            "CategoryParentName": "Beauty",
+            "CategoryLevel": 2,
+            "CategoryPriority": 2,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Beauty level2.3",
+            "CategoryId": 34,
+            "CategoryParentId": 8,
+            "CategoryParentName": "Beauty",
+            "CategoryLevel": 2,
+            "CategoryPriority": 3,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Jewelry level2.1",
+            "CategoryId": 35,
+            "CategoryParentId": 9,
+            "CategoryParentName": "Jewelry",
+            "CategoryLevel": 2,
+            "CategoryPriority": 1,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Jewelry level2.2",
+            "CategoryId": 36,
+            "CategoryParentId": 9,
+            "CategoryParentName": "Jewelry",
+            "CategoryLevel": 2,
+            "CategoryPriority": 2,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Jewelry level2.3",
+            "CategoryId": 37,
+            "CategoryParentId": 9,
+            "CategoryParentName": "Jewelry",
+            "CategoryLevel": 2,
+            "CategoryPriority": 3,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Jewelry level2.4",
+            "CategoryId": 38,
+            "CategoryParentId": 9,
+            "CategoryParentName": "Jewelry",
+            "CategoryLevel": 2,
+            "CategoryPriority": 4,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Watches level2.1",
+            "CategoryId": 39,
+            "CategoryParentId": 10,
+            "CategoryParentName": "Watches",
+            "CategoryLevel": 2,
+            "CategoryPriority": 1,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Watches level2.2",
+            "CategoryId": 40,
+            "CategoryParentId": 10,
+            "CategoryParentName": "Watches",
+            "CategoryLevel": 2,
+            "CategoryPriority": 2,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Watches level2.3",
+            "CategoryId": 41,
+            "CategoryParentId": 10,
+            "CategoryParentName": "Watches",
+            "CategoryLevel": 2,
+            "CategoryPriority": 3,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Watches level2.4",
+            "CategoryId": 42,
+            "CategoryParentId": 10,
+            "CategoryParentName": "Watches",
+            "CategoryLevel": 2,
+            "CategoryPriority": 4,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Sporting goods level2.1",
+            "CategoryId": 43,
+            "CategoryParentId": 11,
+            "CategoryParentName": "Sporting goods",
+            "CategoryLevel": 2,
+            "CategoryPriority": 1,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Sporting goods level2.2",
+            "CategoryId": 44,
+            "CategoryParentId": 11,
+            "CategoryParentName": "Sporting goods",
+            "CategoryLevel": 2,
+            "CategoryPriority": 2,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Baby shop level2.1",
+            "CategoryId": 45,
+            "CategoryParentId": 12,
+            "CategoryParentName": "Baby shop",
+            "CategoryLevel": 2,
+            "CategoryPriority": 1,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Baby shop level2.2",
+            "CategoryId": 46,
+            "CategoryParentId": 12,
+            "CategoryParentName": "Baby shop",
+            "CategoryLevel": 2,
+            "CategoryPriority": 2,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Baby shop level2.3",
+            "CategoryId": 47,
+            "CategoryParentId": 12,
+            "CategoryParentName": "Baby shop",
+            "CategoryLevel": 2,
+            "CategoryPriority": 3,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Baby shop level2.4",
+            "CategoryId": 48,
+            "CategoryParentId": 12,
+            "CategoryParentName": "Baby shop",
+            "CategoryLevel": 2,
+            "CategoryPriority": 4,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Computer&Electronics level2.1",
+            "CategoryId": 49,
+            "CategoryParentId": 13,
+            "CategoryParentName": "Computer&Electronics",
+            "CategoryLevel": 2,
+            "CategoryPriority": 1,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Computer&Electronics level2.2",
+            "CategoryId": 50,
+            "CategoryParentId": 13,
+            "CategoryParentName": "Computer&Electronics",
+            "CategoryLevel": 2,
+            "CategoryPriority": 2,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Computer&Electronics level2.3",
+            "CategoryId": 51,
+            "CategoryParentId": 13,
+            "CategoryParentName": "Computer&Electronics",
+            "CategoryLevel": 2,
+            "CategoryPriority": 3,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Computer&Electronics level2.4",
+            "CategoryId": 52,
+            "CategoryParentId": 13,
+            "CategoryParentName": "Computer&Electronics",
+            "CategoryLevel": 2,
+            "CategoryPriority": 4,
+            "BrandsSet": null
+        },
+        {
+            "CategoryName": "Shoes level2.1 level3.1",
+            "CategoryId": 53,
+            "CategoryParentId": 14,
+            "CategoryParentName": "Shoes level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                5,
+                11,
+                7,
+                10,
+                5,
+                8,
+                6,
+                2,
+                7
+            ]
+        },
+        {
+            "CategoryName": "Shoes level2.2 level3.1",
+            "CategoryId": 54,
+            "CategoryParentId": 15,
+            "CategoryParentName": "Shoes level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                1,
+                4,
+                10,
+                8,
+                2,
+                11,
+                9,
+                8,
+                9
+            ]
+        },
+        {
+            "CategoryName": "Shoes level2.2 level3.2",
+            "CategoryId": 55,
+            "CategoryParentId": 15,
+            "CategoryParentName": "Shoes level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                3,
+                2,
+                7
+            ]
+        },
+        {
+            "CategoryName": "Shoes level2.2 level3.3",
+            "CategoryId": 56,
+            "CategoryParentId": 15,
+            "CategoryParentName": "Shoes level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 3,
+            "BrandsSet": [
+                6,
+                11,
+                8
+            ]
+        },
+        {
+            "CategoryName": "Shoes level2.2 level3.4",
+            "CategoryId": 57,
+            "CategoryParentId": 15,
+            "CategoryParentName": "Shoes level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 4,
+            "BrandsSet": [
+                1,
+                6
+            ]
+        },
+        {
+            "CategoryName": "Shoes level2.3 level3.1",
+            "CategoryId": 58,
+            "CategoryParentId": 16,
+            "CategoryParentName": "Shoes level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                6,
+                10,
+                6,
+                7,
+                2,
+                9,
+                5,
+                2
+            ]
+        },
+        {
+            "CategoryName": "Clothing level2.1 level3.1",
+            "CategoryId": 59,
+            "CategoryParentId": 17,
+            "CategoryParentName": "Clothing level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                5,
+                7,
+                5
+            ]
+        },
+        {
+            "CategoryName": "Clothing level2.1 level3.2",
+            "CategoryId": 60,
+            "CategoryParentId": 17,
+            "CategoryParentName": "Clothing level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                9,
+                1,
+                10,
+                5,
+                2,
+                3,
+                6,
+                9
+            ]
+        },
+        {
+            "CategoryName": "Clothing level2.2 level3.1",
+            "CategoryId": 61,
+            "CategoryParentId": 18,
+            "CategoryParentName": "Clothing level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                11,
+                7,
+                11,
+                9,
+                9,
+                1,
+                7,
+                5
+            ]
+        },
+        {
+            "CategoryName": "Clothing level2.3 level3.1",
+            "CategoryId": 62,
+            "CategoryParentId": 19,
+            "CategoryParentName": "Clothing level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                9,
+                1
+            ]
+        },
+        {
+            "CategoryName": "Clothing level2.3 level3.2",
+            "CategoryId": 63,
+            "CategoryParentId": 19,
+            "CategoryParentName": "Clothing level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                6,
+                9
+            ]
+        },
+        {
+            "CategoryName": "Clothing level2.3 level3.3",
+            "CategoryId": 64,
+            "CategoryParentId": 19,
+            "CategoryParentName": "Clothing level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 3,
+            "BrandsSet": [
+                4,
+                8,
+                9,
+                1,
+                9,
+                1,
+                10,
+                7,
+                3
+            ]
+        },
+        {
+            "CategoryName": "Clothing level2.3 level3.4",
+            "CategoryId": 65,
+            "CategoryParentId": 19,
+            "CategoryParentName": "Clothing level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 4,
+            "BrandsSet": [
+                4,
+                8,
+                5,
+                10,
+                5,
+                9
+            ]
+        },
+        {
+            "CategoryName": "Bags level2.1 level3.1",
+            "CategoryId": 66,
+            "CategoryParentId": 20,
+            "CategoryParentName": "Bags level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                8,
+                7,
+                10,
+                7,
+                4,
+                6,
+                8
+            ]
+        },
+        {
+            "CategoryName": "Bags level2.1 level3.2",
+            "CategoryId": 67,
+            "CategoryParentId": 20,
+            "CategoryParentName": "Bags level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                9,
+                4,
+                2,
+                8,
+                10,
+                4,
+                7,
+                2,
+                11
+            ]
+        },
+        {
+            "CategoryName": "Bags level2.1 level3.3",
+            "CategoryId": 68,
+            "CategoryParentId": 20,
+            "CategoryParentName": "Bags level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 3,
+            "BrandsSet": [
+                11,
+                2,
+                2,
+                11,
+                8,
+                4,
+                7,
+                3
+            ]
+        },
+        {
+            "CategoryName": "Bags level2.2 level3.1",
+            "CategoryId": 69,
+            "CategoryParentId": 21,
+            "CategoryParentName": "Bags level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                1,
+                11,
+                9,
+                1,
+                5,
+                6,
+                10,
+                3
+            ]
+        },
+        {
+            "CategoryName": "Bags level2.2 level3.2",
+            "CategoryId": 70,
+            "CategoryParentId": 21,
+            "CategoryParentName": "Bags level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                8
+            ]
+        },
+        {
+            "CategoryName": "Bags level2.2 level3.3",
+            "CategoryId": 71,
+            "CategoryParentId": 21,
+            "CategoryParentName": "Bags level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 3,
+            "BrandsSet": [
+                4,
+                4,
+                9,
+                3
+            ]
+        },
+        {
+            "CategoryName": "Bags level2.3 level3.1",
+            "CategoryId": 72,
+            "CategoryParentId": 22,
+            "CategoryParentName": "Bags level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                6,
+                8,
+                1,
+                2,
+                3
+            ]
+        },
+        {
+            "CategoryName": "Bags level2.3 level3.2",
+            "CategoryId": 73,
+            "CategoryParentId": 22,
+            "CategoryParentName": "Bags level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                7,
+                9,
+                6,
+                7,
+                8,
+                11,
+                7,
+                1,
+                2
+            ]
+        },
+        {
+            "CategoryName": "Bags level2.3 level3.3",
+            "CategoryId": 74,
+            "CategoryParentId": 22,
+            "CategoryParentName": "Bags level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 3,
+            "BrandsSet": [
+                10,
+                11,
+                10,
+                7,
+                1,
+                4,
+                5,
+                5
+            ]
+        },
+        {
+            "CategoryName": "Bags level2.4 level3.1",
+            "CategoryId": 75,
+            "CategoryParentId": 23,
+            "CategoryParentName": "Bags level2.4",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                3,
+                6
+            ]
+        },
+        {
+            "CategoryName": "Bags level2.4 level3.2",
+            "CategoryId": 76,
+            "CategoryParentId": 23,
+            "CategoryParentName": "Bags level2.4",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                10,
+                4,
+                9,
+                1,
+                9,
+                2,
+                6
+            ]
+        },
+        {
+            "CategoryName": "Accessories level2.1 level3.1",
+            "CategoryId": 77,
+            "CategoryParentId": 24,
+            "CategoryParentName": "Accessories level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                9,
+                11,
+                2,
+                3,
+                10,
+                11,
+                2
+            ]
+        },
+        {
+            "CategoryName": "Accessories level2.1 level3.2",
+            "CategoryId": 78,
+            "CategoryParentId": 24,
+            "CategoryParentName": "Accessories level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                6,
+                8,
+                3
+            ]
+        },
+        {
+            "CategoryName": "Accessories level2.1 level3.3",
+            "CategoryId": 79,
+            "CategoryParentId": 24,
+            "CategoryParentName": "Accessories level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 3,
+            "BrandsSet": [
+                6,
+                10,
+                4,
+                1,
+                5
+            ]
+        },
+        {
+            "CategoryName": "Accessories level2.2 level3.1",
+            "CategoryId": 80,
+            "CategoryParentId": 25,
+            "CategoryParentName": "Accessories level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                7,
+                9,
+                2
+            ]
+        },
+        {
+            "CategoryName": "Eyewear level2.1 level3.1",
+            "CategoryId": 81,
+            "CategoryParentId": 26,
+            "CategoryParentName": "Eyewear level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                2
+            ]
+        },
+        {
+            "CategoryName": "Eyewear level2.1 level3.2",
+            "CategoryId": 82,
+            "CategoryParentId": 26,
+            "CategoryParentName": "Eyewear level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                3,
+                11,
+                10,
+                9,
+                11,
+                7,
+                2
+            ]
+        },
+        {
+            "CategoryName": "Eyewear level2.1 level3.3",
+            "CategoryId": 83,
+            "CategoryParentId": 26,
+            "CategoryParentName": "Eyewear level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 3,
+            "BrandsSet": [
+                2,
+                10
+            ]
+        },
+        {
+            "CategoryName": "Eyewear level2.2 level3.1",
+            "CategoryId": 84,
+            "CategoryParentId": 27,
+            "CategoryParentName": "Eyewear level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                5,
+                6,
+                4,
+                1,
+                8,
+                7,
+                4,
+                3
+            ]
+        },
+        {
+            "CategoryName": "Eyewear level2.2 level3.2",
+            "CategoryId": 85,
+            "CategoryParentId": 27,
+            "CategoryParentName": "Eyewear level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                6,
+                6,
+                11,
+                5
+            ]
+        },
+        {
+            "CategoryName": "Eyewear level2.3 level3.1",
+            "CategoryId": 86,
+            "CategoryParentId": 28,
+            "CategoryParentName": "Eyewear level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                1,
+                11
+            ]
+        },
+        {
+            "CategoryName": "Eyewear level2.3 level3.2",
+            "CategoryId": 87,
+            "CategoryParentId": 28,
+            "CategoryParentName": "Eyewear level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                4,
+                2,
+                1,
+                3,
+                8,
+                3,
+                5
+            ]
+        },
+        {
+            "CategoryName": "Eyewear level2.3 level3.3",
+            "CategoryId": 88,
+            "CategoryParentId": 28,
+            "CategoryParentName": "Eyewear level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 3,
+            "BrandsSet": [
+                9,
+                7,
+                4,
+                5,
+                9,
+                5,
+                8
+            ]
+        },
+        {
+            "CategoryName": "Eyewear level2.3 level3.4",
+            "CategoryId": 89,
+            "CategoryParentId": 28,
+            "CategoryParentName": "Eyewear level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 4,
+            "BrandsSet": [
+                9,
+                10,
+                4,
+                9,
+                5
+            ]
+        },
+        {
+            "CategoryName": "At home level2.1 level3.1",
+            "CategoryId": 90,
+            "CategoryParentId": 29,
+            "CategoryParentName": "At home level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                11,
+                4,
+                9,
+                5,
+                10,
+                5,
+                1
+            ]
+        },
+        {
+            "CategoryName": "At home level2.2 level3.1",
+            "CategoryId": 91,
+            "CategoryParentId": 30,
+            "CategoryParentName": "At home level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                3
+            ]
+        },
+        {
+            "CategoryName": "At home level2.2 level3.2",
+            "CategoryId": 92,
+            "CategoryParentId": 30,
+            "CategoryParentName": "At home level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                7,
+                3,
+                9,
+                3
+            ]
+        },
+        {
+            "CategoryName": "New arrival level2.1 level3.1",
+            "CategoryId": 93,
+            "CategoryParentId": 31,
+            "CategoryParentName": "New arrival level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                7
+            ]
+        },
+        {
+            "CategoryName": "New arrival level2.1 level3.2",
+            "CategoryId": 94,
+            "CategoryParentId": 31,
+            "CategoryParentName": "New arrival level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                10,
+                8,
+                10,
+                11,
+                8,
+                1,
+                4,
+                10,
+                2
+            ]
+        },
+        {
+            "CategoryName": "New arrival level2.1 level3.3",
+            "CategoryId": 95,
+            "CategoryParentId": 31,
+            "CategoryParentName": "New arrival level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 3,
+            "BrandsSet": [
+                9,
+                3,
+                3,
+                2
+            ]
+        },
+        {
+            "CategoryName": "New arrival level2.1 level3.4",
+            "CategoryId": 96,
+            "CategoryParentId": 31,
+            "CategoryParentName": "New arrival level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 4,
+            "BrandsSet": [
+                2,
+                10,
+                11,
+                9
+            ]
+        },
+        {
+            "CategoryName": "Beauty level2.1 level3.1",
+            "CategoryId": 97,
+            "CategoryParentId": 32,
+            "CategoryParentName": "Beauty level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                9,
+                2,
+                3,
+                2
+            ]
+        },
+        {
+            "CategoryName": "Beauty level2.1 level3.2",
+            "CategoryId": 98,
+            "CategoryParentId": 32,
+            "CategoryParentName": "Beauty level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                9,
+                6,
+                8
+            ]
+        },
+        {
+            "CategoryName": "Beauty level2.1 level3.3",
+            "CategoryId": 99,
+            "CategoryParentId": 32,
+            "CategoryParentName": "Beauty level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 3,
+            "BrandsSet": [
+                1,
+                4,
+                2,
+                6,
+                3
+            ]
+        },
+        {
+            "CategoryName": "Beauty level2.2 level3.1",
+            "CategoryId": 100,
+            "CategoryParentId": 33,
+            "CategoryParentName": "Beauty level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                4
+            ]
+        },
+        {
+            "CategoryName": "Beauty level2.3 level3.1",
+            "CategoryId": 101,
+            "CategoryParentId": 34,
+            "CategoryParentName": "Beauty level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                7,
+                6,
+                10,
+                1
+            ]
+        },
+        {
+            "CategoryName": "Jewelry level2.1 level3.1",
+            "CategoryId": 102,
+            "CategoryParentId": 35,
+            "CategoryParentName": "Jewelry level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                2
+            ]
+        },
+        {
+            "CategoryName": "Jewelry level2.1 level3.2",
+            "CategoryId": 103,
+            "CategoryParentId": 35,
+            "CategoryParentName": "Jewelry level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                10,
+                8,
+                5,
+                10,
+                3
+            ]
+        },
+        {
+            "CategoryName": "Jewelry level2.2 level3.1",
+            "CategoryId": 104,
+            "CategoryParentId": 36,
+            "CategoryParentName": "Jewelry level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                1,
+                6,
+                8,
+                9,
+                5,
+                4
+            ]
+        },
+        {
+            "CategoryName": "Jewelry level2.3 level3.1",
+            "CategoryId": 105,
+            "CategoryParentId": 37,
+            "CategoryParentName": "Jewelry level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                8,
+                3
+            ]
+        },
+        {
+            "CategoryName": "Jewelry level2.3 level3.2",
+            "CategoryId": 106,
+            "CategoryParentId": 37,
+            "CategoryParentName": "Jewelry level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                2,
+                9,
+                10,
+                4,
+                2
+            ]
+        },
+        {
+            "CategoryName": "Jewelry level2.3 level3.3",
+            "CategoryId": 107,
+            "CategoryParentId": 37,
+            "CategoryParentName": "Jewelry level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 3,
+            "BrandsSet": [
+                10,
+                5,
+                11,
+                10,
+                11
+            ]
+        },
+        {
+            "CategoryName": "Jewelry level2.3 level3.4",
+            "CategoryId": 108,
+            "CategoryParentId": 37,
+            "CategoryParentName": "Jewelry level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 4,
+            "BrandsSet": [
+                10
+            ]
+        },
+        {
+            "CategoryName": "Jewelry level2.4 level3.1",
+            "CategoryId": 109,
+            "CategoryParentId": 38,
+            "CategoryParentName": "Jewelry level2.4",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                4,
+                7
+            ]
+        },
+        {
+            "CategoryName": "Watches level2.1 level3.1",
+            "CategoryId": 110,
+            "CategoryParentId": 39,
+            "CategoryParentName": "Watches level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                3
+            ]
+        },
+        {
+            "CategoryName": "Watches level2.2 level3.1",
+            "CategoryId": 111,
+            "CategoryParentId": 40,
+            "CategoryParentName": "Watches level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                10
+            ]
+        },
+        {
+            "CategoryName": "Watches level2.3 level3.1",
+            "CategoryId": 112,
+            "CategoryParentId": 41,
+            "CategoryParentName": "Watches level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                4,
+                6,
+                8,
+                2,
+                9
+            ]
+        },
+        {
+            "CategoryName": "Watches level2.4 level3.1",
+            "CategoryId": 113,
+            "CategoryParentId": 42,
+            "CategoryParentName": "Watches level2.4",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                9,
+                10
+            ]
+        },
+        {
+            "CategoryName": "Watches level2.4 level3.2",
+            "CategoryId": 114,
+            "CategoryParentId": 42,
+            "CategoryParentName": "Watches level2.4",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                5,
+                6,
+                7,
+                7,
+                10,
+                11,
+                9,
+                2,
+                9
+            ]
+        },
+        {
+            "CategoryName": "Sporting goods level2.1 level3.1",
+            "CategoryId": 115,
+            "CategoryParentId": 43,
+            "CategoryParentName": "Sporting goods level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                10,
+                8,
+                3,
+                11
+            ]
+        },
+        {
+            "CategoryName": "Sporting goods level2.2 level3.1",
+            "CategoryId": 116,
+            "CategoryParentId": 44,
+            "CategoryParentName": "Sporting goods level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                8
+            ]
+        },
+        {
+            "CategoryName": "Baby shop level2.1 level3.1",
+            "CategoryId": 117,
+            "CategoryParentId": 45,
+            "CategoryParentName": "Baby shop level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                1,
+                10,
+                8,
+                9
+            ]
+        },
+        {
+            "CategoryName": "Baby shop level2.2 level3.1",
+            "CategoryId": 118,
+            "CategoryParentId": 46,
+            "CategoryParentName": "Baby shop level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                3,
+                4,
+                3,
+                6,
+                9,
+                4,
+                1,
+                3,
+                9
+            ]
+        },
+        {
+            "CategoryName": "Baby shop level2.2 level3.2",
+            "CategoryId": 119,
+            "CategoryParentId": 46,
+            "CategoryParentName": "Baby shop level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                1,
+                6,
+                3,
+                4,
+                4,
+                11,
+                2,
+                1
+            ]
+        },
+        {
+            "CategoryName": "Baby shop level2.2 level3.3",
+            "CategoryId": 120,
+            "CategoryParentId": 46,
+            "CategoryParentName": "Baby shop level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 3,
+            "BrandsSet": [
+                6
+            ]
+        },
+        {
+            "CategoryName": "Baby shop level2.3 level3.1",
+            "CategoryId": 121,
+            "CategoryParentId": 47,
+            "CategoryParentName": "Baby shop level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                2,
+                6,
+                3,
+                6
+            ]
+        },
+        {
+            "CategoryName": "Baby shop level2.3 level3.2",
+            "CategoryId": 122,
+            "CategoryParentId": 47,
+            "CategoryParentName": "Baby shop level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                6,
+                10,
+                6,
+                10,
+                9,
+                10,
+                10,
+                8
+            ]
+        },
+        {
+            "CategoryName": "Baby shop level2.3 level3.3",
+            "CategoryId": 123,
+            "CategoryParentId": 47,
+            "CategoryParentName": "Baby shop level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 3,
+            "BrandsSet": [
+                10,
+                4,
+                4,
+                2,
+                10
+            ]
+        },
+        {
+            "CategoryName": "Baby shop level2.3 level3.4",
+            "CategoryId": 124,
+            "CategoryParentId": 47,
+            "CategoryParentName": "Baby shop level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 4,
+            "BrandsSet": [
+                6,
+                2,
+                2,
+                7
+            ]
+        },
+        {
+            "CategoryName": "Baby shop level2.4 level3.1",
+            "CategoryId": 125,
+            "CategoryParentId": 48,
+            "CategoryParentName": "Baby shop level2.4",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                1,
+                2,
+                9,
+                8,
+                8,
+                3,
+                2
+            ]
+        },
+        {
+            "CategoryName": "Baby shop level2.4 level3.2",
+            "CategoryId": 126,
+            "CategoryParentId": 48,
+            "CategoryParentName": "Baby shop level2.4",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                2,
+                8,
+                3,
+                4,
+                6,
+                6,
+                5,
+                3
+            ]
+        },
+        {
+            "CategoryName": "Computer&Electronics level2.1 level3.1",
+            "CategoryId": 127,
+            "CategoryParentId": 49,
+            "CategoryParentName": "Computer&Electronics level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                7,
+                4,
+                7
+            ]
+        },
+        {
+            "CategoryName": "Computer&Electronics level2.1 level3.2",
+            "CategoryId": 128,
+            "CategoryParentId": 49,
+            "CategoryParentName": "Computer&Electronics level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                1,
+                10,
+                8,
+                11,
+                8,
+                6,
+                11,
+                1
+            ]
+        },
+        {
+            "CategoryName": "Computer&Electronics level2.1 level3.3",
+            "CategoryId": 129,
+            "CategoryParentId": 49,
+            "CategoryParentName": "Computer&Electronics level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 3,
+            "BrandsSet": [
+                8,
+                1,
+                1,
+                5
+            ]
+        },
+        {
+            "CategoryName": "Computer&Electronics level2.1 level3.4",
+            "CategoryId": 130,
+            "CategoryParentId": 49,
+            "CategoryParentName": "Computer&Electronics level2.1",
+            "CategoryLevel": 3,
+            "CategoryPriority": 4,
+            "BrandsSet": [
+                9,
+                2,
+                1,
+                8,
+                9,
+                10,
+                4
+            ]
+        },
+        {
+            "CategoryName": "Computer&Electronics level2.2 level3.1",
+            "CategoryId": 131,
+            "CategoryParentId": 50,
+            "CategoryParentName": "Computer&Electronics level2.2",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                1
+            ]
+        },
+        {
+            "CategoryName": "Computer&Electronics level2.3 level3.1",
+            "CategoryId": 132,
+            "CategoryParentId": 51,
+            "CategoryParentName": "Computer&Electronics level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                1,
+                3,
+                2
+            ]
+        },
+        {
+            "CategoryName": "Computer&Electronics level2.3 level3.2",
+            "CategoryId": 133,
+            "CategoryParentId": 51,
+            "CategoryParentName": "Computer&Electronics level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                1,
+                2,
+                2,
+                3,
+                2,
+                10,
+                1,
+                8
+            ]
+        },
+        {
+            "CategoryName": "Computer&Electronics level2.3 level3.3",
+            "CategoryId": 134,
+            "CategoryParentId": 51,
+            "CategoryParentName": "Computer&Electronics level2.3",
+            "CategoryLevel": 3,
+            "CategoryPriority": 3,
+            "BrandsSet": [
+                8,
+                11,
+                2,
+                4,
+                7
+            ]
+        },
+        {
+            "CategoryName": "Computer&Electronics level2.4 level3.1",
+            "CategoryId": 135,
+            "CategoryParentId": 52,
+            "CategoryParentName": "Computer&Electronics level2.4",
+            "CategoryLevel": 3,
+            "CategoryPriority": 1,
+            "BrandsSet": [
+                2,
+                8,
+                6,
+                10,
+                3
+            ]
+        },
+        {
+            "CategoryName": "Computer&Electronics level2.4 level3.2",
+            "CategoryId": 136,
+            "CategoryParentId": 52,
+            "CategoryParentName": "Computer&Electronics level2.4",
+            "CategoryLevel": 3,
+            "CategoryPriority": 2,
+            "BrandsSet": [
+                7,
+                8,
+                6,
+                10,
+                9,
+                8,
+                5,
+                5,
+                5
+            ]
+        }
+    ],
+    "brands": [
+        {
+            "BrandName": "Apple",
+            "BrandId": 1
+        },
+        {
+            "BrandName": "Samsung",
+            "BrandId": 2
+        },
+        {
+            "BrandName": "Adidas",
+            "BrandId": 3
+        },
+        {
+            "BrandName": "Gucci",
+            "BrandId": 4
+        },
+        {
+            "BrandName": "PT",
+            "BrandId": 5
+        },
+        {
+            "BrandName": "LG",
+            "BrandId": 6
+        },
+        {
+            "BrandName": "Vaccara",
+            "BrandId": 7
+        },
+        {
+            "BrandName": "Berry",
+            "BrandId": 8
+        },
+        {
+            "BrandName": "BMW",
+            "BrandId": 9
+        },
+        {
+            "BrandName": "Omega",
+            "BrandId": 10
+        },
+        {
+            "BrandName": "Ferarri",
+            "BrandId": 11
+        },
+        {
+            "BrandName": "Sony",
+            "BrandId": 12
+        }
+    ]
 }

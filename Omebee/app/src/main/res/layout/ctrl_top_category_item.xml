@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/topCategoryItemLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="center"
-    android:background="@color/white">
+    android:background="@color/white"
+    custom:foreground="@drawable/layout_item_selector">
     <!-- Card Contents go here -->
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/ivCategoryPoster"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/category_item_padding"
         android:scaleType="centerCrop"/>
     <TextView
         android:id="@+id/tvCategoryName"
@@ -21,5 +24,5 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:singleLine="false"
-        />
-</LinearLayout>
+        android:layout_marginBottom="@dimen/category_item_padding"/>
+</com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout>
