@@ -10,7 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/common_padding"
-        android:background="@drawable/layout_item_bg_card"/>
+        android:background="@color/staggered_grid_bg"
+        android:childDivider="#00000000"
+        android:dividerHeight="@dimen/common_padding"
+        />
     <com.omebee.android.layers.ui.components.LoadAndRefreshLayout
         android:id="@+id/loadAndRefreshLayout"
         android:layout_width="wrap_content"

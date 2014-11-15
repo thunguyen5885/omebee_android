@@ -6,12 +6,16 @@ import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.etsy.android.grid.ExtendableListView;
 import com.omebee.android.R;
 import com.omebee.android.global.DataSingleton;
 import com.omebee.android.layers.ui.components.data.CategoryItemData;
@@ -27,10 +31,12 @@ import java.util.List;
  */
 public class SubCategoriesAdapter extends AnimatedExpandableListView.AnimatedExpandableListAdapter {
     private LayoutInflater inflater;
+    private Context mContext;
     private HashMap<Integer, CategoryItemData> mParentCategoryDataMap;
     private HashMap<Integer, List<CategoryItemData>> mChildCategoryDataMap;
 
     public SubCategoriesAdapter(Context context){
+        mContext = context;
         inflater = LayoutInflater.from(context);
     }
     public void setCategoryItemDataList(HashMap<Integer, CategoryItemData> categoryDataMap){
@@ -65,6 +71,11 @@ public class SubCategoriesAdapter extends AnimatedExpandableListView.AnimatedExp
         if(childObj != null && childObj instanceof CategoryItemData){
             CategoryItemData childItemData = (CategoryItemData) childObj;
             holder.tvSubCategory.setText(childItemData.getName());
+        }
+        if(childPosition == getRealChildrenCount(groupPosition) - 1){
+            convertView.setBackgroundResource(R.drawable.layout_item_right_bottom_card);
+        }else{
+            convertView.setBackgroundResource(R.drawable.layout_item_no_corner);
         }
         return convertView;
     }
@@ -133,6 +144,19 @@ public class SubCategoriesAdapter extends AnimatedExpandableListView.AnimatedExp
         if(groupObj != null && groupObj instanceof CategoryItemData){
             CategoryItemData groupCategoryItemData = (CategoryItemData) groupObj;
             holder.tvParentCategory.setText(groupCategoryItemData.getName());
+        }
+        if(isExpanded){
+            if(groupPosition == 0) {
+                convertView.setBackgroundResource(R.drawable.layout_item_corner_top_left);
+            }else{
+                convertView.setBackgroundResource(R.drawable.layout_item_corner_top_left_padding);
+            }
+        }else{
+            if(groupPosition == 0) {
+                convertView.setBackgroundResource(R.drawable.layout_item_bg_card);
+            }else{
+                convertView.setBackgroundResource(R.drawable.layout_item_corner_top_left_padding);
+            }
         }
 
         return convertView;

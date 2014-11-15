@@ -1,5 +1,6 @@
 package com.omebee.android.layers.ui.fragments;
 
+import android.app.ExpandableListActivity;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -66,7 +67,7 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        onRefreshData();
     }
     private void beginLoadingData(){
         if(mLoadAndRefreshLayout != null){
@@ -209,13 +210,28 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
             return true;
         }
     };
+    private ExpandableListView.OnGroupCollapseListener onGroupCollapseListener = new ExpandableListView.OnGroupCollapseListener() {
+        @Override
+        public void onGroupCollapse(int i) {
+            if(i == 0) {
+                mSubCategoriesListView.getChildAt(i).setBackgroundResource(R.drawable.layout_item_bg_card);
+            }else{
+                mSubCategoriesListView.getChildAt(i).setBackgroundResource(R.drawable.layout_item_bg_card);
+            }
+        }
+    };
+    private ExpandableListView.OnGroupExpandListener onGroupExpandListener = new ExpandableListView.OnGroupExpandListener() {
+        @Override
+        public void onGroupExpand(int i) {
+            mSubCategoriesListView.getChildAt(i).setBackgroundResource(R.drawable.layout_item_corner_top_left);
+        }
+    };
     private ExpandableListView.OnChildClickListener onChildClickListener = new ExpandableListView.OnChildClickListener() {
         @Override
         public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
             return true;
         }
     };
-
     @Override
     public void onRefreshData() {
         if(mSubCategoriesPresenter != null && mParentCategoryId != null){
