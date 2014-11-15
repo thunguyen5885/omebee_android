@@ -14,6 +14,7 @@ public class ProductWSBuilder {
     String productName = "";
     String productDescription = "";
     String productUrl = "";
+    String categoryId = "";
     public ProductWSBuilder() {
     }
 
@@ -34,8 +35,12 @@ public class ProductWSBuilder {
         return this;
     }
 
+    public ProductWSBuilder withCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+        return this;
+    }
 
     public ProductWSModel build(){
-        return new ProductWSModel(productId, productName, productDescription, productUrl);
+        return new ProductWSModel(productId, productName, productDescription, productUrl,categoryId);
     }
 }

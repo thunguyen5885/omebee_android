@@ -15,11 +15,14 @@ public class ProductWSModel extends AbstractWebServiceModel {
     private String productName;
     private String productDescription;
     private String productUrl;
-    public ProductWSModel(String productId, String productName, String productDescription, String productUrl) {
+    private String categoryId;
+    public ProductWSModel(String productId, String productName, String productDescription, String productUrl,
+                          String categoryId) {
         this.productId = productId;
         this.productName = productName;
         this.productDescription = productDescription;
         this.productUrl = productUrl;
+        this.categoryId = categoryId;
     }
 
     public String getProductId() {
@@ -60,5 +63,13 @@ public class ProductWSModel extends AbstractWebServiceModel {
             return true;
         }
         return false;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 }

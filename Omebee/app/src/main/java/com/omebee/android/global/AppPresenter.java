@@ -88,4 +88,9 @@ public class AppPresenter {
         return mAppObj.getCategoryStore().getBranchesOfAtomicCategory(AtomicCategoryId);
     }
 
+    public List<ProductWSModel> getProductsListbyCategory(String  CategoryId){
+        return mAppObj.getProductWarehouse().getProductsByCategory(CategoryId);
+    }
+
+
 }
