@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.GeolocationPermissions;
 import android.widget.GridView;
 
 import com.omebee.android.R;
@@ -77,7 +78,6 @@ public class CategoriesFragment extends BaseFragment implements LoadAndRefreshLa
         }else {
             // Loading data done
             completeLoadingData();
-
             CategoriesAdapter categoriesAdapter = new CategoriesAdapter(getActivity(), mCategoriesGridView);
             categoriesAdapter.setCategoriesList(categoriesList);
             mCategoriesGridView.setAdapter(categoriesAdapter);

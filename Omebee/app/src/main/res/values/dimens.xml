@@ -18,12 +18,13 @@
 
     <!--For padding and spacing of category group item-->
     <dimen name="category_item_padding">5dp</dimen>
-    <dimen name="gridview_item_spacing">1dp</dimen>
+    <dimen name="gridview_item_spacing">0.5dp</dimen>
 
     <!--For common padding-->
     <dimen name="common_padding">10dp</dimen>
     <dimen name="common_padding_double">20dp</dimen>
-
+    <dimen name="common_padding_half">5dp</dimen>
+    <dimen name="common_padding_less_one">9dp</dimen>
     <!--For expandable list view indicator-->
     <dimen name="expandable_list_view_indicator_size">40dp</dimen>
 </resources>

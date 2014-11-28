@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
@@ -16,6 +17,7 @@ import com.omebee.android.R;
 import com.omebee.android.global.DataSingleton;
 import com.omebee.android.layers.ui.SubCategoriesActivity;
 import com.omebee.android.layers.ui.components.data.CategoryItemData;
+import com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout;
 import com.omebee.android.utils.AppConstants;
 import com.omebee.android.utils.AppFnUtils;
 
@@ -67,7 +69,6 @@ public class CategoriesAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.ivCategoryPoster = (NetworkImageView) convertView.findViewById(R.id.ivCategoryPoster);
             viewHolder.tvCategoryName = (TextView) convertView.findViewById(R.id.tvCategoryName);
-
             // Save tag
             convertView.setTag(viewHolder);
         }else{
@@ -75,9 +76,18 @@ public class CategoriesAdapter extends BaseAdapter {
         }
         // Enforce width and height for image view
         int screenWidth = AppFnUtils.getScreenWidth((Activity) mContext);
-        int itemWidth = screenWidth / mGridView.getNumColumns() - 2 * (int)mContext.getResources().getDimension(R.dimen.category_item_padding);
-        viewHolder.ivCategoryPoster.getLayoutParams().width = itemWidth;
-        viewHolder.ivCategoryPoster.getLayoutParams().height = itemWidth;
+        int totalPadding = (int)(mContext.getResources().getDimension(R.dimen.gridview_item_spacing) * (mGridView.getNumColumns() + 1));
+        int layoutWidthWithoutPadding = screenWidth - totalPadding;
+
+        int viewWidth = layoutWidthWithoutPadding / mGridView.getNumColumns();
+
+        convertView.getLayoutParams().width = viewWidth;
+        convertView.getLayoutParams().height = 3*viewWidth/2;
+
+        int posterWidth = 3*viewWidth / 4;
+
+        viewHolder.ivCategoryPoster.getLayoutParams().width = posterWidth;
+        viewHolder.ivCategoryPoster.getLayoutParams().height = posterWidth;
         // Set data
         if(position < mCategoriesList.size()) {
             CategoryItemData categoryData = mCategoriesList.get(position);
@@ -87,6 +97,9 @@ public class CategoriesAdapter extends BaseAdapter {
                 viewHolder.data = categoryData;
             }
 
+        }
+        if(position >= mCategoriesList.size() && convertView instanceof ForegroundLinearLayout){
+            ((ForegroundLinearLayout)convertView).setForeground(null);
         }
         convertView.setOnClickListener(onCategoryItemClickListener);
         return convertView;
@@ -115,10 +128,12 @@ public class CategoriesAdapter extends BaseAdapter {
                 }, 1000);
                 ViewHolder holder = (ViewHolder) v.getTag();
                 CategoryItemData dataItem = holder.data;
-                // Go to Sub Category screen
-                Intent intent = new Intent(mContext, SubCategoriesActivity.class);
-                intent.putExtra(AppConstants.KEY_CATEGORY_ID, dataItem.getId());
-                mContext.startActivity(intent);
+                if(dataItem != null) {
+                    // Go to Sub Category screen
+                    Intent intent = new Intent(mContext, SubCategoriesActivity.class);
+                    intent.putExtra(AppConstants.KEY_CATEGORY_ID, dataItem.getId());
+                    mContext.startActivity(intent);
+                }
             }
         }
     };

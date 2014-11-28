@@ -1,22 +1,19 @@
 package com.omebee.android.layers.ui.fragments;
 
-import android.app.ExpandableListActivity;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseFragment;
 import com.omebee.android.layers.ui.components.LoadAndRefreshLayout;
-import com.omebee.android.layers.ui.components.adapters.CategoriesAdapter;
 import com.omebee.android.layers.ui.components.adapters.SubCategoriesAdapter;
 import com.omebee.android.layers.ui.components.data.CategoryItemData;
 import com.omebee.android.layers.ui.components.views.util.AnimatedExpandableListView;
-import com.omebee.android.layers.ui.components.views.util.ExpandableHeightGridView;
-import com.omebee.android.layers.ui.presenters.base.ICategoriesPresenter;
 import com.omebee.android.layers.ui.presenters.base.IPresenter;
 import com.omebee.android.layers.ui.presenters.base.ISubCategoriesPresenter;
 
@@ -203,6 +200,7 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
             // expandGroupWithAnimation(int) to animate group
             // expansion/collapse.
             if (mSubCategoriesListView.isGroupExpanded(groupPosition)) {
+                // Then collapse with animation
                 mSubCategoriesListView.collapseGroupWithAnimation(groupPosition);
             } else {
                 mSubCategoriesListView.expandGroupWithAnimation(groupPosition);
@@ -210,22 +208,7 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
             return true;
         }
     };
-    private ExpandableListView.OnGroupCollapseListener onGroupCollapseListener = new ExpandableListView.OnGroupCollapseListener() {
-        @Override
-        public void onGroupCollapse(int i) {
-            if(i == 0) {
-                mSubCategoriesListView.getChildAt(i).setBackgroundResource(R.drawable.layout_item_bg_card);
-            }else{
-                mSubCategoriesListView.getChildAt(i).setBackgroundResource(R.drawable.layout_item_bg_card);
-            }
-        }
-    };
-    private ExpandableListView.OnGroupExpandListener onGroupExpandListener = new ExpandableListView.OnGroupExpandListener() {
-        @Override
-        public void onGroupExpand(int i) {
-            mSubCategoriesListView.getChildAt(i).setBackgroundResource(R.drawable.layout_item_corner_top_left);
-        }
-    };
+
     private ExpandableListView.OnChildClickListener onChildClickListener = new ExpandableListView.OnChildClickListener() {
         @Override
         public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {

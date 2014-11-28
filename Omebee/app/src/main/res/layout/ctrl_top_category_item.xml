@@ -10,19 +10,34 @@
     android:background="@color/white"
     custom:foreground="@drawable/layout_item_selector">
     <!-- Card Contents go here -->
-    <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/ivCategoryPoster"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/category_item_padding"
-        android:scaleType="centerCrop"/>
-    <TextView
-        android:id="@+id/tvCategoryName"
+        >
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/ivCategoryPoster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/category_item_padding"
+            android:scaleType="centerCrop"/>
+    </RelativeLayout>
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:singleLine="false"
-        android:layout_marginBottom="@dimen/category_item_padding"/>
+        >
+        <TextView
+            android:id="@+id/tvCategoryName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/NormalText"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:singleLine="false"
+            />
+    </RelativeLayout>
 </com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout>

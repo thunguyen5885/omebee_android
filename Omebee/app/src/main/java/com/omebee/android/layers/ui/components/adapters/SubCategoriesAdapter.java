@@ -1,28 +1,17 @@
 package com.omebee.android.layers.ui.components.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.BaseAdapter;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.NetworkImageView;
-import com.etsy.android.grid.ExtendableListView;
 import com.omebee.android.R;
-import com.omebee.android.global.DataSingleton;
 import com.omebee.android.layers.ui.components.data.CategoryItemData;
 import com.omebee.android.layers.ui.components.views.util.AnimatedExpandableListView;
-import com.omebee.android.utils.AppFnUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -62,7 +51,9 @@ public class SubCategoriesAdapter extends AnimatedExpandableListView.AnimatedExp
         if(convertView == null){
             holder = new ChildHolder();
             convertView = inflater.inflate(R.layout.ctr_child_category_item, parent, false);
+            holder.vChildLayout = convertView.findViewById(R.id.llChildLayout);
             holder.tvSubCategory = (TextView) convertView.findViewById(R.id.tvChildCategory);
+            holder.vChildPadding = convertView.findViewById(R.id.vChildPadding);
             convertView.setTag(holder);
         }else{
             holder = (ChildHolder) convertView.getTag();
@@ -72,10 +63,13 @@ public class SubCategoriesAdapter extends AnimatedExpandableListView.AnimatedExp
             CategoryItemData childItemData = (CategoryItemData) childObj;
             holder.tvSubCategory.setText(childItemData.getName());
         }
+
         if(childPosition == getRealChildrenCount(groupPosition) - 1){
-            convertView.setBackgroundResource(R.drawable.layout_item_right_bottom_card);
+            holder.vChildLayout.setBackgroundResource(R.drawable.layout_item_last_child_of_group);
+            holder.vChildPadding.setVisibility(View.VISIBLE);
         }else{
-            convertView.setBackgroundResource(R.drawable.layout_item_no_corner);
+            holder.vChildLayout.setBackgroundResource(R.drawable.layout_item_not_last_child_of_group);
+            holder.vChildPadding.setVisibility(View.GONE);
         }
         return convertView;
     }
@@ -134,7 +128,10 @@ public class SubCategoriesAdapter extends AnimatedExpandableListView.AnimatedExp
         if(convertView == null){
             holder = new GroupHolder();
             convertView = inflater.inflate(R.layout.ctr_group_category_item, parent, false);
+            holder.vGroupLayout = convertView.findViewById(R.id.rlGroupLayout);
             holder.tvParentCategory = (TextView) convertView.findViewById(R.id.tvGroupCategory);
+            holder.ivIndicator = (ImageView) convertView.findViewById(R.id.ivGroupIndicator);
+            holder.vGroupPadding = convertView.findViewById(R.id.vGroupPadding);
             convertView.setTag(holder);
         }else{
             holder = (GroupHolder) convertView.getTag();
@@ -146,17 +143,13 @@ public class SubCategoriesAdapter extends AnimatedExpandableListView.AnimatedExp
             holder.tvParentCategory.setText(groupCategoryItemData.getName());
         }
         if(isExpanded){
-            if(groupPosition == 0) {
-                convertView.setBackgroundResource(R.drawable.layout_item_corner_top_left);
-            }else{
-                convertView.setBackgroundResource(R.drawable.layout_item_corner_top_left_padding);
-            }
+            holder.vGroupLayout.setBackgroundResource(R.drawable.layout_item_group_expand_background);
+            holder.vGroupPadding.setVisibility(View.GONE);
+            holder.ivIndicator.setBackgroundResource(R.drawable.ic_arrow_up);
         }else{
-            if(groupPosition == 0) {
-                convertView.setBackgroundResource(R.drawable.layout_item_bg_card);
-            }else{
-                convertView.setBackgroundResource(R.drawable.layout_item_corner_top_left_padding);
-            }
+            holder.vGroupLayout.setBackgroundResource(R.drawable.layout_item_group_collapse_background);
+            holder.vGroupPadding.setVisibility(View.VISIBLE);
+            holder.ivIndicator.setBackgroundResource(R.drawable.ic_arrow_down);
         }
 
         return convertView;
@@ -170,8 +163,14 @@ public class SubCategoriesAdapter extends AnimatedExpandableListView.AnimatedExp
 
     private static class GroupHolder{
         private TextView tvParentCategory;
+        private ImageView ivIndicator;
+        private View vGroupPadding;
+        private View vGroupLayout;
     }
     private static class ChildHolder{
+        private View vChildLayout;
         private TextView tvSubCategory;
+        private View vChildPadding;
+
     }
 }

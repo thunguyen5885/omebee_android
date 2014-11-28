@@ -4,13 +4,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-    <TextView
-        android:id="@+id/tvChildCategory"
-        style="@style/NormalText"
-        android:paddingLeft="@dimen/common_padding_double"
-        android:paddingTop="@dimen/common_padding"
-        android:paddingBottom="@dimen/common_padding"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+    <LinearLayout
+        android:id="@+id/llChildLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/staggered_grid_bg"/>
+        <TextView
+            android:id="@+id/tvChildCategory"
+            style="@style/NormalText"
+            android:paddingLeft="@dimen/common_padding_double"
+            android:paddingTop="@dimen/common_padding"
+            android:paddingBottom="@dimen/common_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"/>
+    </LinearLayout>
+    <View
+        android:id="@+id/vChildPadding"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_padding"
+        android:background="@color/staggered_grid_bg"/>
 </LinearLayout>
