@@ -5,4 +5,5 @@ package com.omebee.android.layers.ui.presenters.base;
  */
 public interface ISubCategoriesPresenter extends IPresenter{
     void getSubCategories(String parentCategoryId);
+    void getTop3LevelCategories();
 }

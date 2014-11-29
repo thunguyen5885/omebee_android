@@ -28,6 +28,7 @@ public interface ICategoriesModel extends IBaseModel{
     void setILoadSubCategoriesCallback(ILoadSubCategoriesCallback callBack);
     ILoadSubCategoriesCallback getILoadSubCategoriesCallback();
     void loadSubCategories(String parentCategoryId);
+    void loadTop3LevelCategories();
 }
 
 

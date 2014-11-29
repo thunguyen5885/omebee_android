@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
 
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseFragment;
@@ -35,7 +34,8 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
     private String mParentCategoryId;
     private HashMap<Integer, CategoryItemData> mCategoriesMap;
     private HashMap<Integer, List<CategoryItemData>> mSubCategoriesMap;
-
+    private String mKeywordSearch;
+    private boolean mIsLoadingData;
     public SubCategoriesFragment(){
         mCategoriesMap = new HashMap<Integer, CategoryItemData>();
         mSubCategoriesMap = new HashMap<Integer, List<CategoryItemData>>();
@@ -68,6 +68,7 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
     }
     private void beginLoadingData(){
         if(mLoadAndRefreshLayout != null){
+            mIsLoadingData = true;
             mLoadAndRefreshLayout.beginLoading();
         }
         if(mSubCategoriesListView != null){
@@ -90,6 +91,7 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
     public void setParentCategoryId(String categoryId){
         mParentCategoryId = categoryId;
     }
+    public void setKeywordSearch(String keywordSearch){mKeywordSearch = keywordSearch;}
     public void showSubCategories(HashMap<Integer, CategoryItemData> categoriesMap, HashMap<Integer, List<CategoryItemData>> subCategoriesMap){
         if(categoriesMap == null || categoriesMap.size() == 0 ||
                 subCategoriesMap == null || subCategoriesMap.size() == 0){
@@ -107,38 +109,51 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
                 mSubCategoriesMap.clear();
             }
             mSubCategoriesMap.putAll(subCategoriesMap);
-
-            if (mSubCategoriesAdapter == null) {
-                mSubCategoriesAdapter = new SubCategoriesAdapter(getActivity());
-                mSubCategoriesAdapter.setCategoryItemDataList(mCategoriesMap);
-                mSubCategoriesAdapter.setChildCategoryDataMap(mSubCategoriesMap);
-                mSubCategoriesListView.setAdapter(mSubCategoriesAdapter);
-            } else {
-                mSubCategoriesAdapter.setCategoryItemDataList(mCategoriesMap);
-                mSubCategoriesAdapter.setChildCategoryDataMap(mSubCategoriesMap);
-                mSubCategoriesAdapter.notifyDataSetChanged();
+            if(mKeywordSearch != null && mKeywordSearch.trim().length() > 0){
+                processSearch(mKeywordSearch);
+            }else {
+                if (mSubCategoriesAdapter == null) {
+                    mSubCategoriesAdapter = new SubCategoriesAdapter(getActivity());
+                    mSubCategoriesAdapter.setCategoryItemDataList(mCategoriesMap);
+                    mSubCategoriesAdapter.setChildCategoryDataMap(mSubCategoriesMap);
+                    mSubCategoriesListView.setAdapter(mSubCategoriesAdapter);
+                } else {
+                    mSubCategoriesAdapter.setCategoryItemDataList(mCategoriesMap);
+                    mSubCategoriesAdapter.setChildCategoryDataMap(mSubCategoriesMap);
+                    mSubCategoriesAdapter.notifyDataSetChanged();
+                }
             }
         }
     }
     public void processSearch(String keyword){
+        mKeywordSearch = keyword;
         // 2 result arrays need to update data
         HashMap<Integer, CategoryItemData> categoriesMap = new HashMap<Integer, CategoryItemData>();
         HashMap<Integer, List<CategoryItemData>> subCategoriesMap = new HashMap<Integer, List<CategoryItemData>>();
-        searchCategories(keyword, categoriesMap, subCategoriesMap);
-
-        // Notify to adapter
-        mSubCategoriesAdapter.setCategoryItemDataList(categoriesMap);
-        mSubCategoriesAdapter.setChildCategoryDataMap(subCategoriesMap);
-        mSubCategoriesAdapter.notifyDataSetChanged();
+        if(mCategoriesMap != null && mCategoriesMap.size() > 0) {
+            searchSubCategories(keyword, categoriesMap, subCategoriesMap);
+            if(mSubCategoriesAdapter == null){
+                mSubCategoriesAdapter = new SubCategoriesAdapter(getActivity());
+                mSubCategoriesAdapter.setCategoryItemDataList(categoriesMap);
+                mSubCategoriesAdapter.setChildCategoryDataMap(subCategoriesMap);
+                mSubCategoriesListView.setAdapter(mSubCategoriesAdapter);
+            }else{
+                // Notify to adapter
+                mSubCategoriesAdapter.setCategoryItemDataList(categoriesMap);
+                mSubCategoriesAdapter.setChildCategoryDataMap(subCategoriesMap);
+                mSubCategoriesAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     /**
      * Find the filter the category and sub category so that their name match with keyword
+     * Implemented on sub category activity
      * @param keyword
      * @param categoriesMap
      * @param subCategoriesMap
      */
-    private void searchCategories(String keyword, HashMap<Integer, CategoryItemData> categoriesMap, HashMap<Integer, List<CategoryItemData>> subCategoriesMap){
+    public void searchSubCategories(String keyword, HashMap<Integer, CategoryItemData> categoriesMap, HashMap<Integer, List<CategoryItemData>> subCategoriesMap){
 
         if(keyword == null || keyword.trim().length() == 0) {
             // Add all data firstly
@@ -180,7 +195,9 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
             }
         }
     }
+    public void searchTopCategories(String keyword, HashMap<Integer, CategoryItemData> categoriesMap, HashMap<Integer, List<CategoryItemData>> subCategoriesMap){
 
+    }
     /**
      * Update group indicator bound to right side instead of left side as default
      */
@@ -191,6 +208,21 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
             mSubCategoriesListView.setIndicatorBounds(leftSide, rightSide);
         }else{
             mSubCategoriesListView.setIndicatorBoundsRelative(leftSide, rightSide);
+        }
+    }
+    @Override
+    public void onRefreshData() {
+        if(mSubCategoriesPresenter != null){
+            if(mCategoriesMap == null || mCategoriesMap.size() == 0) {
+                mLoadAndRefreshLayout.beginLoading();
+                if (mParentCategoryId != null && mParentCategoryId.length() > 0) {
+                    mSubCategoriesPresenter.getSubCategories(mParentCategoryId);
+                } else {
+                    mSubCategoriesPresenter.getTop3LevelCategories();
+                }
+            }else{
+                processSearch(mKeywordSearch);
+            }
         }
     }
     private ExpandableListView.OnGroupClickListener onGroupClickListener = new ExpandableListView.OnGroupClickListener() {
@@ -215,11 +247,5 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
             return true;
         }
     };
-    @Override
-    public void onRefreshData() {
-        if(mSubCategoriesPresenter != null && mParentCategoryId != null){
-            mLoadAndRefreshLayout.beginLoading();
-            mSubCategoriesPresenter.getSubCategories(mParentCategoryId);
-        }
-    }
+
 }
