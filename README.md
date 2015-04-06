@@ -1,4 +1,4 @@
 omebee_android
 ==============
-Hello omebee
+Shopping app
 version 0.1
