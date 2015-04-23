@@ -32,6 +32,7 @@ public class AppConstants {
     /*Define all the keys for transmission between screens Start*/
     public static final String KEY_PRODUCT_ID = "product_id";
     public static final String KEY_CATEGORY_ID = "category_id";
+    public static final String KEY_SEARCH_KEYWORD = "search_keyword";
     /*Define all the keys for transmission between screens End*/
 
     /*Define request code from this screen to that screen*/

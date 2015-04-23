@@ -12,24 +12,22 @@
     <!-- Card Contents go here -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        >
+        android:layout_margin="@dimen/common_padding">
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/ivCategoryPoster"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:layout_marginTop="@dimen/category_item_padding"
             android:scaleType="centerCrop"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        >
+        android:padding="@dimen/common_padding"
+        android:layout_marginBottom="@dimen/common_padding">
         <TextView
             android:id="@+id/tvCategoryName"
             android:layout_width="wrap_content"

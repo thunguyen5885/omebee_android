@@ -18,7 +18,7 @@
 
     <!--For padding and spacing of category group item-->
     <dimen name="category_item_padding">5dp</dimen>
-    <dimen name="gridview_item_spacing">0.5dp</dimen>
+    <dimen name="gridview_item_spacing">1dp</dimen>
 
     <!--For common padding-->
     <dimen name="common_padding">10dp</dimen>

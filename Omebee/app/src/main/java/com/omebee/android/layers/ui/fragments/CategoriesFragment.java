@@ -78,7 +78,7 @@ public class CategoriesFragment extends BaseFragment implements LoadAndRefreshLa
         }else {
             // Loading data done
             completeLoadingData();
-            CategoriesAdapter categoriesAdapter = new CategoriesAdapter(getActivity(), mCategoriesGridView);
+            CategoriesAdapter categoriesAdapter = new CategoriesAdapter(getActivity());
             categoriesAdapter.setCategoriesList(categoriesList);
             mCategoriesGridView.setAdapter(categoriesAdapter);
         }

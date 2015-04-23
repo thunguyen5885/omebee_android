@@ -32,6 +32,7 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
     private ISubCategoriesPresenter mSubCategoriesPresenter;
     // For data, variable
     private String mParentCategoryId;
+    private String mInitKeywordSearch;
     private HashMap<Integer, CategoryItemData> mCategoriesMap;
     private HashMap<Integer, List<CategoryItemData>> mSubCategoriesMap;
     private String mKeywordSearch;
@@ -92,6 +93,10 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
         mParentCategoryId = categoryId;
     }
     public void setKeywordSearch(String keywordSearch){mKeywordSearch = keywordSearch;}
+    public void setInitKeywordSearch(String keyword){
+        mInitKeywordSearch = keyword;
+    }
+
     public void showSubCategories(HashMap<Integer, CategoryItemData> categoriesMap, HashMap<Integer, List<CategoryItemData>> subCategoriesMap){
         if(categoriesMap == null || categoriesMap.size() == 0 ||
                 subCategoriesMap == null || subCategoriesMap.size() == 0){

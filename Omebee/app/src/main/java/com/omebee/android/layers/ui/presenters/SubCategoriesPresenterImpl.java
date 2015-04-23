@@ -48,4 +48,7 @@ public class SubCategoriesPresenterImpl implements ISubCategoriesPresenter, ICat
     public void getTop3LevelCategories() {
         mModel.loadTop3LevelCategories();
     }
+    public void searchSubCategories(String keyword) {
+
+    }
 }

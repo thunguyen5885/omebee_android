@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.view.Menu;
@@ -23,6 +24,7 @@ import com.omebee.android.layers.ui.presenters.base.ICategoriesPresenter;
 import com.omebee.android.layers.ui.presenters.base.ISubCategoriesPresenter;
 import com.omebee.android.layers.ui.views.ICategoriesView;
 import com.omebee.android.layers.ui.views.ISubCategoriesView;
+import com.omebee.android.utils.AppConstants;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,9 +32,8 @@ import java.util.List;
 /**
  * Created by ThuNguyen on 10/25/2014.
  */
-public class CategoriesActivity extends BaseActivity implements ICategoriesView, ISubCategoriesView, SearchView.OnQueryTextListener{
+public class CategoriesActivity extends BaseActivity implements ICategoriesView, SearchView.OnQueryTextListener{
     private CategoriesFragment mCategoriesFragment;
-    private SubCategoriesFragment mSubCategoriesFragment;
     private ICategoriesPresenter mCategoryPresenter;
     private SearchView mSearchView;
     @Override
@@ -88,11 +89,21 @@ public class CategoriesActivity extends BaseActivity implements ICategoriesView,
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() == 1) {
+            finish();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     private void setupSearchView(MenuItem searchItem) {
         searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM
                 | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
         // search hint
-        mSearchView.setQueryHint(getString(R.string.search_category));
+        mSearchView.setQueryHint(getString(R.string.search_hint));
 
         mSearchView.setOnQueryTextListener(this);
         // When using the support library, the setOnActionExpandListener() method is
@@ -115,28 +126,16 @@ public class CategoriesActivity extends BaseActivity implements ICategoriesView,
     }
     @Override
     public boolean onQueryTextChange(String newText) { // Autocomplete
-        if(newText.trim().length() > 0) {
-            if(mSubCategoriesFragment == null){
-                mSubCategoriesFragment = new SubCategoriesFragment();
-                mSubCategoriesFragment.setKeywordSearch(newText);
-                ISubCategoriesPresenter subCategoriesPresenter = new SubCategoriesPresenterImpl(this);
-                mSubCategoriesFragment.setPresenter(subCategoriesPresenter);
-            }else{
-                mSubCategoriesFragment.processSearch(newText);
-            }
-            showFragment(mSubCategoriesFragment);
-        }else{
-            showFragment(mCategoriesFragment);
-        }
         return true;
     }
     @Override
     public boolean onQueryTextSubmit(String query) {
-//        if(query.trim().length() > 0) {
-//            mSubCategoriesFragment.processSearch(query.trim());
-//        }else{
-//            showFragment(mCategoriesFragment);
-//        }
+        if(query.trim().length() > 0) {
+            // Go to sub category screen
+            Intent intent = new Intent(this, SubCategoriesActivity.class);
+            intent.putExtra(AppConstants.KEY_SEARCH_KEYWORD, query);
+            startActivity(intent);
+        }
         return true;
     }
     private void showFragment(Fragment frag) {
@@ -144,18 +143,16 @@ public class CategoriesActivity extends BaseActivity implements ICategoriesView,
         String backStateName = frag.getClass().getName();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        Fragment curFragment = fragmentManager.findFragmentById(R.id.flCategoryLayout);
-        //if(curFragment)
-        fragmentTransaction.replace(R.id.flCategoryLayout, frag);
-//        boolean fragmentPopped = fragmentManager.popBackStackImmediate (backStateName, 0);
-//
-//        if (!fragmentPopped && fragmentManager.findFragmentByTag(backStateName) == null) { // fragment not in back stack, create it.
-//            fragmentTransaction.replace(R.id.flCategoryLayout, frag, backStateName);
-//            fragmentTransaction.addToBackStack(backStateName);
-//        } else {
-//            Fragment currFrag = (Fragment)fragmentManager.findFragmentByTag(backStateName);
-//            fragmentTransaction.show(currFrag);
-//        }
+
+        boolean fragmentPopped = fragmentManager.popBackStackImmediate (backStateName, 0);
+
+        if (!fragmentPopped && fragmentManager.findFragmentByTag(backStateName) == null) { // fragment not in back stack, create it.
+            fragmentTransaction.replace(R.id.flCategoryLayout, frag, backStateName);
+            fragmentTransaction.addToBackStack(backStateName);
+        } else {
+            Fragment currFrag = (Fragment)fragmentManager.findFragmentByTag(backStateName);
+            fragmentTransaction.show(currFrag);
+        }
 
         fragmentTransaction.commit();
     }
@@ -163,10 +160,5 @@ public class CategoriesActivity extends BaseActivity implements ICategoriesView,
     @Override
     public void showCategories(List<CategoryItemData> categoriesList) {
         mCategoriesFragment.showCategories(categoriesList);
-    }
-
-    @Override
-    public void showSubCategories(HashMap<Integer, CategoryItemData> categoriesMap, HashMap<Integer, List<CategoryItemData>> subCategoryMap) {
-        mSubCategoriesFragment.showSubCategories(categoriesMap, subCategoryMap);
     }
 }

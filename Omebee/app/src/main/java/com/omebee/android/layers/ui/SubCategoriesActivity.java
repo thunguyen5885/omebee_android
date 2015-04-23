@@ -43,6 +43,8 @@ public class SubCategoriesActivity extends BaseActivity implements ISubCategorie
         // Initialize the get extra
         String categoryId = getIntent().getStringExtra(AppConstants.KEY_CATEGORY_ID);
         mSubCategoriesFragment.setParentCategoryId(categoryId);
+        String keywordSearch = getIntent().getStringExtra(AppConstants.KEY_SEARCH_KEYWORD);
+        mSubCategoriesFragment.setInitKeywordSearch(keywordSearch);
 
         // Translate animation
         overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);

@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
@@ -27,26 +25,26 @@ import java.util.List;
  * Created by Thu Nguyen on 9/17/2014.
  */
 public class CategoriesAdapter extends BaseAdapter {
+    private static final int COLUMN_NUM = 4;
+
     private Context mContext;
-    private GridView mGridView;
     private LayoutInflater inflater;
     private List<CategoryItemData> mCategoriesList;
+
     private boolean mIsClicked = false;
-    public CategoriesAdapter(Context context, GridView gridView){
+    public CategoriesAdapter(Context context){
         mContext = context;
         inflater = LayoutInflater.from(context);
-        mGridView = gridView;
     }
     @Override
     public int getCount() {
         if(mCategoriesList != null){
-            int numColumns = mGridView.getNumColumns();
             int itemsNum = mCategoriesList.size();
-            int remainNum = itemsNum % numColumns;
+            int remainNum = itemsNum % COLUMN_NUM;
             if(remainNum == 0){
                 return itemsNum;
             }
-            return (itemsNum + (numColumns - remainNum));
+            return (itemsNum + (COLUMN_NUM - remainNum));
         }
         return 0;
     }
@@ -76,15 +74,15 @@ public class CategoriesAdapter extends BaseAdapter {
         }
         // Enforce width and height for image view
         int screenWidth = AppFnUtils.getScreenWidth((Activity) mContext);
-        int totalPadding = (int)(mContext.getResources().getDimension(R.dimen.gridview_item_spacing) * (mGridView.getNumColumns() + 1));
+        int totalPadding = (int)(mContext.getResources().getDimension(R.dimen.gridview_item_spacing) * (COLUMN_NUM + 1));
         int layoutWidthWithoutPadding = screenWidth - totalPadding;
 
-        int viewWidth = layoutWidthWithoutPadding / mGridView.getNumColumns();
+        int viewWidth = layoutWidthWithoutPadding / COLUMN_NUM;
 
         convertView.getLayoutParams().width = viewWidth;
-        convertView.getLayoutParams().height = 3*viewWidth/2;
+        //convertView.getLayoutParams().height = 3*viewWidth/2;
 
-        int posterWidth = 3*viewWidth / 4;
+        int posterWidth = viewWidth - (int)(2 * mContext.getResources().getDimension(R.dimen.common_padding));
 
         viewHolder.ivCategoryPoster.getLayoutParams().width = posterWidth;
         viewHolder.ivCategoryPoster.getLayoutParams().height = posterWidth;

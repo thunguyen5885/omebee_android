@@ -52,6 +52,11 @@ public class CategoriesModel implements ICategoriesModel{
         new LoadCategoriesTop3LevelsAsynTask().execute();
     }
 
+    @Override
+    public void searchSubCategories(String keyword) {
+        new SearchSubCategoriessAsynTask().execute(keyword);
+    }
+
     private class LoadCategoriesAsynTask extends AsyncTask<Void, Void, List<CategoryItemData>>{
         @Override
         protected List<CategoryItemData> doInBackground(Void... params) {
@@ -143,6 +148,59 @@ public class CategoriesModel implements ICategoriesModel{
 
         @Override
         protected Void doInBackground(Void... params) {
+            List<CategoryWSModel> categoryWSList = AppPresenter.getInstance().getCategoryLevel1List();
+            if(categoryWSList != null && categoryWSList.size() > 0){
+                for(int index = 0; index < categoryWSList.size(); index ++){
+                    CategoryWSModel dataModel = categoryWSList.get(index);
+                    CategoryItemData item = new CategoryItemData(dataModel);
+                    mCategoryItemDataMap.put(index, item);
+
+                    // For category level 2
+                    List<CategoryWSModel> dataModelLevel2List = AppPresenter.getInstance().getCategoryLevel2List(dataModel.getCategoryId());
+                    if(dataModelLevel2List != null && dataModelLevel2List.size() > 0){
+                        List<CategoryItemData> subItemList = new ArrayList<CategoryItemData>();
+                        for(CategoryWSModel dataModelLevel2: dataModelLevel2List){
+                            CategoryItemData dataItemLevel2 = new CategoryItemData(dataModelLevel2);
+                            subItemList.add(dataItemLevel2);
+                            // Also get category level 2 here
+                            List<CategoryWSModel> dataModelLevel3List = AppPresenter.getInstance().getCategoryLevel3List(dataModelLevel2.getCategoryId());
+                            if(dataModelLevel3List != null && dataModelLevel3List.size() > 0){
+                                for(CategoryWSModel dataModelLevel3 : dataModelLevel3List){
+                                    CategoryItemData dataItemLevel3 = new CategoryItemData(dataModelLevel3);
+                                    subItemList.add(dataItemLevel3);
+                                }
+                            }
+                        }
+
+                        mSubCategoryItemDataMap.put(index, subItemList);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if(mILoadSubCategoriesCallback != null){
+                mILoadSubCategoriesCallback.loadSubCategoriesSuccess(mCategoryItemDataMap, mSubCategoryItemDataMap);
+            }
+        }
+
+        @Override
+        protected void onCancelled(Void aVoid) {
+            super.onCancelled(aVoid);
+            if(mILoadSubCategoriesCallback != null){
+                mILoadSubCategoriesCallback.loadSubCategoriesFailed();
+            }
+        }
+    }
+    private class SearchSubCategoriessAsynTask extends AsyncTask<String, Void, Void>{
+        private HashMap<Integer, CategoryItemData> mCategoryItemDataMap = new HashMap<Integer, CategoryItemData>();
+        private HashMap<Integer, List<CategoryItemData>> mSubCategoryItemDataMap = new HashMap<Integer, List<CategoryItemData>>();
+
+        @Override
+        protected Void doInBackground(String... params) {
             List<CategoryWSModel> categoryWSList = AppPresenter.getInstance().getCategoryLevel1List();
             if(categoryWSList != null && categoryWSList.size() > 0){
                 for(int index = 0; index < categoryWSList.size(); index ++){

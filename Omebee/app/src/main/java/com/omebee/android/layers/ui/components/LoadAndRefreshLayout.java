@@ -23,7 +23,6 @@ public class LoadAndRefreshLayout extends FrameLayout{
 	private ILoadAndRefreshCallback mILoadAndRefreshCallback;
 
     // For data, variable
-    private boolean mIsViewInflated = false;
 
 	public LoadAndRefreshLayout(Context context) {
 		super(context);
@@ -45,15 +44,12 @@ public class LoadAndRefreshLayout extends FrameLayout{
 	/*For getter and setter End*/
 	/*Some public method Start*/
 	private void initView(){
-        if(!mIsViewInflated) {
-            mIsViewInflated = true;
-            // Inflate layout and assign this layout as root view
-            mInflater = LayoutInflater.from(getContext());
-            View v = mInflater.inflate(R.layout.ctrl_load_and_refresh, this);
-            mPbLoading = (ProgressBar) v.findViewById(R.id.pbLoading);
-            mBtnRefresh = (ImageView) v.findViewById(R.id.btnRefresh);
-            mBtnRefresh.setOnClickListener(onRefreshClickListener);
-        }
+		// Inflate layout and assign this layout as root view
+		mInflater = LayoutInflater.from(getContext());
+		View v = mInflater.inflate(R.layout.ctrl_load_and_refresh, this);
+		mPbLoading = (ProgressBar) v.findViewById(R.id.pbLoading);
+		mBtnRefresh = (ImageView) v.findViewById(R.id.btnRefresh);
+		mBtnRefresh.setOnClickListener(onRefreshClickListener);
 	}
 	
 	/**
