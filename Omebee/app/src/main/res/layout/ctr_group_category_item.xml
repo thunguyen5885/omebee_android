@@ -30,5 +30,6 @@
         android:id="@+id/vGroupPadding"
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_padding"
-        android:background="@color/staggered_grid_bg" />
+        android:background="@color/staggered_grid_bg"
+        android:visibility="visible"/>
 </LinearLayout>

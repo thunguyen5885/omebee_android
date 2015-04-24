@@ -144,11 +144,11 @@ public class SubCategoriesAdapter extends AnimatedExpandableListView.AnimatedExp
         }
         if(isExpanded){
             holder.vGroupLayout.setBackgroundResource(R.drawable.layout_item_group_expand_background);
-            holder.vGroupPadding.setVisibility(View.GONE);
+            holder.vGroupPadding.setBackgroundColor(mContext.getResources().getColor(R.color.white));
             holder.ivIndicator.setBackgroundResource(R.drawable.ic_arrow_up);
         }else{
             holder.vGroupLayout.setBackgroundResource(R.drawable.layout_item_group_collapse_background);
-            holder.vGroupPadding.setVisibility(View.VISIBLE);
+            holder.vGroupPadding.setBackgroundColor(mContext.getResources().getColor(R.color.staggered_grid_bg));
             holder.ivIndicator.setBackgroundResource(R.drawable.ic_arrow_down);
         }
 
