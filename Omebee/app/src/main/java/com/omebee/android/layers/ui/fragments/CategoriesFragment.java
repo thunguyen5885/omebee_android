@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.GeolocationPermissions;
-import android.widget.GridView;
 
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseFragment;
@@ -48,7 +46,7 @@ public class CategoriesFragment extends BaseFragment implements LoadAndRefreshLa
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // Load data right now
-        onRefreshData();
+        onLoadInitialData();
     }
     private void beginLoadingData(){
         if(mLoadAndRefreshLayout != null){
@@ -85,7 +83,7 @@ public class CategoriesFragment extends BaseFragment implements LoadAndRefreshLa
     }
 
     @Override
-    public void onRefreshData() {
+    public void onLoadInitialData() {
         if(mCategoriesPresenter != null){
             // Show dialog to user
             beginLoadingData();

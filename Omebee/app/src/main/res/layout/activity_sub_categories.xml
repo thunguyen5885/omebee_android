@@ -5,10 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!--Something for later-->
-    <fragment
-        android:id="@+id/subCategoriesFragment"
+    <FrameLayout
+        android:id="@+id/flSubCategoryLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="com.omebee.android.layers.ui.fragments.SubCategoriesFragment" >
-    </fragment>
+        android:layout_height="match_parent">
+    </FrameLayout>
 </LinearLayout>

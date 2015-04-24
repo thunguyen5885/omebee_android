@@ -30,6 +30,7 @@ public interface ICategoriesModel extends IBaseModel{
     void loadSubCategories(String parentCategoryId);
     void loadTop3LevelCategories();
     void searchSubCategories(String keyword);
+    void searchSubCategories(String keyword, String parentCategoryId);
 }
 
 

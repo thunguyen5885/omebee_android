@@ -9,10 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="4"
-        android:background="@color/staggered_grid_bg"
-        android:padding="@dimen/gridview_item_spacing"
-        android:horizontalSpacing="@dimen/gridview_item_spacing"
-        android:verticalSpacing="@dimen/gridview_item_spacing"/>
+        android:background="@color/staggered_grid_bg" />
     <com.omebee.android.layers.ui.components.LoadAndRefreshLayout
         android:id="@+id/loadAndRefreshLayout"
         android:layout_width="match_parent"

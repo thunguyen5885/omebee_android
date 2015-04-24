@@ -10,6 +10,7 @@ public class CategoryItemData {
     private String mName;
     private String mPosterUrl;
     private int mLevel;
+    private String mParentId;
     public CategoryItemData(){}
     public CategoryItemData(String id, String name, String posterUrl){
         mId = id;
@@ -22,6 +23,7 @@ public class CategoryItemData {
             mName = dataModel.getCategoryName();
             mPosterUrl = "http://storage.googleapis.com/androiddevelopers/sample_data/activity_transition/thumbs/flamingo.jpg";
             mLevel = dataModel.getCategoryLevel();
+            mParentId = dataModel.getCategoryParentId();
         }
     }
 
@@ -53,5 +55,13 @@ public class CategoryItemData {
     }
     public int getLevel(){
         return mLevel;
+    }
+
+    public String getParentId() {
+        return mParentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.mParentId = parentId;
     }
 }

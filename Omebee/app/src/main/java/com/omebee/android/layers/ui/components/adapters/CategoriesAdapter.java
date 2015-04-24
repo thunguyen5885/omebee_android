@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
@@ -30,23 +32,20 @@ public class CategoriesAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater inflater;
     private List<CategoryItemData> mCategoriesList;
-
+    private int mItemSize;
+    private int mItemSpacing;
     private boolean mIsClicked = false;
     public CategoriesAdapter(Context context){
         mContext = context;
         inflater = LayoutInflater.from(context);
+        // Calculate the item size to inflate
+        int screenWidth = AppFnUtils.getScreenWidth((Activity)mContext);
+        mItemSpacing = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, mContext.getResources().getDisplayMetrics());
+        mItemSize = screenWidth / COLUMN_NUM;
     }
     @Override
     public int getCount() {
-        if(mCategoriesList != null){
-            int itemsNum = mCategoriesList.size();
-            int remainNum = itemsNum % COLUMN_NUM;
-            if(remainNum == 0){
-                return itemsNum;
-            }
-            return (itemsNum + (COLUMN_NUM - remainNum));
-        }
-        return 0;
+        return (mCategoriesList != null) ? mCategoriesList.size() : 0;
     }
 
     @Override
@@ -65,6 +64,8 @@ public class CategoriesAdapter extends BaseAdapter {
         if(convertView == null){
             convertView = inflater.inflate(R.layout.ctrl_top_category_item, parent, false);
             viewHolder = new ViewHolder();
+            viewHolder.mFlTopCategoryItemLayout = convertView.findViewById(R.id.flTopCategoryItemLayout);
+            viewHolder.mTopCategoryItemLayout = convertView.findViewById(R.id.topCategoryItemLayout);
             viewHolder.ivCategoryPoster = (NetworkImageView) convertView.findViewById(R.id.ivCategoryPoster);
             viewHolder.tvCategoryName = (TextView) convertView.findViewById(R.id.tvCategoryName);
             // Save tag
@@ -79,27 +80,41 @@ public class CategoriesAdapter extends BaseAdapter {
 
         int viewWidth = layoutWidthWithoutPadding / COLUMN_NUM;
 
-        convertView.getLayoutParams().width = viewWidth;
+        //convertView.getLayoutParams().width = viewWidth;
         //convertView.getLayoutParams().height = 3*viewWidth/2;
+        viewHolder.mTopCategoryItemLayout.getLayoutParams().width = mItemSize;
 
         int posterWidth = viewWidth - (int)(2 * mContext.getResources().getDimension(R.dimen.common_padding));
-
         viewHolder.ivCategoryPoster.getLayoutParams().width = posterWidth;
         viewHolder.ivCategoryPoster.getLayoutParams().height = posterWidth;
         // Set data
-        if(position < mCategoriesList.size()) {
-            CategoryItemData categoryData = mCategoriesList.get(position);
-            if (categoryData != null) {
-                viewHolder.ivCategoryPoster.setImageUrl(categoryData.getPosterUrl(), DataSingleton.getInstance(mContext).getImageLoader());
-                viewHolder.tvCategoryName.setText(categoryData.getName());
-                viewHolder.data = categoryData;
-            }
+        CategoryItemData categoryData = mCategoriesList.get(position);
+        if (categoryData != null) {
+            viewHolder.ivCategoryPoster.setImageUrl(categoryData.getPosterUrl(), DataSingleton.getInstance(mContext).getImageLoader());
+            viewHolder.tvCategoryName.setText(categoryData.getName());
+        }
 
+        viewHolder.mTopCategoryItemLayout.setTag(categoryData);
+        viewHolder.mTopCategoryItemLayout.setOnClickListener(onCategoryItemClickListener);
+
+        int rowSeq = position / COLUMN_NUM;
+        int colSeq = position % COLUMN_NUM;
+        int left = 0, top = 0, right = 0, bottom = 0;
+        if(rowSeq == 0){
+            top = mItemSpacing;
+            bottom = mItemSpacing;
+        }else{
+            bottom = mItemSpacing;
         }
-        if(position >= mCategoriesList.size() && convertView instanceof ForegroundLinearLayout){
-            ((ForegroundLinearLayout)convertView).setForeground(null);
+        if(colSeq == 0){
+            left = mItemSpacing;
+            right = mItemSpacing;
+        }else{
+            right = mItemSpacing;
         }
-        convertView.setOnClickListener(onCategoryItemClickListener);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        layoutParams.setMargins(left, top, right, bottom);
+        viewHolder.mFlTopCategoryItemLayout.setLayoutParams(layoutParams);
         return convertView;
     }
 
@@ -124,8 +139,7 @@ public class CategoriesAdapter extends BaseAdapter {
                         mIsClicked = false;
                     }
                 }, 1000);
-                ViewHolder holder = (ViewHolder) v.getTag();
-                CategoryItemData dataItem = holder.data;
+                CategoryItemData dataItem = (CategoryItemData)v.getTag();
                 if(dataItem != null) {
                     // Go to Sub Category screen
                     Intent intent = new Intent(mContext, SubCategoriesActivity.class);
@@ -135,8 +149,9 @@ public class CategoriesAdapter extends BaseAdapter {
             }
         }
     };
-    private class ViewHolder{
-        CategoryItemData data;
+    private static class ViewHolder{
+        private View mFlTopCategoryItemLayout;
+        private View mTopCategoryItemLayout;
         private NetworkImageView ivCategoryPoster;
         private TextView tvCategoryName;
     }

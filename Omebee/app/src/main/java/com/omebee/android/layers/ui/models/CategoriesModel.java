@@ -54,7 +54,12 @@ public class CategoriesModel implements ICategoriesModel{
 
     @Override
     public void searchSubCategories(String keyword) {
-        new SearchSubCategoriessAsynTask().execute(keyword);
+        new SearchSubCategoriesAsynTask().execute(keyword);
+    }
+
+    @Override
+    public void searchSubCategories(String keyword, String parentCategoryId) {
+        new SearchSubCategoriesAsynTask().execute(keyword, parentCategoryId);
     }
 
     private class LoadCategoriesAsynTask extends AsyncTask<Void, Void, List<CategoryItemData>>{
@@ -195,37 +200,29 @@ public class CategoriesModel implements ICategoriesModel{
             }
         }
     }
-    private class SearchSubCategoriessAsynTask extends AsyncTask<String, Void, Void>{
-        private HashMap<Integer, CategoryItemData> mCategoryItemDataMap = new HashMap<Integer, CategoryItemData>();
-        private HashMap<Integer, List<CategoryItemData>> mSubCategoryItemDataMap = new HashMap<Integer, List<CategoryItemData>>();
-
+    private class SearchSubCategoriesAsynTask extends AsyncTask<String, Void, Void>{
+        private HashMap<Integer, CategoryItemData> mCategoryLevel2ItemDataMap = new HashMap<Integer, CategoryItemData>();
+        private HashMap<Integer, List<CategoryItemData>> mCategoryLevel3ItemDataMap = new HashMap<Integer, List<CategoryItemData>>();
+        private  int mIndexToAdd = 0;
         @Override
         protected Void doInBackground(String... params) {
             List<CategoryWSModel> categoryWSList = AppPresenter.getInstance().getCategoryLevel1List();
+
+            // Check the params length
+            // Make sure the selected parent id added on the first pos of list
+            if(params.length == 2 && params[1] != null && params[1].length() > 0){
+                List<CategoryWSModel> selectedParentCategoryWSList = AppPresenter.getInstance().getCategoryLevel2List(params[1]);
+                addDataFromLevel2List(selectedParentCategoryWSList, params[0]);
+            }
             if(categoryWSList != null && categoryWSList.size() > 0){
                 for(int index = 0; index < categoryWSList.size(); index ++){
                     CategoryWSModel dataModel = categoryWSList.get(index);
-                    CategoryItemData item = new CategoryItemData(dataModel);
-                    mCategoryItemDataMap.put(index, item);
 
-                    // For category level 2
-                    List<CategoryWSModel> dataModelLevel2List = AppPresenter.getInstance().getCategoryLevel2List(dataModel.getCategoryId());
-                    if(dataModelLevel2List != null && dataModelLevel2List.size() > 0){
-                        List<CategoryItemData> subItemList = new ArrayList<CategoryItemData>();
-                        for(CategoryWSModel dataModelLevel2: dataModelLevel2List){
-                            CategoryItemData dataItemLevel2 = new CategoryItemData(dataModelLevel2);
-                            subItemList.add(dataItemLevel2);
-                            // Also get category level 2 here
-                            List<CategoryWSModel> dataModelLevel3List = AppPresenter.getInstance().getCategoryLevel3List(dataModelLevel2.getCategoryId());
-                            if(dataModelLevel3List != null && dataModelLevel3List.size() > 0){
-                                for(CategoryWSModel dataModelLevel3 : dataModelLevel3List){
-                                    CategoryItemData dataItemLevel3 = new CategoryItemData(dataModelLevel3);
-                                    subItemList.add(dataItemLevel3);
-                                }
-                            }
-                        }
-
-                        mSubCategoryItemDataMap.put(index, subItemList);
+                    // Ignore the category that matching with the selected category id
+                    if(params.length == 1 || (params.length == 2 && !dataModel.getCategoryId().equals(params[1]))) {
+                        // For category level 2
+                        List<CategoryWSModel> dataModelLevel2List = AppPresenter.getInstance().getCategoryLevel2List(dataModel.getCategoryId());
+                        addDataFromLevel2List(dataModelLevel2List, params[0]);
                     }
                 }
             }
@@ -236,7 +233,7 @@ public class CategoriesModel implements ICategoriesModel{
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if(mILoadSubCategoriesCallback != null){
-                mILoadSubCategoriesCallback.loadSubCategoriesSuccess(mCategoryItemDataMap, mSubCategoryItemDataMap);
+                mILoadSubCategoriesCallback.loadSubCategoriesSuccess(mCategoryLevel2ItemDataMap, mCategoryLevel3ItemDataMap);
             }
         }
 
@@ -246,6 +243,35 @@ public class CategoriesModel implements ICategoriesModel{
             if(mILoadSubCategoriesCallback != null){
                 mILoadSubCategoriesCallback.loadSubCategoriesFailed();
             }
+        }
+        private void addDataFromLevel2List(List<CategoryWSModel> dataModelLevel2List, String keyword){
+            if(dataModelLevel2List != null && dataModelLevel2List.size() > 0){
+                for(int indexL2 = 0; indexL2 < dataModelLevel2List.size(); indexL2++){
+                    List<CategoryItemData> subItemList = new ArrayList<CategoryItemData>();
+                    CategoryWSModel dataModelLevel2 = dataModelLevel2List.get(indexL2);
+                    CategoryItemData dataItemLevel2 = new CategoryItemData(dataModelLevel2);
+                    boolean isAddToLevel2 = dataItemLevel2.getName().toLowerCase().contains(keyword.toLowerCase());
+
+                    // Also get category level 3 here
+                    List<CategoryWSModel> dataModelLevel3List = AppPresenter.getInstance().getCategoryLevel3List(dataModelLevel2.getCategoryId());
+                    if(dataModelLevel3List != null && dataModelLevel3List.size() > 0){
+                        for(CategoryWSModel dataModelLevel3 : dataModelLevel3List){
+                            CategoryItemData dataItemLevel3 = new CategoryItemData(dataModelLevel3);
+                            if(dataItemLevel3.getName().toLowerCase().contains(keyword.toLowerCase())){
+                                subItemList.add(dataItemLevel3);
+                            }else{
+                            }
+                        }
+                    }
+                    if(subItemList.size() > 0 || isAddToLevel2){ // Find at least 1 item on level 3 or matching on level 2
+                        mCategoryLevel2ItemDataMap.put(mIndexToAdd + indexL2, dataItemLevel2);
+                        mCategoryLevel3ItemDataMap.put(mIndexToAdd + indexL2, subItemList);
+                    }else{
+                        mIndexToAdd--;
+                    }
+                }
+            }
+            mIndexToAdd += dataModelLevel2List.size();
         }
     }
 }

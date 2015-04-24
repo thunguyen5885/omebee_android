@@ -10,7 +10,6 @@
 
         <style name="ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
             <item name="android:background">@color/action_bar_background</item>
-
             <item name="android:backgroundSplit">@color/sa_green</item>
             <item name="android:backgroundStacked">@color/stacked_green</item>
             <item name="android:alpha">@dimen/action_bar_background_alpha</item>
@@ -57,21 +56,21 @@
         <style name="NormalText" parent="@android:style/TextAppearance.Holo.Widget.TextView">
             <item name="android:textAppearance">@android:style/TextAppearance.Large.Inverse</item>
             <item name="android:textSize">@dimen/normal_textsize</item>
-            <item name="android:textColor">#ff000000</item>
+            <item name="android:textColor">@color/black</item>
             <item name="android:maxLines">2</item>
             <item name="android:ellipsize">end</item>
         </style>
         <style name="LargeText" parent="@android:style/TextAppearance.Holo.Widget.TextView">
             <item name="android:textAppearance">@android:style/TextAppearance.Large.Inverse</item>
             <item name="android:textSize">@dimen/large_textsize</item>
-            <item name="android:textColor">#ff000000</item>
+            <item name="android:textColor">@color/black</item>
             <item name="android:maxLines">2</item>
             <item name="android:ellipsize">end</item>
         </style>
         <style name="ProductInfoText" parent="@android:style/TextAppearance.Holo.Widget.TextView">
             <item name="android:textAppearance">@android:style/TextAppearance.Large.Inverse</item>
             <item name="android:textSize">@dimen/product_info_textsize</item>
-            <item name="android:textColor">#ff000000</item>
+            <item name="android:textColor">@color/black</item>
             <item name="android:maxLines">2</item>
             <item name="android:ellipsize">end</item>
         </style>
@@ -88,7 +87,7 @@
         <style name="ProductPriceText" parent="@android:style/TextAppearance.Holo.Widget.TextView">
             <item name="android:textAppearance">@android:style/TextAppearance.Large.Inverse</item>
             <item name="android:textSize">@dimen/product_price_textsize</item>
-            <item name="android:textColor">#ffff0000</item>
+            <item name="android:textColor">@color/black</item>
             <item name="android:maxLines">1</item>
             <item name="android:ellipsize">end</item>
         </style>
@@ -104,7 +103,7 @@
         </style>
         <style name="ProductReducedPriceText" parent="ProductPriceText">
             <item name="android:textStyle">bold</item>
-            <item name="android:textColor">#ff000000</item>
+            <item name="android:textColor">@color/black</item>
             <item name="android:textSize">@dimen/product_reduced_price_textsize_big</item>
         </style>
 </resources>

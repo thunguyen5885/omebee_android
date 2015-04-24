@@ -1,6 +1,5 @@
 package com.omebee.android.layers.ui;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -12,18 +11,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseActivity;
 import com.omebee.android.layers.ui.components.data.CategoryItemData;
 import com.omebee.android.layers.ui.fragments.CategoriesFragment;
-import com.omebee.android.layers.ui.fragments.SubCategoriesFragment;
 import com.omebee.android.layers.ui.presenters.CategoriesPresenterImpl;
-import com.omebee.android.layers.ui.presenters.SubCategoriesPresenterImpl;
 import com.omebee.android.layers.ui.presenters.base.ICategoriesPresenter;
-import com.omebee.android.layers.ui.presenters.base.ISubCategoriesPresenter;
 import com.omebee.android.layers.ui.views.ICategoriesView;
-import com.omebee.android.layers.ui.views.ISubCategoriesView;
 import com.omebee.android.utils.AppConstants;
 
 import java.util.HashMap;
@@ -36,6 +32,7 @@ public class CategoriesActivity extends BaseActivity implements ICategoriesView,
     private CategoriesFragment mCategoriesFragment;
     private ICategoriesPresenter mCategoryPresenter;
     private SearchView mSearchView;
+    private MenuItem mMenuItemSearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +46,7 @@ public class CategoriesActivity extends BaseActivity implements ICategoriesView,
         mCategoriesFragment.setPresenter(mCategoryPresenter);
 
         // Default show the categories fragment
-        showFragment(mCategoriesFragment);
+        showFragment(mCategoriesFragment, R.id.flCategoryLayout);
 
         // Translate animation
         overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
@@ -60,13 +57,19 @@ public class CategoriesActivity extends BaseActivity implements ICategoriesView,
         super.onPause();
         overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.abmenu_products_launcher, menu);
-        MenuItem searchItem = menu.findItem(R.id.menu_search);
-        mSearchView = (SearchView) searchItem.getActionView();
-        setupSearchView(searchItem);
+        mMenuItemSearch = menu.findItem(R.id.menu_search);
+        mSearchView = (SearchView) mMenuItemSearch.getActionView();
+        setupSearchView();
         return true;
     }
 
@@ -89,26 +92,21 @@ public class CategoriesActivity extends BaseActivity implements ICategoriesView,
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() == 1) {
-            finish();
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    private void setupSearchView(MenuItem searchItem) {
-        searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM
+    private void setupSearchView() {
+        mMenuItemSearch.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM
                 | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        // Setting the textview default behaviour properties
+        int id = mSearchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView textView = (TextView) mSearchView.findViewById(id);
+        textView.setTextColor(getResources().getColor(R.color.black));
+
         // search hint
         mSearchView.setQueryHint(getString(R.string.search_hint));
 
         mSearchView.setOnQueryTextListener(this);
         // When using the support library, the setOnActionExpandListener() method is
         // static and accepts the MenuItem object as an argument
-        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+        MenuItemCompat.setOnActionExpandListener(mMenuItemSearch, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 // Reset search fragment, means show all categories
@@ -124,6 +122,14 @@ public class CategoriesActivity extends BaseActivity implements ICategoriesView,
         });
 
     }
+
+    /**
+     * Reset the search view as: clear text, iconified
+     */
+    private void resetSearchView(){
+        MenuItemCompat.collapseActionView(mMenuItemSearch);
+        mSearchView.clearFocus();
+    }
     @Override
     public boolean onQueryTextChange(String newText) { // Autocomplete
         return true;
@@ -131,6 +137,8 @@ public class CategoriesActivity extends BaseActivity implements ICategoriesView,
     @Override
     public boolean onQueryTextSubmit(String query) {
         if(query.trim().length() > 0) {
+            // Reset search view before
+            resetSearchView();
             // Go to sub category screen
             Intent intent = new Intent(this, SubCategoriesActivity.class);
             intent.putExtra(AppConstants.KEY_SEARCH_KEYWORD, query);
@@ -138,24 +146,7 @@ public class CategoriesActivity extends BaseActivity implements ICategoriesView,
         }
         return true;
     }
-    private void showFragment(Fragment frag) {
-        FragmentManager fragmentManager = getFragmentManager();
-        String backStateName = frag.getClass().getName();
 
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        boolean fragmentPopped = fragmentManager.popBackStackImmediate (backStateName, 0);
-
-        if (!fragmentPopped && fragmentManager.findFragmentByTag(backStateName) == null) { // fragment not in back stack, create it.
-            fragmentTransaction.replace(R.id.flCategoryLayout, frag, backStateName);
-            fragmentTransaction.addToBackStack(backStateName);
-        } else {
-            Fragment currFrag = (Fragment)fragmentManager.findFragmentByTag(backStateName);
-            fragmentTransaction.show(currFrag);
-        }
-
-        fragmentTransaction.commit();
-    }
 
     @Override
     public void showCategories(List<CategoryItemData> categoriesList) {

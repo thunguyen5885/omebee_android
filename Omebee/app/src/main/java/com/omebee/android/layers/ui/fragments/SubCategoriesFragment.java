@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseFragment;
@@ -16,7 +17,6 @@ import com.omebee.android.layers.ui.components.views.util.AnimatedExpandableList
 import com.omebee.android.layers.ui.presenters.base.IPresenter;
 import com.omebee.android.layers.ui.presenters.base.ISubCategoriesPresenter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,12 +27,12 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
     // For view, control
     private AnimatedExpandableListView mSubCategoriesListView;
     private LoadAndRefreshLayout mLoadAndRefreshLayout;
+    private TextView mTvNoResult;
 
     private SubCategoriesAdapter mSubCategoriesAdapter;
     private ISubCategoriesPresenter mSubCategoriesPresenter;
     // For data, variable
     private String mParentCategoryId;
-    private String mInitKeywordSearch;
     private HashMap<Integer, CategoryItemData> mCategoriesMap;
     private HashMap<Integer, List<CategoryItemData>> mSubCategoriesMap;
     private String mKeywordSearch;
@@ -54,6 +54,7 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
         mSubCategoriesListView.setOnChildClickListener(onChildClickListener);
         mLoadAndRefreshLayout = (LoadAndRefreshLayout) view.findViewById(R.id.loadAndRefreshLayout);
         mLoadAndRefreshLayout.setILoadAndRefreshCallback(this);
+        mTvNoResult = (TextView) view.findViewById(R.id.tvNoResult);
         return view;
     }
 
@@ -65,90 +66,85 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        onRefreshData();
+        onLoadInitialData();
     }
-    private void beginLoadingData(){
-        if(mLoadAndRefreshLayout != null){
-            mIsLoadingData = true;
+
+    /**
+     * Begin to load the data for first time
+     * Load the level2 if choose the level1 at the previous screen
+     * else load by searching from some keywords
+     */
+    public void onLoadInitialData() {
+        if(mSubCategoriesPresenter != null){
             mLoadAndRefreshLayout.beginLoading();
-        }
-        if(mSubCategoriesListView != null){
-            mSubCategoriesListView.setVisibility(View.GONE);
+            if (mParentCategoryId != null && mParentCategoryId.length() > 0) {
+                mSubCategoriesPresenter.getSubCategories(mParentCategoryId);
+            } else {
+                mSubCategoriesPresenter.searchSubCategories(mKeywordSearch);
+            }
         }
     }
-    private void completeLoadingData(){
+    /**
+     * Hide the loading dialog, also show the status if the result is empty
+     * @param isEmptyResult
+     */
+    private void completeLoadingData(boolean isEmptyResult){
         if(mLoadAndRefreshLayout != null){
             mLoadAndRefreshLayout.onComplete();
         }
         if(mSubCategoriesListView != null){
             mSubCategoriesListView.setVisibility(View.VISIBLE);
         }
-    }
-    private void enforceReloadData(){
-        if(mLoadAndRefreshLayout != null){
-            mLoadAndRefreshLayout.enforceShowRefreshButton();
+        if(isEmptyResult){
+            mTvNoResult.setVisibility(View.VISIBLE);
+        }else {
+            mTvNoResult.setVisibility(View.GONE);
         }
     }
+
     public void setParentCategoryId(String categoryId){
         mParentCategoryId = categoryId;
     }
     public void setKeywordSearch(String keywordSearch){mKeywordSearch = keywordSearch;}
-    public void setInitKeywordSearch(String keyword){
-        mInitKeywordSearch = keyword;
+
+    /**
+     * Show the subcategory
+     * @param categoriesMap
+     * @param subCategoriesMap
+     */
+    public void showSubCategories(HashMap<Integer, CategoryItemData> categoriesMap, HashMap<Integer, List<CategoryItemData>> subCategoriesMap){
+        // Store data
+        if(mCategoriesMap.size() > 0){
+            mCategoriesMap.clear();
+        }
+        mCategoriesMap.putAll(categoriesMap);
+        if(mSubCategoriesMap.size() > 0){
+            mSubCategoriesMap.clear();
+        }
+        mSubCategoriesMap.putAll(subCategoriesMap);
+
+        if (mSubCategoriesAdapter == null) {
+            mSubCategoriesAdapter = new SubCategoriesAdapter(getActivity());
+            mSubCategoriesAdapter.setCategoryItemDataList(mCategoriesMap);
+            mSubCategoriesAdapter.setChildCategoryDataMap(mSubCategoriesMap);
+            mSubCategoriesListView.setAdapter(mSubCategoriesAdapter);
+        } else {
+            mSubCategoriesAdapter.setCategoryItemDataList(mCategoriesMap);
+            mSubCategoriesAdapter.setChildCategoryDataMap(mSubCategoriesMap);
+            mSubCategoriesAdapter.notifyDataSetChanged();
+        }
+
+        // Process when loading done
+        completeLoadingData(mCategoriesMap.isEmpty());
     }
 
-    public void showSubCategories(HashMap<Integer, CategoryItemData> categoriesMap, HashMap<Integer, List<CategoryItemData>> subCategoriesMap){
-        if(categoriesMap == null || categoriesMap.size() == 0 ||
-                subCategoriesMap == null || subCategoriesMap.size() == 0){
-            // Maybe reload data here
-            enforceReloadData();
-        }else {
-            // Hide loading dialog and show data
-            completeLoadingData();
-            // Store data
-            if(mCategoriesMap.size() > 0){
-                mCategoriesMap.clear();
-            }
-            mCategoriesMap.putAll(categoriesMap);
-            if(mSubCategoriesMap.size() > 0){
-                mSubCategoriesMap.clear();
-            }
-            mSubCategoriesMap.putAll(subCategoriesMap);
-            if(mKeywordSearch != null && mKeywordSearch.trim().length() > 0){
-                processSearch(mKeywordSearch);
-            }else {
-                if (mSubCategoriesAdapter == null) {
-                    mSubCategoriesAdapter = new SubCategoriesAdapter(getActivity());
-                    mSubCategoriesAdapter.setCategoryItemDataList(mCategoriesMap);
-                    mSubCategoriesAdapter.setChildCategoryDataMap(mSubCategoriesMap);
-                    mSubCategoriesListView.setAdapter(mSubCategoriesAdapter);
-                } else {
-                    mSubCategoriesAdapter.setCategoryItemDataList(mCategoriesMap);
-                    mSubCategoriesAdapter.setChildCategoryDataMap(mSubCategoriesMap);
-                    mSubCategoriesAdapter.notifyDataSetChanged();
-                }
-            }
-        }
-    }
+    /**
+     * Begin to search products from some keyword
+     * @param keyword
+     */
     public void processSearch(String keyword){
         mKeywordSearch = keyword;
-        // 2 result arrays need to update data
-        HashMap<Integer, CategoryItemData> categoriesMap = new HashMap<Integer, CategoryItemData>();
-        HashMap<Integer, List<CategoryItemData>> subCategoriesMap = new HashMap<Integer, List<CategoryItemData>>();
-        if(mCategoriesMap != null && mCategoriesMap.size() > 0) {
-            searchSubCategories(keyword, categoriesMap, subCategoriesMap);
-            if(mSubCategoriesAdapter == null){
-                mSubCategoriesAdapter = new SubCategoriesAdapter(getActivity());
-                mSubCategoriesAdapter.setCategoryItemDataList(categoriesMap);
-                mSubCategoriesAdapter.setChildCategoryDataMap(subCategoriesMap);
-                mSubCategoriesListView.setAdapter(mSubCategoriesAdapter);
-            }else{
-                // Notify to adapter
-                mSubCategoriesAdapter.setCategoryItemDataList(categoriesMap);
-                mSubCategoriesAdapter.setChildCategoryDataMap(subCategoriesMap);
-                mSubCategoriesAdapter.notifyDataSetChanged();
-            }
-        }
+        mSubCategoriesPresenter.searchSubCategories(keyword, mParentCategoryId);
     }
 
     /**
@@ -158,48 +154,48 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
      * @param categoriesMap
      * @param subCategoriesMap
      */
-    public void searchSubCategories(String keyword, HashMap<Integer, CategoryItemData> categoriesMap, HashMap<Integer, List<CategoryItemData>> subCategoriesMap){
-
-        if(keyword == null || keyword.trim().length() == 0) {
-            // Add all data firstly
-            categoriesMap.putAll(mCategoriesMap);
-            subCategoriesMap.putAll(mSubCategoriesMap);
-        }else {
-            String trimmedKeyword = keyword.trim();
-            int loopCount = mCategoriesMap.size();
-            // Find the child's name matching with the keyword
-            // Should browse all branches beginning from its parents
-            for(int groupIndex = 0; groupIndex < loopCount; groupIndex++) {
-                CategoryItemData groupCategoryData = mCategoriesMap.get(groupIndex);
-                List<CategoryItemData> subCategoriesList = mSubCategoriesMap.get(groupIndex);
-                List<CategoryItemData> newSubCategoriesList = new ArrayList<CategoryItemData>();
-                if(subCategoriesList != null && subCategoriesList.size() > 0){
-                    for(int childIndex = 0; childIndex < subCategoriesList.size(); childIndex++){
-                        CategoryItemData categoryData = subCategoriesList.get(childIndex);
-                        if(categoryData != null && categoryData.getName().toLowerCase().contains(trimmedKeyword.toLowerCase())){
-                            newSubCategoriesList.add(categoryData);
-                        }
-                    }
-                }
-                // Decide to add data to parent map
-                // Keep parent group if its children aren't empty
-                // Also keep parent group if parent name matching with keyword
-                if(newSubCategoriesList.size() > 0){
-                    categoriesMap.put(groupIndex, groupCategoryData);
-                    subCategoriesMap.put(groupIndex, newSubCategoriesList);
-                }else{
-                    // Check the group's name
-                    if(groupCategoryData != null && groupCategoryData.getName().toLowerCase().contains(trimmedKeyword.toLowerCase())){
-                        // Also add to group
-                        categoriesMap.put(groupIndex, groupCategoryData);
-                        subCategoriesMap.put(groupIndex, newSubCategoriesList);
-                    }else{
-                        // Nothing to add neither to group nor to child
-                    }
-                }
-            }
-        }
-    }
+//    public void searchSubCategories(String keyword, HashMap<Integer, CategoryItemData> categoriesMap, HashMap<Integer, List<CategoryItemData>> subCategoriesMap){
+//
+//        if(keyword == null || keyword.trim().length() == 0) {
+//            // Add all data firstly
+//            categoriesMap.putAll(mCategoriesMap);
+//            subCategoriesMap.putAll(mSubCategoriesMap);
+//        }else {
+//            String trimmedKeyword = keyword.trim();
+//            int loopCount = mCategoriesMap.size();
+//            // Find the child's name matching with the keyword
+//            // Should browse all branches beginning from its parents
+//            for(int groupIndex = 0; groupIndex < loopCount; groupIndex++) {
+//                CategoryItemData groupCategoryData = mCategoriesMap.get(groupIndex);
+//                List<CategoryItemData> subCategoriesList = mSubCategoriesMap.get(groupIndex);
+//                List<CategoryItemData> newSubCategoriesList = new ArrayList<CategoryItemData>();
+//                if(subCategoriesList != null && subCategoriesList.size() > 0){
+//                    for(int childIndex = 0; childIndex < subCategoriesList.size(); childIndex++){
+//                        CategoryItemData categoryData = subCategoriesList.get(childIndex);
+//                        if(categoryData != null && categoryData.getName().toLowerCase().contains(trimmedKeyword.toLowerCase())){
+//                            newSubCategoriesList.add(categoryData);
+//                        }
+//                    }
+//                }
+//                // Decide to add data to parent map
+//                // Keep parent group if its children aren't empty
+//                // Also keep parent group if parent name matching with keyword
+//                if(newSubCategoriesList.size() > 0){
+//                    categoriesMap.put(groupIndex, groupCategoryData);
+//                    subCategoriesMap.put(groupIndex, newSubCategoriesList);
+//                }else{
+//                    // Check the group's name
+//                    if(groupCategoryData != null && groupCategoryData.getName().toLowerCase().contains(trimmedKeyword.toLowerCase())){
+//                        // Also add to group
+//                        categoriesMap.put(groupIndex, groupCategoryData);
+//                        subCategoriesMap.put(groupIndex, newSubCategoriesList);
+//                    }else{
+//                        // Nothing to add neither to group nor to child
+//                    }
+//                }
+//            }
+//        }
+//    }
     public void searchTopCategories(String keyword, HashMap<Integer, CategoryItemData> categoriesMap, HashMap<Integer, List<CategoryItemData>> subCategoriesMap){
 
     }
@@ -215,21 +211,8 @@ public class SubCategoriesFragment extends BaseFragment implements LoadAndRefres
             mSubCategoriesListView.setIndicatorBoundsRelative(leftSide, rightSide);
         }
     }
-    @Override
-    public void onRefreshData() {
-        if(mSubCategoriesPresenter != null){
-            if(mCategoriesMap == null || mCategoriesMap.size() == 0) {
-                mLoadAndRefreshLayout.beginLoading();
-                if (mParentCategoryId != null && mParentCategoryId.length() > 0) {
-                    mSubCategoriesPresenter.getSubCategories(mParentCategoryId);
-                } else {
-                    mSubCategoriesPresenter.getTop3LevelCategories();
-                }
-            }else{
-                processSearch(mKeywordSearch);
-            }
-        }
-    }
+
+
     private ExpandableListView.OnGroupClickListener onGroupClickListener = new ExpandableListView.OnGroupClickListener() {
         @Override
         public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {

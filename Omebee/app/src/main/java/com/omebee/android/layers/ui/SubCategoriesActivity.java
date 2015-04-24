@@ -2,12 +2,12 @@ package com.omebee.android.layers.ui;
 
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseActivity;
@@ -28,6 +28,7 @@ public class SubCategoriesActivity extends BaseActivity implements ISubCategorie
     private SubCategoriesFragment mSubCategoriesFragment;
     private ISubCategoriesPresenter mSubCategoryPresenter;
     private SearchView mSearchView;
+    private String mKeywordSearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,15 +37,18 @@ public class SubCategoriesActivity extends BaseActivity implements ISubCategorie
         getActionBar().setTitle(R.string.categories_text);
 
         // Initialize fragment object
-        mSubCategoriesFragment = (SubCategoriesFragment) getFragmentManager().findFragmentById(R.id.subCategoriesFragment);
+        mSubCategoriesFragment = new SubCategoriesFragment();
         mSubCategoryPresenter = new SubCategoriesPresenterImpl(this);
         mSubCategoriesFragment.setPresenter(mSubCategoryPresenter);
 
         // Initialize the get extra
         String categoryId = getIntent().getStringExtra(AppConstants.KEY_CATEGORY_ID);
         mSubCategoriesFragment.setParentCategoryId(categoryId);
-        String keywordSearch = getIntent().getStringExtra(AppConstants.KEY_SEARCH_KEYWORD);
-        mSubCategoriesFragment.setInitKeywordSearch(keywordSearch);
+        mKeywordSearch = getIntent().getStringExtra(AppConstants.KEY_SEARCH_KEYWORD);
+        mSubCategoriesFragment.setKeywordSearch(mKeywordSearch);
+
+        // Default show the categories fragment
+        showFragment(mSubCategoriesFragment, R.id.flSubCategoryLayout);
 
         // Translate animation
         overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
@@ -55,6 +59,7 @@ public class SubCategoriesActivity extends BaseActivity implements ISubCategorie
         super.onPause();
         overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -87,10 +92,19 @@ public class SubCategoriesActivity extends BaseActivity implements ISubCategorie
     private void setupSearchView(MenuItem searchItem) {
         searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM
                     | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        int id = mSearchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView textView = (TextView) mSearchView.findViewById(id);
+        textView.setTextColor(getResources().getColor(R.color.black));
+        // Init textview search if the keywordsearch is available
+        if(mKeywordSearch != null && mKeywordSearch.length() > 0){
+            MenuItemCompat.expandActionView(searchItem);
+            textView.setText(mKeywordSearch);
+            mSearchView.clearFocus();
+        }
         // search hint
         mSearchView.setQueryHint(getString(R.string.search_hint));
-
         mSearchView.setOnQueryTextListener(this);
+
         // When using the support library, the setOnActionExpandListener() method is
         // static and accepts the MenuItem object as an argument
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
@@ -111,16 +125,14 @@ public class SubCategoriesActivity extends BaseActivity implements ISubCategorie
     }
     @Override
     public boolean onQueryTextChange(String newText) { // Autocomplete
-        if(newText.trim().length() > 0) {
-            mSubCategoriesFragment.processSearch(newText.trim());
-        }
+        mSubCategoriesFragment.processSearch(newText.trim());
         return true;
     }
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if(query.trim().length() > 0) {
-            mSubCategoriesFragment.processSearch(query.trim());
-        }
+//        if(query.trim().length() > 0) {
+//            mSubCategoriesFragment.processSearch(query.trim());
+//        }
         return true;
     }
     @Override

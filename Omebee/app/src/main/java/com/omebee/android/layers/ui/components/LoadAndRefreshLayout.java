@@ -12,7 +12,7 @@ import com.omebee.android.R;
 
 public class LoadAndRefreshLayout extends FrameLayout{
 	public interface ILoadAndRefreshCallback{
-		public void onRefreshData();
+		public void onLoadInitialData();
 	}
 	// For view control
 	private LayoutInflater mInflater;
@@ -84,7 +84,7 @@ public class LoadAndRefreshLayout extends FrameLayout{
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			if(mILoadAndRefreshCallback != null){
-				mILoadAndRefreshCallback.onRefreshData();
+				mILoadAndRefreshCallback.onLoadInitialData();
 			}
 		}
 	};

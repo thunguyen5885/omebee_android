@@ -7,4 +7,5 @@ public interface ISubCategoriesPresenter extends IPresenter{
     void getSubCategories(String parentCategoryId);
     void getTop3LevelCategories();
     void searchSubCategories(String keyword);
+    void searchSubCategories(String keyword, String parentCategoryId);
 }
