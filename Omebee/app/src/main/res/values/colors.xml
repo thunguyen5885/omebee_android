@@ -12,12 +12,14 @@
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="gray">#CFCFCF</color>
+    <color name="blue">#1f6fc4</color>
     <color name="listview_item_focus_on">#FFF2E406</color>
     <color name="action_bar_background">#23e9e2c1</color>
     <color name="dark_slate_gray">#2F4F4F</color>
     <!-- Color for button background selector-->
-    <color name="button_bg_color_normal">#ff69b4</color>
-    <color name="button_bg_color_selected">#7f345a</color>
+    <color name="button_bg_color_normal">#1f6fc4</color>
+    <color name="button_bg_color_selected">#6f8fc4</color>
+
     <!--Color for progress bar-->
     <integer-array name="colors">
         <item>@color/holo_blue_dark</item>

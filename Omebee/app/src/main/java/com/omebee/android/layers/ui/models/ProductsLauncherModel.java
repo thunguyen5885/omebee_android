@@ -10,7 +10,7 @@ import com.omebee.android.layers.services.WSAccessFactory;
 import com.omebee.android.layers.services.WSResult;
 import com.omebee.android.layers.services.concretes.ProductWSAccess;
 import com.omebee.android.layers.services.models.ProductWSModel;
-import com.omebee.android.layers.ui.components.CarouselIndicatorLayout;
+import com.omebee.android.layers.ui.components.views.util.CarouselIndicatorLayout;
 import com.omebee.android.layers.ui.components.data.ProductDetailItemData;
 import com.omebee.android.layers.ui.models.base.IProductsLauncherModel;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
@@ -18,7 +18,6 @@ import com.omebee.android.utils.AppConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -339,7 +338,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
 
         mRefreshCount ++;
         Random random = new Random();
-        int num = random.nextInt(10) + 100;
+        int num = random.nextInt(10) + 10;
         Log.d(TAG, "createDumpDataForPullRefresh "+mRefreshCount +" with num = "+num);
 //        if(num%2==0) {
 //            num++;

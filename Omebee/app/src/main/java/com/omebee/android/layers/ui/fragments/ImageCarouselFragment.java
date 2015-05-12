@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseFragment;
-import com.omebee.android.layers.ui.components.CarouselLayout;
+import com.omebee.android.layers.ui.components.views.util.CarouselLayout;
 
 import java.util.List;
 

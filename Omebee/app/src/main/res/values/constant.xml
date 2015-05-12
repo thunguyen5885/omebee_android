@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Define the value of the width of filter dialog compare to the width of screen-->
+    <item name="filter_dialog_scale_in_width" format="float" type="dimen">0.7</item>
+</resources>

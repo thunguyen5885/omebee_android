@@ -1,4 +1,4 @@
-package com.omebee.android.layers.ui.components.views.util;
+package com.omebee.android.layers.ui.components.views.abslistview;
 
 /**
  * Created by ThuNguyen on 11/10/2014.
@@ -6,15 +6,11 @@ package com.omebee.android.layers.ui.components.views.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.View;

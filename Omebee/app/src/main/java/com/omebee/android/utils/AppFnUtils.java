@@ -3,6 +3,10 @@ package com.omebee.android.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
@@ -46,5 +50,22 @@ public class AppFnUtils {
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         return metrics.widthPixels;
+    }
+
+    /**
+     * Create a circle bitmap
+     * @param w
+     * @param h
+     * @param color
+     * @return
+     */
+    public static Bitmap createCircleBitmap(int w, int h, int color) {
+        Bitmap bm = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bm);
+        Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        p.setColor(color);
+        c.drawOval(new RectF(0, 0, w, h), p);
+        return bm;
     }
 }

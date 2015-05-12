@@ -12,7 +12,7 @@ import com.omebee.android.layers.ui.base.BaseFragment;
 import com.omebee.android.layers.ui.components.adapters.ProductsLauncherGridAdapter;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
 import com.omebee.android.layers.ui.presenters.base.IPresenter;
-import com.omebee.android.layers.ui.presenters.base.IProductSearchPresenter;
+import com.omebee.android.layers.ui.presenters.base.IProductsSearchPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,20 +20,23 @@ import java.util.List;
 /**
  * Created by Thu Nguyen on 8/12/2014.
  */
-public class SearchProductFragment extends BaseFragment{
-    private static final String TAG = "SearchProductFragment";
+public class ProductsSearchFragment extends BaseFragment{
+    private static final String TAG = "ProductsSearchFragment";
+    private View mRootView;
     private ListView mProductListView;
     private TextView mEmptyView;
     private ProductsLauncherGridAdapter mProductAdapter;
-    private IProductSearchPresenter mPresenter;
+    private IProductsSearchPresenter mPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_product_search,
-                container, false);
-        mProductListView = (ListView) view.findViewById(R.id.productSearchList);
-        mEmptyView = (TextView) view.findViewById(R.id.emptySearchView);
-        return view;
+        if(mRootView == null) {
+            mRootView = inflater.inflate(R.layout.fragment_product_search,
+                    container, false);
+            mProductListView = (ListView) mRootView.findViewById(R.id.productSearchList);
+            mEmptyView = (TextView) mRootView.findViewById(R.id.emptySearchView);
+        }
+        return mRootView;
     }
 
     @Override
@@ -74,7 +77,7 @@ public class SearchProductFragment extends BaseFragment{
             mProductListView.setVisibility(View.VISIBLE);
         }
     }
-    public void setPresenter(IProductSearchPresenter presenter){
+    public void setPresenter(IProductsSearchPresenter presenter){
         mPresenter = presenter;
     }
     public IPresenter getPresenter(){

@@ -1,4 +1,4 @@
-package com.omebee.android.layers.ui.components.views.util;
+package com.omebee.android.layers.ui.components.views.swipe;
 
 /*
  * Copyright (C) 2013 The Android Open Source Project
@@ -25,7 +25,6 @@ package com.omebee.android.layers.ui.components.views.util;
         import android.support.v4.view.ViewCompat;
         import android.util.AttributeSet;
         import android.util.DisplayMetrics;
-        import android.util.Log;
         import android.view.MotionEvent;
         import android.view.View;
         import android.view.ViewConfiguration;

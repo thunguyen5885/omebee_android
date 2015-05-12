@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <com.omebee.android.layers.ui.components.CarouselLayout
+    <com.omebee.android.layers.ui.components.views.util.CarouselLayout
         android:id="@+id/carouselLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             />
-        <com.omebee.android.layers.ui.components.CarouselIndicatorLayout
+        <com.omebee.android.layers.ui.components.views.util.CarouselIndicatorLayout
             android:id="@+id/carouselIndicatorLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,5 +27,5 @@
             android:gravity="center_horizontal"
             />
 
-    </com.omebee.android.layers.ui.components.CarouselLayout>
+    </com.omebee.android.layers.ui.components.views.util.CarouselLayout>
 </FrameLayout>

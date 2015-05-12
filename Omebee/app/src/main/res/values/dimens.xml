@@ -8,6 +8,8 @@
     <dimen name="wishlist_icon_size">32dp</dimen>
 
     <!--For font size-->
+    <dimen name="extreme_large_textsize">18sp</dimen>
+    <dimen name="extra_large_textsize">16sp</dimen>
     <dimen name="large_textsize">14sp</dimen>
     <dimen name="normal_textsize">12sp</dimen>
     <dimen name="product_info_textsize">12sp</dimen>
@@ -25,6 +27,19 @@
     <dimen name="common_padding_double">20dp</dimen>
     <dimen name="common_padding_half">5dp</dimen>
     <dimen name="common_padding_less_one">9dp</dimen>
+
+    <!--For close button size-->
+    <dimen name="close_button_size">25dp</dimen>
+
+    <!-- For margin to fit the close-->
+    <dimen name="margin_to_fit_close_button">15dp</dimen>
+
+    <!-- Width for the margin in all items in all line are same-->
+    <dimen name="static_margin_width">100dp</dimen>
+
+    <!-- Define carousel size for range seek bar-->
+    <dimen name="carousel_range_seek_bar_size">20dp</dimen>
+
     <!--For expandable list view indicator-->
     <dimen name="expandable_list_view_indicator_size">40dp</dimen>
 </resources>

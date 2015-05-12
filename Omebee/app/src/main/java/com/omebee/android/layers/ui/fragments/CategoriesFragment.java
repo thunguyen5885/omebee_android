@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseFragment;
-import com.omebee.android.layers.ui.components.LoadAndRefreshLayout;
+import com.omebee.android.layers.ui.components.views.util.LoadAndRefreshLayout;
 import com.omebee.android.layers.ui.components.adapters.CategoriesAdapter;
 import com.omebee.android.layers.ui.components.data.CategoryItemData;
-import com.omebee.android.layers.ui.components.views.util.ExpandableHeightGridView;
+import com.omebee.android.layers.ui.components.views.abslistview.ExpandableHeightGridView;
 import com.omebee.android.layers.ui.presenters.base.ICategoriesPresenter;
 import com.omebee.android.layers.ui.presenters.base.IPresenter;
 

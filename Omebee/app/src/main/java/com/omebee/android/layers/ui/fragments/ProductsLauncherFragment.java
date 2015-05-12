@@ -1,30 +1,19 @@
 package com.omebee.android.layers.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 
 import com.omebee.android.R;
-import com.omebee.android.layers.ui.ProductDetailActivity;
 import com.omebee.android.layers.ui.base.BaseFragment;
 import com.omebee.android.layers.ui.components.adapters.ProductsLauncherGridAdapter;
 import com.omebee.android.layers.ui.components.views.pullrefresh.GridViewPullRefreshAndLoadMore;
-import com.omebee.android.layers.ui.components.views.pullrefresh.ListViewPullAndLoadMore;
-import com.omebee.android.layers.ui.components.views.pullrefresh.ListViewPullRefreshLoadMore;
-import com.omebee.android.layers.ui.components.views.pullrefresh.ListViewPullToRefresh;
-import com.omebee.android.layers.ui.components.views.pullrefresh.MultiItemRowListAdapter;
-import com.omebee.android.layers.ui.components.views.util.CustomStaggeredGridView;
 import com.omebee.android.layers.ui.presenters.ProductsLauncherPresenterImpl;
 import com.omebee.android.layers.ui.presenters.base.IPresenter;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
-import com.omebee.android.utils.AppConstants;
 
 import java.util.List;
 
@@ -33,6 +22,8 @@ import java.util.List;
  */
 public class ProductsLauncherFragment extends BaseFragment{
     private static final String TAG = "ProductsLauncherFragment";
+
+    private View mRootView;
     private ProductsLauncherPresenterImpl mPresenter;
     private GridViewPullRefreshAndLoadMore mProductsGrid;
     private ProductsLauncherGridAdapter mProductsGridAdapter;
@@ -40,40 +31,35 @@ public class ProductsLauncherFragment extends BaseFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_products_launcher,
-                container, false);
-        mProductsGrid = (GridViewPullRefreshAndLoadMore)view.findViewById(R.id.productGrid);
-        // Catch the refresh listener
-        mProductsGrid.setOnRefreshListener(new GridViewPullRefreshAndLoadMore.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mPresenter.pullRefresh();
+        if(mRootView == null) {
+            mRootView = inflater.inflate(R.layout.fragment_products_launcher,
+                    container, false);
+            mProductsGrid = (GridViewPullRefreshAndLoadMore) mRootView.findViewById(R.id.productGrid);
+            // Catch the refresh listener
+            mProductsGrid.setOnRefreshListener(new GridViewPullRefreshAndLoadMore.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    mPresenter.pullRefresh();
+                }
+            });
+            mProductsGrid.setOnLoadMoreListener(new GridViewPullRefreshAndLoadMore.OnLoadMoreListener() {
+                @Override
+                public void onLoadMore() {
+                    mPresenter.loadMore();
+                }
+            });
+            if(mPresenter!=null){
+                mPresenter.showProductList();
             }
-        });
-        mProductsGrid.setOnLoadMoreListener(new GridViewPullRefreshAndLoadMore.OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                mPresenter.loadMore();
-            }
-        });
-//        mProductsGrid.setIUpdateDataBackListener(new ListViewPullToRefresh.IUpdateDataBackListener() {
-//            @Override
-//            public void updateDataBack(Object dataCallback) {
-//                if (dataCallback instanceof List) {
-//                    pullRefresh((List<ProductsLauncherGridItemData>) dataCallback);
-//                }
-//            }
-//        });
-        return view;
+        }
+        return mRootView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onActivityCreated(savedInstanceState);
-        if(mPresenter!=null){
-            mPresenter.showProductList();
-        }
+
     }
 
     public IPresenter getPresenter() {
@@ -86,10 +72,6 @@ public class ProductsLauncherFragment extends BaseFragment{
 
     public void displayProductName(String name){
 
-    }
-
-    public void selectItem(int position){
-        mPresenter.onItemClicked(position);
     }
 
     /**

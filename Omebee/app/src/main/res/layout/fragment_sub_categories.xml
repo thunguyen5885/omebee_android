@@ -5,15 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/staggered_grid_bg">
-    <com.omebee.android.layers.ui.components.views.util.AnimatedExpandableListView
+    <com.omebee.android.layers.ui.components.views.abslistview.AnimatedExpandableListView
         android:id="@+id/elvSubCategories"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/common_padding"
         android:background="@color/staggered_grid_bg"
         android:divider="@android:color/transparent"
+        android:scrollbars="none"
         android:groupIndicator="@null"/>
-    <com.omebee.android.layers.ui.components.LoadAndRefreshLayout
+    <com.omebee.android.layers.ui.components.views.util.LoadAndRefreshLayout
         android:id="@+id/loadAndRefreshLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

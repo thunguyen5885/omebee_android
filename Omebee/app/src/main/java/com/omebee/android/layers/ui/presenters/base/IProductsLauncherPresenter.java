@@ -7,7 +7,6 @@ import com.omebee.android.layers.ui.views.IProductsLauncherView;
  */
 public interface IProductsLauncherPresenter extends IPresenter<IProductsLauncherView>{
     void showName();
-    void onItemClicked(int position);
     void showProductList();
     void loadMore();
     void pullRefresh();

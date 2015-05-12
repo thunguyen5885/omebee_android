@@ -13,6 +13,7 @@
             <item name="android:backgroundSplit">@color/sa_green</item>
             <item name="android:backgroundStacked">@color/stacked_green</item>
             <item name="android:alpha">@dimen/action_bar_background_alpha</item>
+            <item name="android:logo">@android:color/transparent</item>
             <item name="android:titleTextStyle">@style/ActionBar.TitleColor</item>
         </style>
         <style name="ActionBar.TitleColor" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
@@ -53,19 +54,23 @@
             <item name="spb_colors">@array/gplus_colors</item>
             <item name="spb_progressiveStart_activated">true</item>
         </style>
-        <style name="NormalText" parent="@android:style/TextAppearance.Holo.Widget.TextView">
+        <style name="BaseText" parent="@android:style/TextAppearance.Holo.Widget.TextView">
             <item name="android:textAppearance">@android:style/TextAppearance.Large.Inverse</item>
-            <item name="android:textSize">@dimen/normal_textsize</item>
             <item name="android:textColor">@color/black</item>
             <item name="android:maxLines">2</item>
             <item name="android:ellipsize">end</item>
         </style>
-        <style name="LargeText" parent="@android:style/TextAppearance.Holo.Widget.TextView">
-            <item name="android:textAppearance">@android:style/TextAppearance.Large.Inverse</item>
+        <style name="NormalText" parent="BaseText">
+            <item name="android:textSize">@dimen/normal_textsize</item>
+        </style>
+        <style name="LargeText" parent="BaseText">
             <item name="android:textSize">@dimen/large_textsize</item>
-            <item name="android:textColor">@color/black</item>
-            <item name="android:maxLines">2</item>
-            <item name="android:ellipsize">end</item>
+        </style>
+        <style name="ExtraLargeText" parent="BaseText">
+            <item name="android:textSize">@dimen/extra_large_textsize</item>
+        </style>
+        <style name="ExtremeLargeText" parent="BaseText">
+            <item name="android:textSize">@dimen/extreme_large_textsize</item>
         </style>
         <style name="ProductInfoText" parent="@android:style/TextAppearance.Holo.Widget.TextView">
             <item name="android:textAppearance">@android:style/TextAppearance.Large.Inverse</item>

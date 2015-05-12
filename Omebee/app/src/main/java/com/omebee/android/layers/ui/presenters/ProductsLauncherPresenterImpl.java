@@ -46,11 +46,6 @@ public class ProductsLauncherPresenterImpl implements IProductsLauncherPresenter
     }
 
     @Override
-    public void onItemClicked(int position) {
-
-    }
-
-    @Override
     public void showProductList() {
         mView.showProducts(mModel.loadProductList());
     }

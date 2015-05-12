@@ -9,14 +9,9 @@ import android.widget.TextView;
 
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseFragment;
-import com.omebee.android.layers.ui.components.CarouselLayout;
 import com.omebee.android.layers.ui.components.data.ProductDetailItemData;
 import com.omebee.android.layers.ui.presenters.ProductDetailPresenterImpl;
 import com.omebee.android.layers.ui.presenters.base.IPresenter;
-
-import org.w3c.dom.Text;
-
-import java.util.List;
 
 /**
  * Created by ThuNguyen on 8/6/2014.

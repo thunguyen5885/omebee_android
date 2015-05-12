@@ -19,7 +19,7 @@ import android.view.View;
 
 import com.nineoldandroids.view.ViewHelper;
 import com.omebee.android.R;
-import com.omebee.android.layers.ui.components.OutlineContainer;
+import com.omebee.android.layers.ui.components.views.util.OutlineContainer;
 
 public class JazzyViewPager extends ViewPager {
 

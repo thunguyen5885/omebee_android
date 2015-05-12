@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import com.android.volley.toolbox.NetworkImageView;
 import com.omebee.android.R;
 import com.omebee.android.global.DataSingleton;
-import com.omebee.android.layers.ui.components.OutlineContainer;
+import com.omebee.android.layers.ui.components.views.util.OutlineContainer;
 import com.omebee.android.layers.ui.components.views.viewpager.JazzyViewPager;
 import com.omebee.android.utils.AppFnUtils;
 

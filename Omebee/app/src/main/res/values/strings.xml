@@ -9,6 +9,8 @@
     <string name="action_settings">Settings</string>
     <string name="menu_account">Account</string>
     <string name="menu_logout">Logout</string>
+    <string name="yes_text">Yes</string>
+    <string name="no_text">No</string>
 
     <!--For the drawer-->
     <string name="drawer_open">Open navigation drawer</string>
@@ -29,6 +31,15 @@
     <!--For categories-->
     <string name="categories_text">Categories</string>
     <string name="search_category">Search category...</string>
+    
+    <!-- For product filter-->
+    <string name="price_text">Price (VND)</string>
+    <string name="new_in_text">New in</string>
+    <string name="sale_off_text">Sale off</string>
+    <string name="apply_text">Apply</string>
+    <string name="clear_all_text">Clear All</string>
+    <string name="filter_by_text">Filter By</string>
+
     <!--For progress bar-->
     <string-array name="interpolators">
         <item>Accelerate</item>
@@ -50,5 +61,11 @@
         <item>RotateDown</item>
         <item>Accordion</item>
     </string-array>
-
+    <string-array name="new_in_list">
+        <item>All</item>
+        <item>Today</item>
+        <item>This week</item>
+        <item>This month</item>
+        <item>This year</item>
+    </string-array>
 </resources>

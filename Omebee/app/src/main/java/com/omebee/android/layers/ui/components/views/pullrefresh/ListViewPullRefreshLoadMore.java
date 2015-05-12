@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.omebee.android.R;
-import com.omebee.android.layers.ui.components.views.util.CustomStaggeredGridView;
 
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 

@@ -2,17 +2,17 @@ package com.omebee.android.layers.ui.presenters;
 
 import com.omebee.android.layers.ui.models.ProductsLauncherModel;
 import com.omebee.android.layers.ui.models.base.IProductsLauncherModel;
-import com.omebee.android.layers.ui.presenters.base.IProductSearchPresenter;
+import com.omebee.android.layers.ui.presenters.base.IProductsSearchPresenter;
 import com.omebee.android.layers.ui.views.IProductSearchView;
 
 /**
  * Created by Thu Nguyen on 8/6/2014.
  */
-public class ProductSearchPresenterImpl implements IProductSearchPresenter {
+public class ProductsSearchPresenterImpl implements IProductsSearchPresenter {
    private IProductSearchView mView;
    private IProductsLauncherModel mModel;
 
-    public ProductSearchPresenterImpl(IProductSearchView mView) {
+    public ProductsSearchPresenterImpl(IProductSearchView mView) {
         this.mView = mView;
         this.mModel = new ProductsLauncherModel();
     }

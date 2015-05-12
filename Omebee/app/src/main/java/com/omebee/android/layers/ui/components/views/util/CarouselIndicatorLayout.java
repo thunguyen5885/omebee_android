@@ -1,4 +1,4 @@
-package com.omebee.android.layers.ui.components;
+package com.omebee.android.layers.ui.components.views.util;
 
 import android.content.Context;
 import android.util.AttributeSet;

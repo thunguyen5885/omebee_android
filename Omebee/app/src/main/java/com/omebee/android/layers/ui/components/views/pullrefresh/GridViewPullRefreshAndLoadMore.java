@@ -1,21 +1,18 @@
 package com.omebee.android.layers.ui.components.views.pullrefresh;
 
 import android.content.Context;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 
 import com.omebee.android.R;
-import com.omebee.android.layers.ui.components.views.util.CustomStaggeredGridView;
-import com.omebee.android.layers.ui.components.views.util.CustomSwipeRefreshLayout;
+import com.omebee.android.layers.ui.components.views.abslistview.CustomStaggeredGridView;
+import com.omebee.android.layers.ui.components.views.swipe.CustomSwipeRefreshLayout;
 
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 

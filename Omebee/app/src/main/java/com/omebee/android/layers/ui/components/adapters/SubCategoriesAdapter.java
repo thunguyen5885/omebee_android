@@ -5,12 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.omebee.android.R;
 import com.omebee.android.layers.ui.components.data.CategoryItemData;
-import com.omebee.android.layers.ui.components.views.util.AnimatedExpandableListView;
+import com.omebee.android.layers.ui.components.views.abslistview.AnimatedExpandableListView;
 
 import java.util.HashMap;
 import java.util.List;

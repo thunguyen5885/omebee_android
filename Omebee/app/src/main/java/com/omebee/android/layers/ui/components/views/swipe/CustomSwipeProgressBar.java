@@ -1,4 +1,4 @@
-package com.omebee.android.layers.ui.components.views.util;
+package com.omebee.android.layers.ui.components.views.swipe;
 
 /*
  * Copyright (C) 2013 The Android Open Source Project

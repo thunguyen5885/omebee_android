@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.omebee.android.layers.ui.components.views.util.ExpandableHeightGridView
+    <com.omebee.android.layers.ui.components.views.abslistview.ExpandableHeightGridView
         android:id="@+id/gvCategories"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="4"
         android:background="@color/staggered_grid_bg" />
-    <com.omebee.android.layers.ui.components.LoadAndRefreshLayout
+    <com.omebee.android.layers.ui.components.views.util.LoadAndRefreshLayout
         android:id="@+id/loadAndRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

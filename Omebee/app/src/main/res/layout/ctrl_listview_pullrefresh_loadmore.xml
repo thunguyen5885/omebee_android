@@ -1,6 +1,6 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.omebee.android.layers.ui.components.views.util.CustomStaggeredGridView
+    <com.omebee.android.layers.ui.components.views.abslistview.CustomStaggeredGridView
         android:id="@+id/mainlistview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

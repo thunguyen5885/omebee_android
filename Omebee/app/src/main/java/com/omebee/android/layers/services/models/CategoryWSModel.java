@@ -82,4 +82,9 @@ public class CategoryWSModel extends AbstractWebServiceModel{
     public void setBrandsSet(List<String> brandsSet) {
         BrandsSet = brandsSet;
     }
+
+    @Override
+    public String toString(){
+        return getCategoryName();
+    }
 }

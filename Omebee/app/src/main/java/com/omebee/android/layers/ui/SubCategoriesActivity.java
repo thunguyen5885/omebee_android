@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -63,10 +64,11 @@ public class SubCategoriesActivity extends BaseActivity implements ISubCategorie
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.abmenu_products_launcher, menu);
+        inflater.inflate(R.menu.abmenu_category, menu);
         MenuItem searchItem = menu.findItem(R.id.menu_search);
         mSearchView = (SearchView) searchItem.getActionView();
         setupSearchView(searchItem);
+
         return true;
     }
 
@@ -92,9 +94,12 @@ public class SubCategoriesActivity extends BaseActivity implements ISubCategorie
     private void setupSearchView(MenuItem searchItem) {
         searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM
                     | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+
+
         int id = mSearchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
         TextView textView = (TextView) mSearchView.findViewById(id);
         textView.setTextColor(getResources().getColor(R.color.black));
+
         // Init textview search if the keywordsearch is available
         if(mKeywordSearch != null && mKeywordSearch.length() > 0){
             MenuItemCompat.expandActionView(searchItem);

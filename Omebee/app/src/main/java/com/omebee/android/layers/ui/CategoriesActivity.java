@@ -9,7 +9,9 @@ import android.support.v4.view.MenuItemCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -39,7 +41,6 @@ public class CategoriesActivity extends BaseActivity implements ICategoriesView,
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_categories);
         getActionBar().setTitle(R.string.categories_text);
-
         // Initialize fragment object
         mCategoriesFragment = new CategoriesFragment();
         mCategoryPresenter = new CategoriesPresenterImpl(this);
@@ -66,7 +67,7 @@ public class CategoriesActivity extends BaseActivity implements ICategoriesView,
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.abmenu_products_launcher, menu);
+        inflater.inflate(R.menu.abmenu_category, menu);
         mMenuItemSearch = menu.findItem(R.id.menu_search);
         mSearchView = (SearchView) mMenuItemSearch.getActionView();
         setupSearchView();
