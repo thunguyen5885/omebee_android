@@ -1,5 +1,6 @@
 package com.omebee.android.layers.ui.models.base;
 
+import com.omebee.android.layers.ui.components.data.FilterItemData;
 import com.omebee.android.layers.ui.components.data.ProductDetailItemData;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
 
@@ -12,6 +13,7 @@ public interface IProductsLauncherModel extends IBaseModel{
     String getProductName();
     List<ProductsLauncherGridItemData> loadProductList();
     List<ProductsLauncherGridItemData> searchProduct(String keyword);
+    List<ProductsLauncherGridItemData> filterProduct(FilterItemData filterItemData);
     void getProductFromId(String productId);
     void loadMore();
     void pullRefresh();

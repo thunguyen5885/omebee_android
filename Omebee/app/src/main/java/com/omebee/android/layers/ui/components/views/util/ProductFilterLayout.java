@@ -11,11 +11,10 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 
 import com.omebee.android.R;
-import com.omebee.android.global.AppPresenter;
-import com.omebee.android.layers.services.models.CategoryWSModel;
 import com.omebee.android.layers.ui.ProductsLauncherActivity;
 import com.omebee.android.layers.ui.components.adapters.SimpleSpinnerAdapter;
 import com.omebee.android.layers.ui.components.data.FilterItemData;
+import com.omebee.android.layers.ui.components.views.material.MaterialRippleView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -70,10 +69,10 @@ public class ProductFilterLayout extends FrameLayout{
         mRbSaleOffNo = (RadioButton)view.findViewById(R.id.rbSaleOffFilterNo);
         mPriceRangeSeekbarOuterLayout = (FrameLayout)view.findViewById(R.id.flPriceFilter);
 
-        View applyView = view.findViewById(R.id.flApplyFilter);
-        applyView.setOnClickListener(mOnClickListener);
-        View clearAllView = view.findViewById(R.id.flClearAllFilter);
-        clearAllView.setOnClickListener(mOnClickListener);
+        MaterialRippleView applyView = (MaterialRippleView)view.findViewById(R.id.flApplyFilter);
+        applyView.setOnClickCallback(mOnClickListener);
+        MaterialRippleView clearAllView = (MaterialRippleView)view.findViewById(R.id.flClearAllFilter);
+        clearAllView.setOnClickCallback(mOnClickListener);
         View mainView = view.findViewById(R.id.rlMainProductFilter);
         mainView.setOnClickListener(mOnClickListener);
         View rootView = view.findViewById(R.id.flProductFilterRoot);
@@ -84,7 +83,7 @@ public class ProductFilterLayout extends FrameLayout{
      * Begin updating UI
      * @param filterItemData
      */
-    public void updateUIFromData(FilterItemData filterItemData){
+    public void updateUIFromData(final FilterItemData filterItemData){
         if(filterItemData != null) {
             // Set object first
             setFilterItemData(filterItemData);
@@ -93,10 +92,13 @@ public class ProductFilterLayout extends FrameLayout{
             List<String> newInList = Arrays.asList(getContext().getResources().getStringArray(R.array.new_in_list));
             SimpleSpinnerAdapter<String> categorySpinnerAdapter = new SimpleSpinnerAdapter<String>(getContext(), newInList);
             mNewInSpinner.setAdapter(categorySpinnerAdapter);
-            mNewInSpinner.setOnItemSelectedListener(mCategoryItemSelectedListener);
+            //mNewInSpinner.setOnItemSelectedListener(mCategoryItemSelectedListener);
+            mNewInSpinner.setSelection(filterItemData.getNewInIndex());
 
             // Update price range seek bar
             mPriceRangeSeekBarLayout = new RangeSeekBarLayout(filterItemData.getPriceRange()[0], filterItemData.getPriceRange()[1], getContext());
+            mPriceRangeSeekBarLayout.setSelectedMinValue(filterItemData.getSelectedPriceRange()[0]);
+            mPriceRangeSeekBarLayout.setSelectedMaxValue(filterItemData.getSelectedPriceRange()[1]);
             mPriceRangeSeekbarOuterLayout.addView(mPriceRangeSeekBarLayout);
 
             // Update saleoff state
@@ -154,6 +156,11 @@ public class ProductFilterLayout extends FrameLayout{
                 switch (v.getId()) {
                     case R.id.flApplyFilter:
                         if (mFilterActionCallback != null) {
+                            // Update filter_item_data
+                            double[] updatedPriceRange = new double[2];
+                            updatedPriceRange[0] = (Double)mPriceRangeSeekBarLayout.getSelectedMinValue();
+                            updatedPriceRange[1] = (Double)mPriceRangeSeekBarLayout.getSelectedMaxValue();
+                            mFilterItemData.setVal(mNewInSpinner.getSelectedItemPosition(), updatedPriceRange, mRbSaleOffYes.isChecked());
                             mFilterActionCallback.onApply(mFilterItemData);
                         }
                         break;

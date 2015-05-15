@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/flProductFilterRoot"
     android:clickable="true"
     android:layout_width="match_parent"
@@ -84,9 +83,11 @@
                         android:id="@+id/spNewInFilter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical">
+                        android:layout_gravity="center_vertical"
+                        >
                     </Spinner>
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/llSaleOffFilter"
                     android:layout_width="match_parent"
@@ -130,7 +131,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/common_padding_double"
                     android:layout_marginBottom="@dimen/common_padding_double">
-                    <com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout
+
+                    <com.omebee.android.layers.ui.components.views.material.MaterialRippleView
                         android:id="@+id/flApplyFilter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -139,7 +141,6 @@
                         android:paddingTop="@dimen/common_padding"
                         android:paddingBottom="@dimen/common_padding"
                         android:clickable="true"
-                        custom:foreground="@drawable/layout_item_selector"
                         android:background="@color/blue">
                         <TextView
                             android:layout_width="wrap_content"
@@ -148,8 +149,8 @@
                             android:textColor="@color/white"
                             android:text="@string/apply_text"
                             android:layout_gravity="center"/>
-                    </com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout>
-                    <com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout
+                    </com.omebee.android.layers.ui.components.views.material.MaterialRippleView>
+                    <com.omebee.android.layers.ui.components.views.material.MaterialRippleView
                         android:id="@+id/flClearAllFilter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -159,7 +160,6 @@
                         android:paddingBottom="@dimen/common_padding"
                         android:layout_marginLeft="@dimen/common_padding"
                         android:clickable="true"
-                        custom:foreground="@drawable/layout_item_selector"
                         android:background="@color/blue">
                         <TextView
                             android:layout_width="wrap_content"
@@ -168,7 +168,7 @@
                             android:textColor="@color/white"
                             android:text="@string/clear_all_text"
                             android:layout_gravity="center"/>
-                    </com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout>
+                    </com.omebee.android.layers.ui.components.views.material.MaterialRippleView>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>

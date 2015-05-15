@@ -10,6 +10,7 @@ import com.omebee.android.layers.services.WSAccessFactory;
 import com.omebee.android.layers.services.WSResult;
 import com.omebee.android.layers.services.concretes.ProductWSAccess;
 import com.omebee.android.layers.services.models.ProductWSModel;
+import com.omebee.android.layers.ui.components.data.FilterItemData;
 import com.omebee.android.layers.ui.components.views.util.CarouselIndicatorLayout;
 import com.omebee.android.layers.ui.components.data.ProductDetailItemData;
 import com.omebee.android.layers.ui.models.base.IProductsLauncherModel;
@@ -140,7 +141,7 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
         List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
         int countTest = 0;
         for (ProductWSModel productModelItem : ITEMS) {
-            double price = random.nextInt(10000000)+100000;
+            double price = random.nextInt(10000)+100;
             ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductId(), productModelItem.getProductName(), productModelItem.getProductDescription(),
                     productModelItem.getProductUrl(),getRandomHeightRatio(),price, AppConstants.Currency.VND);
             productList.add(item);
@@ -171,6 +172,25 @@ public class ProductsLauncherModel implements IProductsLauncherModel{
         }
         return  productList;
     }
+
+    @Override
+    public List<ProductsLauncherGridItemData> filterProduct(FilterItemData filterItemData) {
+        Random random = new Random();
+        List<ProductsLauncherGridItemData> productList = new ArrayList<ProductsLauncherGridItemData>();
+        if(filterItemData != null) {
+            for (ProductWSModel productModelItem : ITEMS) {
+                double price = random.nextInt(1000)+100;
+
+                ProductsLauncherGridItemData item = new ProductsLauncherGridItemData(productModelItem.getProductId(), productModelItem.getProductName(), productModelItem.getProductDescription(),
+                        productModelItem.getProductUrl(),getRandomHeightRatio(),price, AppConstants.Currency.VND);
+                if(filterItemData.isInRange(price)) {
+                    productList.add(item);
+                }
+            }
+        }
+        return  productList;
+    }
+
     @Override
     public void getProductFromId(String productId){
         new GetProductDetailTask().execute(productId);

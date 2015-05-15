@@ -3,37 +3,27 @@ package com.omebee.android.layers.ui.components.adapters;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
-import com.android.volley.toolbox.Volley;
-import com.etsy.android.grid.util.DynamicHeightTextView;
+import com.andexert.library.RippleView;
 import com.omebee.android.R;
 import com.omebee.android.global.DataSingleton;
 import com.omebee.android.layers.ui.ProductDetailActivity;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
-import com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout;
+import com.omebee.android.layers.ui.components.views.material.MaterialRippleView;
 import com.omebee.android.layers.ui.components.views.util.DynamicImageView;
 import com.omebee.android.utils.AppConstants;
-import com.omebee.android.utils.ImageMemoryCache;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by ThuNguyen on 8/9/2014.
@@ -42,13 +32,13 @@ public class ProductsLauncherGridAdapter extends BaseAdapter implements View.OnC
     private static final String TAG = "ProductsLauncherGridAdapter";
     private Context mContext;
     private List<ProductsLauncherGridItemData> mProductsList = new ArrayList<ProductsLauncherGridItemData>();
-
-    private Drawable mDrawable;
     private final LayoutInflater mLayoutInflater;
+
+    // For variable
+    private boolean mIsClicked = false;
     public ProductsLauncherGridAdapter(Context context){
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
-        mDrawable = mContext.getResources().getDrawable(R.drawable.layout_item_selector);
 
     }
     @Override
@@ -80,7 +70,7 @@ public class ProductsLauncherGridAdapter extends BaseAdapter implements View.OnC
             holder = (ViewHolder) convertView.getTag();
         }
         holder.setPosition(position);
-        convertView.setOnClickListener(this);
+        holder.mRippleView.setOnClickCallback(this);
         holder.wishlistIcon.setTag(position);
         holder.wishlistIcon.setOnClickListener(this);
 
@@ -90,6 +80,7 @@ public class ProductsLauncherGridAdapter extends BaseAdapter implements View.OnC
         // Set the TextView's contents
         holder.productName.setText(productItemData.getProductName());
         holder.productPrice.setText(productItemData.productPriceWithCurrencyToString());
+
         return convertView;
     }
 
@@ -100,7 +91,16 @@ public class ProductsLauncherGridAdapter extends BaseAdapter implements View.OnC
      */
     @Override
     public void onClick(View v) {
-
+        if(mIsClicked == true){
+            return;
+        }
+        mIsClicked = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mIsClicked = false;
+            }
+        }, 500);
         switch(v.getId()){
             case R.id.product_card_item_layout:
                 ViewHolder viewHolder = (ViewHolder)v.getTag();
@@ -126,17 +126,21 @@ public class ProductsLauncherGridAdapter extends BaseAdapter implements View.OnC
                         .show();
                 break;
         }
-
+        // Clear animation for RippleView
+        if(v instanceof RippleView){
+        }
     }
 
     public static class ViewHolder {
         int position;
+        MaterialRippleView mRippleView;
         DynamicImageView productImage;
         TextView productName;
         TextView productPrice;
         ImageView wishlistIcon;
 
         public ViewHolder(View v) {
+            mRippleView = (MaterialRippleView) v.findViewById(R.id.product_card_item_layout);
             productImage = (DynamicImageView) v.findViewById(R.id.imageview_product);
             productName = (TextView) v.findViewById(R.id.txt_productName);
             productPrice = (TextView) v.findViewById(R.id.txt_productPrice);

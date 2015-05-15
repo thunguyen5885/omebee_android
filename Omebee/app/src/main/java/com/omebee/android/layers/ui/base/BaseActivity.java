@@ -31,6 +31,14 @@ public abstract class BaseActivity extends Activity {
 
         fragmentTransaction.commit();
     }
+    protected void removeFragment(Fragment frag){
+        if(frag != null) {
+            String backStackName = frag.getClass().getName();
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.popBackStackImmediate(backStackName, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+
+    }
     @Override
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() == 1) {

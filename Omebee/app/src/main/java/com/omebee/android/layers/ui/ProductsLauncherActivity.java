@@ -1,7 +1,10 @@
 package com.omebee.android.layers.ui;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
 import android.view.Menu;
@@ -14,11 +17,14 @@ import com.omebee.android.R;
 import com.omebee.android.layers.ui.base.BaseActivity;
 import com.omebee.android.layers.ui.components.data.FilterItemData;
 import com.omebee.android.layers.ui.components.preference.MySharePreference;
+import com.omebee.android.layers.ui.fragments.ProductsFilterFragment;
 import com.omebee.android.layers.ui.fragments.ProductsSearchFragment;
 import com.omebee.android.layers.ui.fragments.ProductsLauncherFragment;
+import com.omebee.android.layers.ui.presenters.ProductsFilterPresenterImpl;
 import com.omebee.android.layers.ui.presenters.ProductsSearchPresenterImpl;
 import com.omebee.android.layers.ui.presenters.ProductsLauncherPresenterImpl;
 import com.omebee.android.layers.ui.views.IProductSearchView;
+import com.omebee.android.layers.ui.views.IProductsFilterView;
 import com.omebee.android.layers.ui.views.IProductsLauncherView;
 import com.omebee.android.layers.ui.components.data.ProductsLauncherGridItemData;
 import com.omebee.android.utils.DialogUtil;
@@ -38,7 +44,7 @@ import java.util.List;
 /**
  * Created by phan on 8/6/2014.
  */
-public class ProductsLauncherActivity extends BaseActivity implements IProductsLauncherView, IProductSearchView, SearchView.OnQueryTextListener{
+public class ProductsLauncherActivity extends BaseActivity implements IProductsLauncherView, IProductsFilterView, IProductSearchView, SearchView.OnQueryTextListener{
     private static final String TAG = "ProductsLauncherActivity";
 
     // Define interface for callback from filter dialog
@@ -48,6 +54,7 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
     }
     private ProductsLauncherFragment mProductsLauncherFragment;
     private ProductsSearchFragment mProductsSearchFragment;
+    private ProductsFilterFragment mProductsFilterFragment;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -65,8 +72,6 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_products_launcher);
-
-
 
         initUIComponent();
 
@@ -92,6 +97,16 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
             mProductsSearchFragment = new ProductsSearchFragment();
             ProductsSearchPresenterImpl productsSearchPresenter = new ProductsSearchPresenterImpl(this);
             mProductsSearchFragment.setPresenter(productsSearchPresenter);
+        }
+    }
+    /**
+     * Initialize the product filter fragment
+     */
+    private void initProductFilterFragment(){
+        if(mProductsFilterFragment == null || mProductsFilterFragment.isDetached()){
+            mProductsFilterFragment = new ProductsFilterFragment();
+            ProductsFilterPresenterImpl productsFilterPresenter = new ProductsFilterPresenterImpl(this);
+            mProductsFilterFragment.setPresenter(productsFilterPresenter);
         }
     }
     /**
@@ -157,13 +172,15 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
         showFragment(mProductsLauncherFragment, R.id.product_launcher_frame);
     }
     protected void showProductsFilterFragment(){
-
+        initProductFilterFragment();
+        showFragment(mProductsFilterFragment, R.id.product_launcher_frame);
     }
     protected void showProductsSearchFragment(){
         // Init first
         initProductSearchFragment();
         showFragment(mProductsSearchFragment, R.id.product_launcher_frame);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -267,6 +284,11 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
     }
 
     @Override
+    public void showFilterProducts(List<ProductsLauncherGridItemData> productList) {
+        mProductsFilterFragment.setProductList(productList);
+    }
+
+    @Override
     public void loadMoreProductsComplete(List<ProductsLauncherGridItemData> productList, boolean isEndOfList) {
         mProductsLauncherFragment.loadMoreComplete(productList, isEndOfList);
     }
@@ -283,8 +305,8 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
             mFilterItemData = new FilterItemData();
             double[] priceRange = new double[2];
             priceRange[0] = 10;
-            priceRange[1] = 100;
-            mFilterItemData.setPriceRange(priceRange);
+            priceRange[1] = 1000;
+            mFilterItemData.initPriceRange(priceRange);
 
         }
         DialogUtil.showFilterDialog(ProductsLauncherActivity.this, mOnFilterActionCallback, mFilterItemData);
@@ -346,17 +368,28 @@ public class ProductsLauncherActivity extends BaseActivity implements IProductsL
     // Instance an interface for filter callback
     private IFilterActionCallback mOnFilterActionCallback = new IFilterActionCallback() {
         @Override
-        public void onApply(FilterItemData filterItemData) {
+        public void onApply(final FilterItemData filterItemData) {
             // Store filter_item_data object on preference
             MySharePreference.storeFilterItemInfo(ProductsLauncherActivity.this, filterItemData.toString());
 
-            // Begin to get filter data
+            showProductsFilterFragment();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Begin to get filter data
+                    mProductsFilterFragment.filterProducts(filterItemData);
+                }
+            }, 500);
+
         }
 
         @Override
         public void onClearAll() {
             // Clear filter_item_data object on preference
             MySharePreference.clearFilterItemInfo(ProductsLauncherActivity.this);
+
+            // Remove filter fragment if any
+            removeFragment(mProductsFilterFragment);
         }
     };
 }

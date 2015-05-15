@@ -17,7 +17,6 @@ import com.omebee.android.R;
 import com.omebee.android.global.DataSingleton;
 import com.omebee.android.layers.ui.SubCategoriesActivity;
 import com.omebee.android.layers.ui.components.data.CategoryItemData;
-import com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout;
 import com.omebee.android.utils.AppConstants;
 import com.omebee.android.utils.AppFnUtils;
 

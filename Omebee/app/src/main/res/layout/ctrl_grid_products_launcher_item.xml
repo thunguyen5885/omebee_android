@@ -1,51 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+<com.omebee.android.layers.ui.components.views.material.MaterialRippleView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
     android:id="@+id/product_card_item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:background="@drawable/layout_item_bg_card"
     android:descendantFocusability="blocksDescendants"
-    android:clickable="true"
-    android:orientation="vertical"
-    custom:foreground="@drawable/layout_item_selector"
-    >
-
-    <!-- Card Contents go here -->
-    <com.omebee.android.layers.ui.components.views.util.DynamicImageView
-        android:id="@+id/imageview_product"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop" />
-
+    android:clickable="true">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        >
-        <TextView
-            android:id="@+id/txt_productName"
+        android:orientation="vertical">
+        <!-- Card Contents go here -->
+        <com.omebee.android.layers.ui.components.views.util.DynamicImageView
+            android:id="@+id/imageview_product"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/ProductInfoText"
-            />
-        <TextView
-            android:id="@+id/txt_productPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/ProductPriceText"
-            android:maxLines="1"
-            />
-        <ImageView
-            android:id="@+id/imageview_wishlist"
-            android:layout_width="@dimen/wishlist_icon_size"
-            android:layout_height="@dimen/wishlist_icon_size"
-            android:scaleType="centerCrop"
-            />
-    </LinearLayout>
+            android:scaleType="centerCrop" />
 
-</com.omebee.android.layers.ui.components.views.foreground.ForegroundLinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            >
+            <TextView
+                android:id="@+id/txt_productName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ProductInfoText"
+                />
+            <TextView
+                android:id="@+id/txt_productPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ProductPriceText"
+                android:maxLines="1"
+                />
+            <ImageView
+                android:id="@+id/imageview_wishlist"
+                android:layout_width="@dimen/wishlist_icon_size"
+                android:layout_height="@dimen/wishlist_icon_size"
+                android:scaleType="centerCrop"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</com.omebee.android.layers.ui.components.views.material.MaterialRippleView>
